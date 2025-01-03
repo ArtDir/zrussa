@@ -4,4 +4,23 @@
 	--primary-dark: #242424;
 	--primary-disable: rgba(36, 36, 36, 0.3);
 	--primary-link: #628ebb;
+
+	--border: 1px solid var(--primary-dark);
+	--border-radius-card: 15px;
+	--border-radius-button: 30px;
+
+	--padding-button-x: 30px;
+	--padding-button-y: 15px;
+
+	--font-family-base: 'Alegreya', monospace;
+	--font-family-title: 'Playfair Display', serif;
+
+	--container-width: 1240px;
+
+	--section-padding-y: 100px;
+
+	--input-height: 90px;
+	--button-height: 50px;
+
+	--transition-duration: 0.3s;
 }
