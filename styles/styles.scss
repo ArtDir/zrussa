@@ -1,7 +1,9 @@
 @use 'normalize';
-@use 'variables';
-@use 'mixins';
-@use 'utils';
-@use 'media';
-@use 'fonts';
-@use 'globals';
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'utils' as *;
+@use 'media' as *;
+@use 'fonts' as *;
+@use 'globals' as *;
+
+@use 'blocks/header' as *;

@@ -1,7 +1,10 @@
+@use 'mixins' as *;
+
 body {
+	@include fluid-text(24, 20);
+
 	font-family: var(--font-family-base);
 	font-weight: 400;
-	font-size: 30px;
 	line-height: 1.28;
 	color: var(--primary-dark);
 	background-color: var(--primary-color);
@@ -18,4 +21,16 @@ svg * {
 a {
 	text-decoration: none;
 	color: inherit;
+}
+
+h1 {
+	@include fluid-text(96, 80);
+}
+
+h2 {
+	@include fluid-text(64, 60);
+}
+
+h3 {
+	@include fluid-text(40, 36);
 }
