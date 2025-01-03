@@ -188,12 +188,59 @@ svg * {
     scroll-behavior: auto !important;
   }
 }
+@font-face {
+  font-family: "Fira Mono";
+  src: url(../fonts/FiraMono-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fira Mono";
+  src: url(../fonts/FiraMono-Regular.woff2) format("woff2");
+  font-weight: 500;
+  font-style: bold;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Alegreya";
+  src: url(../fonts/Alegreya-ExtraBold.woff2) format("woff2");
+  font-weight: 800;
+  font-style: bold;
+  font-display: swap;
+}
+button {
+  background-color: red;
+}
+@media (hover: hover) {
+  button:hover {
+    background-color: blue;
+  }
+}
+@media (hover: none) {
+  button:active {
+    background-color: blue;
+  }
+}
+
 :root {
   --primary-color: #f8ecd1;
   --primary-white: #ffffff;
   --primary-dark: #242424;
   --primary-disable: rgba(36, 36, 36, 0.3);
   --primary-link: #628ebb;
+  --border: 1px solid var(--primary-dark);
+  --border-radius-card: 15px;
+  --border-radius-button: 30px;
+  --padding-button-x: 30px;
+  --padding-button-y: 15px;
+  --font-family-base: "Alegreya", monospace;
+  --font-family-title: "Playfair Display", serif;
+  --container-width: 1240px;
+  --section-padding-y: 100px;
+  --input-height: 90px;
+  --button-height: 50px;
+  --transition-duration: 0.3s;
 }
 
 /*# sourceMappingURL=styles.css.map */
