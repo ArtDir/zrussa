@@ -1,1 +1,5 @@
-@import 'normalize', 'fonts', 'mixins', 'media', 'variables';
+@use 'normalize';
+@use 'fonts';
+@use 'mixins';
+@use 'media';
+@use 'variables';
