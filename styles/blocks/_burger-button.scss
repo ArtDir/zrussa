@@ -1,14 +1,25 @@
 @use '../mixins' as *;
+@use '../media' as *;
 
 .burger-button {
 	@include reset-button;
 	@include square(60px);
 
 	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: var(--border-radius-card);
+
+	@include hover {
+		&::after {
+			background-color: var(--primary-link);
+			box-shadow: 0 -8px var(--primary-link), 0 8px var(--primary-link);
+			transition-duration: var(--transition-duration);
+		}
+	}
 
 	&::after {
-		@include abs-center;
-
 		content: '';
 		width: 50%;
 		height: 2px;
@@ -16,5 +27,6 @@
 		border-radius: 2px;
 
 		box-shadow: 0 -8px, 0 8px;
+		transition-duration: var(--transition-duration);
 	}
 }
