@@ -15,6 +15,7 @@ dist/
 *.swp
 *.swo
 .DS_Store
+fonts/.DS_Store
 
 # Logs
 npm-debug.log*
