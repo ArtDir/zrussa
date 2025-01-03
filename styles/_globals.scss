@@ -1,0 +1,21 @@
+body {
+	font-family: var(--font-family-base);
+	font-weight: 400;
+	font-size: 30px;
+	line-height: 1.28;
+	color: var(--primary-dark);
+	background-color: var(--primary-color);
+}
+
+a,
+button,
+input,
+textarea,
+svg * {
+	transition-duration: var(--transition-duration);
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}

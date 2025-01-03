@@ -188,6 +188,58 @@ svg * {
     scroll-behavior: auto !important;
   }
 }
+:root {
+  --primary-color: #f8ecd1;
+  --primary-white: #ffffff;
+  --primary-dark: #242424;
+  --primary-disable: rgba(36, 36, 36, 0.3);
+  --primary-link: #628ebb;
+  --border: 1px solid var(--primary-dark);
+  --border-radius-card: 15px;
+  --border-radius-button: 30px;
+  --padding-button-x: 30px;
+  --padding-button-y: 15px;
+  --font-family-base: "Fira Mono", monospace;
+  --font-family-title: "Alegreya", serif;
+  --container-width: 1240px;
+  --container-padding-x: 15px;
+  --section-padding-y: 100px;
+  --input-height: 90px;
+  --button-height: 50px;
+  --transition-duration: 0.3s;
+}
+
+.container {
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .visible-mobile {
+    display: none !important;
+  }
+}
+
 @font-face {
   font-family: "Fira Mono";
   src: url(../fonts/FiraMono-Regular.woff2) format("woff2");
@@ -209,38 +261,13 @@ svg * {
   font-style: bold;
   font-display: swap;
 }
-button {
-  background-color: red;
-}
-@media (hover: hover) {
-  button:hover {
-    background-color: blue;
-  }
-}
-@media (hover: none) {
-  button:active {
-    background-color: blue;
-  }
-}
-
-:root {
-  --primary-color: #f8ecd1;
-  --primary-white: #ffffff;
-  --primary-dark: #242424;
-  --primary-disable: rgba(36, 36, 36, 0.3);
-  --primary-link: #628ebb;
-  --border: 1px solid var(--primary-dark);
-  --border-radius-card: 15px;
-  --border-radius-button: 30px;
-  --padding-button-x: 30px;
-  --padding-button-y: 15px;
-  --font-family-base: "Alegreya", monospace;
-  --font-family-title: "Playfair Display", serif;
-  --container-width: 1240px;
-  --section-padding-y: 100px;
-  --input-height: 90px;
-  --button-height: 50px;
-  --transition-duration: 0.3s;
+body {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.28;
+  color: var(--primary-dark);
+  background-color: var(--primary-color);
 }
 
 /*# sourceMappingURL=styles.css.map */

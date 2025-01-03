@@ -1,3 +1,5 @@
+@use 'media' as *;
+
 .container {
 	max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
 	margin-inline: auto;
@@ -15,4 +17,16 @@
 	clip-path: inset(100%) !important;
 	clip: rect(0 0 0 0) !important;
 	overflow: hidden !important;
+}
+
+.hidden-mobile {
+	@include mobile {
+		display: none !important;
+	}
+}
+
+.visible-mobile {
+	@include mobile-above {
+		display: none !important;
+	}
 }
