@@ -1,0 +1,22 @@
+@use '../mixins' as *;
+@use '../media' as *;
+
+.button {
+	@include flex-center(true);
+
+	padding: 10px 30px;
+	border: var(--border);
+	border-radius: var(--border-radius-button);
+	color: var(--primary-dark);
+	background-color: var(--primary-color);
+
+	@include hover {
+		color: var(--primary-link);
+		border-color: var(--primary-link);
+	}
+
+	&:active {
+		color: var(--primary-color);
+		background-color: var(--primary-link);
+	}
+}

@@ -3,20 +3,34 @@
 .header {
 	padding-top: 60px;
 
+	@include desktop {
+		padding-top: 30px;
+	}
+
 	&__inner {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		column-gap: 30px;
+
+		@include desktop {
+			column-gap: 20px;
+		}
 	}
 
 	&__menu {
 		margin-left: auto;
+
 		&-list {
 			display: flex;
 			align-items: center;
 			column-gap: 30px;
+
+			@include desktop {
+				column-gap: 20px;
+			}
 		}
+
 		&-link {
 			display: inline-flex;
 			align-items: center;
@@ -45,6 +59,12 @@
 				background-color: currentColor;
 				transition-duration: inherit;
 			}
+		}
+	}
+
+	&__button {
+		@include desktop {
+			padding: 5px 15px;
 		}
 	}
 }
