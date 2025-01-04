@@ -6,6 +6,8 @@
 @use 'fonts' as *;
 @use 'globals' as *;
 
+@use 'blocks/project-card' as *;
+@use 'blocks/projects' as *;
 @use 'blocks/button' as *;
 @use 'blocks/burger-button' as *;
 @use 'blocks/header' as *;
