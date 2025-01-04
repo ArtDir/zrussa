@@ -40,3 +40,8 @@ h2 {
 h3 {
 	@include fluid-text(40, 36);
 }
+
+span {
+	@include fluid-text(40, 36);
+	font-family: var(--font-family-span);
+}

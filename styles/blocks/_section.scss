@@ -1,3 +1,37 @@
+@use '../media' as *;
+
 .section {
 	padding-block: var(--section-padding-y);
+
+	&__underline {
+		display: flex;
+		padding-top: 5em;
+
+		&-text {
+			position: absolute;
+			right: 0;
+			background-color: var(--primary-color);
+			padding-inline: 10px;
+			transform: translateX(-110%) translateY(-44%);
+
+			@include tablet {
+				transform: translateX(-70%) translateY(-44%);
+			}
+		}
+	}
+
+	&__line {
+		width: 100%;
+		height: 6px;
+		border-bottom: 2px solid var(--primary-dark);
+	}
+
+	&__circle {
+		width: 10px;
+		height: 10px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		background-color: var(--primary-dark);
+	}
 }
