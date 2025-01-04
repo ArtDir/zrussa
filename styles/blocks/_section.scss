@@ -3,6 +3,14 @@
 .section {
 	padding-block: var(--section-padding-y);
 
+	@include tablet {
+		padding-block: calc(var(--section-padding-y) / 2);
+	}
+
+	@include mobile {
+		padding-block: calc(var(--section-padding-y) / 2);
+	}
+
 	&__title {
 		padding-bottom: 0.5em;
 	}
