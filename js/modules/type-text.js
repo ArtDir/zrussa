@@ -1,5 +1,5 @@
 const heroCanDoTexts = [
-	'Мы&nbsp;помогаем запускать&nbsp;IT продукты',
+	'Мы&nbsp;помогаем запускать&nbsp;IT-продукты.',
 	'Мы&nbsp;автоматизируем бизнес-процессы.',
 	'Мы&nbsp;обучаем нейросети&nbsp;заказчиков.',
 	'Мы&nbsp;верстаем и&nbsp;запускаем сайты.',
@@ -40,7 +40,8 @@ class TypingAnimation {
 			clearInterval(this.blinkInterval);
 		}
 		this.blinkInterval = setInterval(() => {
-			this.cursorNode.nodeValue = this.cursorNode.nodeValue === '|' ? '' : '|';
+			this.cursorNode.nodeValue =
+				this.cursorNode.nodeValue === '|' ? '\u00A0' : '|';
 		}, 500);
 	}
 
@@ -73,7 +74,6 @@ class TypingAnimation {
 	}
 
 	updateText() {
-		// Используем Zero Width Space (невидимый символ) вместо неразрывного пробела
 		this.textNode.nodeValue = this.currentText || '\u200B';
 	}
 
