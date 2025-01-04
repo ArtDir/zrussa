@@ -3,6 +3,7 @@
 	--primary-white: #ffffff;
 	--primary-dark: #242424;
 	--primary-disable: rgba(36, 36, 36, 0.3);
+	--primary-disable-alt: #afa993;
 	--primary-link: #628ebb;
 
 	--border: 2px solid var(--primary-dark);
@@ -25,4 +26,7 @@
 	--button-height: 50px;
 
 	--transition-duration: 0.3s;
+
+	// Sliders
+	--project-slide-width: 18em;
 }

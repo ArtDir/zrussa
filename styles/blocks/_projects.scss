@@ -1,6 +1,68 @@
+@use '../mixins' as *;
+
 .projects {
+	overflow: hidden;
+
+	&__body {
+		overflow: visible;
+	}
+
+	&__slider-controls {
+		padding-top: 2em;
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.3em;
+	}
+
+	&__slider-button {
+		@include square(60px);
+
+		background-color: var(--primary-color);
+		border-radius: var(--border-radius-card);
+		transition: background-color var(--transition-duration) ease;
+
+		svg {
+			padding-top: 7px;
+		}
+
+		&:hover {
+			border: 2px solid var(--primary-link);
+
+			svg path {
+				stroke: var(--primary-link);
+				transition-duration: inherit;
+			}
+		}
+
+		&:active {
+			color: var(--primary-color);
+			background-color: var(--primary-link);
+
+			svg path {
+				stroke: var(--primary-color);
+				transition-duration: inherit;
+			}
+		}
+
+		&--inactive {
+			border: 2px solid var(--primary-disable-alt);
+			cursor: default;
+
+			svg path {
+				stroke: var(--primary-disable-alt);
+			}
+		}
+	}
+}
+
+.projects-slider {
 	&__items {
 		display: flex;
-		gap: 2%;
+		flex-wrap: nowrap;
+		width: 100%;
+		gap: 1%;
+		scroll-snap-type: x mandatory;
+		overflow-x: visible;
+		margin-left: 0; // смещение слайдов по горизонтали
 	}
 }
