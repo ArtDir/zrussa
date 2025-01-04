@@ -1,4 +1,5 @@
 @use '../media' as *;
+@use '../mixins' as *;
 
 .header {
 	padding-top: 60px;
@@ -63,6 +64,14 @@
 	}
 
 	&__button {
+		@include fluid-text(24, 20);
+
+		padding: 10px 30px;
+		border: var(--border);
+		border-radius: var(--border-radius-button);
+		color: var(--primary-dark);
+		background-color: var(--primary-color);
+
 		@include desktop {
 			padding: 5px 15px;
 		}

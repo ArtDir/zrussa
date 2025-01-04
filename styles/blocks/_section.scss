@@ -3,6 +3,10 @@
 .section {
 	padding-block: var(--section-padding-y);
 
+	&__title {
+		padding-bottom: 0.5em;
+	}
+
 	&__underline {
 		display: flex;
 		padding-top: 5em;

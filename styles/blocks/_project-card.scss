@@ -4,16 +4,31 @@
 	border-radius: var(--border-radius-card);
 	overflow: hidden;
 
+	&:hover .project-card__image {
+		filter: sepia(0%);
+	}
+
+	&__image {
+		transition: filter 0.3s ease;
+		filter: sepia(100%);
+	}
+
 	&__body {
-		padding: 20px;
+		padding: 20px 35px 42px 30px;
 	}
 
 	&__title h3 {
 		margin-block-start: 0 !important;
-		margin-block-end: 0 !important;
+		margin-block-end: 0.33em !important;
 	}
 
 	&__description {
 		font-size: 16px;
+		padding-bottom: 1.5em;
+	}
+
+	&__buttons-holder {
+		display: flex;
+		gap: 0.3em;
 	}
 }
