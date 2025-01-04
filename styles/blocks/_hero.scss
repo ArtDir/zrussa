@@ -1,26 +1,66 @@
+@use '../media' as *;
+
 .hero {
-	padding-top: 10em;
+	padding-top: 14em;
+
+	@include tablet {
+		padding-top: 6em;
+	}
+	@include mobile {
+		padding-top: 2em;
+	}
 
 	&__body {
 		display: flex;
-		justify-content: flex-start;
-		column-gap: 40px;
+		gap: 2em;
+
+		@include tablet {
+			flex-direction: column;
+			gap: 2em;
+		}
+
+		@include mobile {
+			align-items: center;
+			gap: 1.5em;
+		}
 	}
 
 	&__image {
-		width: 100%;
-		height: auto;
+		width: 250px;
+		height: 250px;
 
-		max-height: 230px;
-		max-width: 230px;
+		@include desktop {
+			width: 210px;
+			height: 210px;
+		}
+
+		@include mobile {
+			order: 1;
+		}
 	}
 
 	&__content {
-		max-width: 28em;
+		margin-top: -0.15em;
+		max-width: 30em;
+
+		@include desktop {
+			margin-top: 0;
+		}
+		@include mobile {
+			text-align: center;
+		}
 	}
 
 	&__title {
 		line-height: 1.25;
 		padding-bottom: 0.15em;
+
+		@include tablet {
+			font-size: 66px;
+		}
+
+		@include mobile {
+			font-size: 66px;
+		}
 	}
 }
