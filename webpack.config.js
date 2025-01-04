@@ -1,11 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 module.exports = {
 	mode: 'development',
 	entry: {
-		main: ['./src/index.js', './styles/styles.scss'],
+		main: ['./js/main.js', './styles/styles.scss'],
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -22,6 +22,16 @@ module.exports = {
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
 				type: 'asset/resource',
 			},
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env'],
+					},
+				},
+			},
 		],
 	},
 	plugins: [
@@ -29,9 +39,7 @@ module.exports = {
 			template: path.resolve(__dirname, 'src', 'index.html'),
 		}),
 		new CopyWebpackPlugin({
-			patterns: [
-				{ from: 'images', to: 'images' }
-			]
+			patterns: [{ from: 'images', to: 'images' }],
 		}),
 	],
 	devServer: {
