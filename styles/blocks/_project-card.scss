@@ -17,7 +17,11 @@
 	}
 
 	&__body {
-		padding: 20px 35px 42px 30px;
+		padding: 20px 35px 32px 30px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 15em;
 	}
 
 	&__title h3 {
