@@ -20,9 +20,11 @@
 		background-color: var(--primary-color);
 		border-radius: var(--border-radius-card);
 		transition: background-color var(--transition-duration) ease;
+		cursor: pointer !important;
 
 		svg {
 			padding-top: 7px;
+			pointer-events: none;
 		}
 
 		&:hover {
@@ -50,6 +52,14 @@
 
 			svg path {
 				stroke: var(--primary-disable-alt);
+			}
+
+			&:hover {
+				border: 2px solid var(--primary-disable-alt);
+
+				svg path {
+					stroke: var(--primary-disable-alt);
+				}
 			}
 		}
 	}
