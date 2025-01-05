@@ -17,6 +17,9 @@
 	&__slider-button {
 		@include square(60px);
 
+		-webkit-tap-highlight-color: transparent;
+		-tap-highlight-color: transparent;
+
 		background-color: var(--primary-color);
 		border-radius: var(--border-radius-card);
 		transition: background-color var(--transition-duration) ease;
@@ -59,6 +62,16 @@
 
 				svg path {
 					stroke: var(--primary-disable-alt);
+				}
+			}
+
+			&:active {
+				color: var(--primary-disable-alt);
+				background-color: var(--primary-color);
+
+				svg path {
+					stroke: var(--primary-disable-alt);
+					transition-duration: inherit;
 				}
 			}
 		}
