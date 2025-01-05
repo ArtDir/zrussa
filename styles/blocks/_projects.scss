@@ -20,7 +20,7 @@
 		background-color: var(--primary-color);
 		border-radius: var(--border-radius-card);
 		transition: background-color var(--transition-duration) ease;
-		cursor: pointer !important;
+		cursor: pointer;
 
 		svg {
 			padding-top: 7px;
