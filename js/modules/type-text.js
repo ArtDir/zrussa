@@ -94,7 +94,7 @@ class TypingAnimation {
 	}
 }
 
-function initTextAnimation() {
+export function initTextAnimation() {
 	const textElement = document.querySelector(
 		'.hero__description p:nth-child(2)'
 	);
