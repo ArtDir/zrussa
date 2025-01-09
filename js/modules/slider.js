@@ -1,5 +1,4 @@
 const initSlider = () => {
-	// DOM элементы
 	const elements = {
 		slider: document.querySelector('.projects-slider'),
 		items: document.querySelector('.projects-slider__items'),
@@ -8,12 +7,10 @@ const initSlider = () => {
 		nextBtn: document.querySelector('#nextSlide'),
 	};
 
-	// Состояние
 	let currentSlide = 1;
 	let currentOffset = 0;
 	let metrics = {};
 
-	// Обновление метрик слайдера
 	const updateMetrics = () => {
 		const cardWidth = elements.cards[0].getBoundingClientRect().width;
 		const wrapperWidth = elements.slider.getBoundingClientRect().width;
@@ -33,16 +30,29 @@ const initSlider = () => {
 		};
 	};
 
-	// Обновление UI
 	const updateUI = () => {
 		elements.items.style.marginLeft = `${currentOffset}px`;
 		elements.prevBtn.classList.toggle(
 			'projects__slider-button--inactive',
 			currentSlide < 2
 		);
+
+		// Обновляем sepia для мобильных устройств
+		if (window.innerWidth <= 767) {
+			elements.cards.forEach((card, index) => {
+				const image = card.querySelector('.project-card__image');
+				image.style.filter =
+					index === currentSlide - 1 ? 'sepia(0%)' : 'sepia(100%)';
+			});
+		} else {
+			// Возвращаем стандартные стили для десктопа
+			elements.cards.forEach(card => {
+				const image = card.querySelector('.project-card__image');
+				image.style.filter = '';
+			});
+		}
 	};
 
-	// Обработчики кликов
 	const handleNext = () => {
 		if (currentSlide < metrics.maxSlides) {
 			currentOffset -= metrics.bigOffset;
@@ -71,7 +81,6 @@ const initSlider = () => {
 		updateUI();
 	};
 
-	// Инициализация
 	const init = () => {
 		updateMetrics();
 		updateUI();
@@ -79,7 +88,6 @@ const initSlider = () => {
 		elements.nextBtn.addEventListener('click', handleNext);
 		elements.prevBtn.addEventListener('click', handlePrev);
 
-		// Обработка ресайза с debounce
 		let resizeTimeout;
 		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimeout);
