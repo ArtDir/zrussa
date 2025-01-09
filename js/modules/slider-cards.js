@@ -49,6 +49,8 @@ class ProjectsCardBuilder {
 			buttonElement.textContent = button.text;
 			if (button.url) {
 				buttonElement.href = button.url;
+				buttonElement.setAttribute('target', '_blank'); 
+				buttonElement.setAttribute('rel', 'noopener noreferrer'); 
 			}
 			buttonsHolder.appendChild(buttonElement);
 		});
