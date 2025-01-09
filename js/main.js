@@ -1,3 +1,4 @@
 // Import JS-modules
-import './modules/slider.js'
-import './modules/type-text.js'
+import './modules/slider-cards.js';
+import './modules/slider.js';
+import './modules/type-text.js';

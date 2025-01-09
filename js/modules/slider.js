@@ -7,6 +7,12 @@ const initSlider = () => {
 		nextBtn: document.querySelector('#nextSlide'),
 	};
 
+	// Ждем загрузку карточек
+	if (elements.cards.length === 0) {
+		setTimeout(initSlider, 100);
+		return;
+	}
+
 	let currentSlide = 1;
 	let currentOffset = 0;
 	let metrics = {};
