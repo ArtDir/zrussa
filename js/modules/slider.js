@@ -37,7 +37,7 @@ const initSlider = () => {
 			currentSlide < 2
 		);
 
-		// Обновляем sepia для мобильных устройств
+		// Удаление filter:sepia для карточек на мобильном
 		if (window.innerWidth <= 767) {
 			elements.cards.forEach((card, index) => {
 				const image = card.querySelector('.project-card__image');
@@ -45,7 +45,6 @@ const initSlider = () => {
 					index === currentSlide - 1 ? 'sepia(0%)' : 'sepia(100%)';
 			});
 		} else {
-			// Возвращаем стандартные стили для десктопа
 			elements.cards.forEach(card => {
 				const image = card.querySelector('.project-card__image');
 				image.style.filter = '';
