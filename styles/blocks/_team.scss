@@ -1,0 +1,25 @@
+@use '../media' as *;
+
+.team {
+	&__text {
+		padding-bottom: 1.5em;
+		max-width: 66%;
+	}
+
+	&__cards {
+		display: flex;
+		gap: 0.8em;
+		padding-bottom: 1.5em;
+
+		&-item {
+			min-width: 200px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		&-body {
+			padding-top: 0.5em;
+			padding-bottom: 1em;
+		}
+	}
+}
