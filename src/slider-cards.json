@@ -19,7 +19,7 @@
 			{
 				"type": "link",
 				"text": "перейти",
-				"url": "https://..."
+				"url": "https://www.roblox.com/games/13340302526/Servisoria-Land"
 			}
 		]
 	},
@@ -31,12 +31,7 @@
 			{
 				"type": "link",
 				"text": "перейти",
-				"url": "https://..."
-			},
-			{
-				"type": "video",
-				"text": "видео",
-				"videoUrl": "https://..."
+				"url": "https://vk.com/wall318680_15486"
 			}
 		]
 	},
@@ -49,40 +44,6 @@
 				"type": "link",
 				"text": "перейти",
 				"url": "https://lively.ru"
-			}
-		]
-	},
-	{
-		"image": "../images/project_nft.gif",
-		"title": "Среда HR",
-		"description": "HR-платформа с ИИ-помощником преподавателя. Экономит до 90% времени руководителя/кадрового специалиста за счет автоматизированных ответов на обучении и в адаптационный период",
-		"buttons": [
-			{
-				"type": "link",
-				"text": "перейти",
-				"url": "https://..."
-			},
-			{
-				"type": "video",
-				"text": "видео",
-				"videoUrl": "https://..."
-			}
-		]
-	},
-	{
-		"image": "../images/project_nft.gif",
-		"title": "Среда HR",
-		"description": "HR-платформа с ИИ-помощником преподавателя. Экономит до 90% времени руководителя/кадрового специалиста за счет автоматизированных ответов на обучении и в адаптационный период",
-		"buttons": [
-			{
-				"type": "link",
-				"text": "перейти",
-				"url": "https://..."
-			},
-			{
-				"type": "video",
-				"text": "видео",
-				"videoUrl": "https://..."
 			}
 		]
 	}

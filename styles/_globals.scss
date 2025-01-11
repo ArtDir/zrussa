@@ -31,10 +31,12 @@ h3 {
 
 h1 {
 	@include fluid-text(96, 80);
+	line-height: 1.2em;
 }
 
 h2 {
 	@include fluid-text(64, 60);
+	line-height: 1em;
 }
 
 h3 {

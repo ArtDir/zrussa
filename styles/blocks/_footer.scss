@@ -1,0 +1,14 @@
+.footer {
+	&__body {
+		display: flex;
+		justify-content: space-between;
+
+		&-copyright {
+			color: var(--primary-disable);
+		}
+
+		&-requisites {
+			color: var(--primary-disable);
+		}
+	}
+}

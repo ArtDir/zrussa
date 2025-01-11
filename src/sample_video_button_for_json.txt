@@ -1,0 +1,6 @@
+,
+			{
+				"type": "video",
+				"text": "видео",
+				"videoUrl": "https://..."
+			}

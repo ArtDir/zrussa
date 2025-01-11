@@ -1,0 +1,12 @@
+@use '../media' as *;
+
+.order {
+	&__text {
+		max-width: 65%;
+		padding-bottom: 1.5em;
+
+		@include tablet {
+			max-width: 100%;
+		}
+	}
+}
