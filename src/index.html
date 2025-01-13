@@ -116,7 +116,7 @@
 							<div class="reviews__item-card">
 								<img class="reviews__item-image" src="../images/Aynur.png" alt="reviews">
 								<div class="reviews__item-button-holder">
-									<a href="#" class="reviews__item-button button" type="button">Видео-отзыв</a>
+									<a href="#rev1" class="reviews__item-button button popup-trigger" type="button">Видео-отзыв</a>
 								</div>
 							</div>
 							<div class="reviews__item-body">
@@ -144,7 +144,7 @@
 							<div class="reviews__item-card">
 								<img class="reviews__item-image" src="../images/Azamat.png" alt="reviews">
 								<div class="reviews__item-button-holder">
-									<a href="#" class="reviews__item-button button" type="button">Видео-отзыв</a>
+									<a href="#rev2" class="reviews__item-button button popup-trigger" type="button">Видео-отзыв</a>
 								</div>
 							</div>
 							<div class="reviews__item-body">
@@ -172,7 +172,7 @@
 							<div class="reviews__item-card">
 								<img class="reviews__item-image" src="../images/Leonid.png" alt="reviews">
 								<div class="reviews__item-button-holder">
-									<a href="#" class="reviews__item-button button" type="button">Видео-отзыв</a>
+									<a href="#rev3" class="reviews__item-button button popup-trigger" type="button">Видео-отзыв</a>
 								</div>
 							</div>
 							<div class="reviews__item-body">
@@ -330,7 +330,16 @@
 
 		</main>
 
-		<dialog class="mobile-overlay visible-mobile" id="mobileOverlay">
+		<dialog class="popup popup--video visually-hidden" id="overlay">
+			<div class="popup__content">
+				<button class="popup__close" type="button" aria-label="Закрыть"></button>
+				<div class="popup__video-container">
+					<iframe id="popup-video" src="" width="853" height="480" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</div>
+		</dialog>
+
+		<dialog class="mobile-overlay visible-mobile visually-hidden" id="mobileOverlay">
 			МЕНЮ
 		</dialog>
 	</body>
