@@ -18,6 +18,11 @@ svg * {
 	transition-duration: var(--transition-duration);
 }
 
+svg * {
+	transition-property: fill;
+	transition-duration: var(--transition-duration);
+}
+
 a {
 	text-decoration: none;
 	color: inherit;
