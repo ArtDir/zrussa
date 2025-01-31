@@ -70,14 +70,14 @@
 }
 
 .logo-svg {
-    position: relative;
-    top: -1em;
-    .logo-path {
-        fill: #83ab53;
+	position: relative;
+	top: -0.8em;
+	.logo-path {
+		fill: var(--primary-link);
 
-        &:nth-child(4),
-        &:nth-child(5) {
-            fill: #79a148;
-        }
-    }
+		&:nth-child(4),
+		&:nth-child(5) {
+			fill: var(--primary-link);
+		}
+	}
 }
