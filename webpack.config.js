@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 const path = require('path')
 
 module.exports = {
@@ -19,8 +20,16 @@ module.exports = {
 				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
-				test: /\.(png|svg|jpg|jpeg|gif)$/i,
-				type: 'asset/resource',
+				test: /\.(png|jpe?g|gif|svg)$/i,
+				type: 'asset',
+				parser: {
+					dataUrlCondition: {
+						maxSize: 8 * 1024 // 8kb
+					}
+				},
+				generator: {
+					filename: 'images/[name][ext]'
+				}
 			},
 			{
 				test: /\.js$/,
@@ -42,6 +51,43 @@ module.exports = {
 			patterns: [{ from: 'images', to: 'images' }],
 		}),
 	],
+	optimization: {
+		minimizer: [
+			new ImageMinimizerPlugin({
+				test: /\.(jpe?g|png|gif)$/i,
+				exclude: /project_meta\.gif$/,
+				minimizer: {
+					implementation: ImageMinimizerPlugin.imageminMinify,
+					options: {
+						plugins: [
+							['gifsicle', { 
+								interlaced: true, 
+								optimizationLevel: 3,
+								colors: 256
+							}],
+							['optipng', { 
+								optimizationLevel: 5,
+								bitDepthReduction: true,
+								colorTypeReduction: true,
+								paletteReduction: true
+							}],
+						]
+					}
+				},
+				generator: [{
+					preset: 'webp',
+					implementation: ImageMinimizerPlugin.imageminGenerate,
+					options: {
+						plugins: ['imagemin-webp']
+					}
+				}]
+			})
+		]
+	},
+	performance: {
+		maxEntrypointSize: 5120000,
+		maxAssetSize: 5120000
+	},
 	devServer: {
 		static: {
 			directory: path.join(__dirname, 'dist'),
