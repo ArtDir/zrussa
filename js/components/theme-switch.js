@@ -58,6 +58,13 @@ export default class ThemeSwitch {
 			'.team__technologies-list'
 		);
 
+		// Получаем ссылки на элементы в блоке преимуществ
+		this.advantagesItems = {
+			first: document.querySelector('.advantages__body-item:nth-child(1)'),
+			second: document.querySelector('.advantages__body-item:nth-child(2)'),
+			third: document.querySelector('.advantages__body-item:nth-child(3)')
+		};
+
 		// Создаем контейнер для переключателя
 		const switchContainer = document.createElement('div');
 		switchContainer.className = 'theme-switch__container';
@@ -146,6 +153,17 @@ export default class ThemeSwitch {
 				`;
 			}
 
+			// Меняем тексты в блоке преимуществ
+			if (this.advantagesItems.first) {
+				this.advantagesItems.first.innerHTML = '<b>Широкий репертуар.</b></br>Мы одинаково хорошо будем смотреться как на деловом мероприятии, так и на шумном девишнике.';
+			}
+			if (this.advantagesItems.second) {
+				this.advantagesItems.second.innerHTML = '<b>Приходим вовремя.</b></br>Мы не опаздываем, не пьем, не ругаемся матом. Чувство юмора гарантировано, остальное - только за компанию :)';
+			}
+			if (this.advantagesItems.third) {
+				this.advantagesItems.third.innerHTML = '<b>Душевно, а не по листочку.</b></br>Нам важнее, чтобы у вас и гостей пробежали мурашки, чтобы они радовались и плакали, чем формальности мероприятия.';
+			}
+
 			// Меняем данные для слайдера проектов
 			this.loadMusicProjectCards();
 
@@ -208,6 +226,17 @@ export default class ThemeSwitch {
 					<li class="team__technologies-item"><img src="../images/icons/tech/Git.svg" alt="Git"></li>
 					<li class="team__technologies-item"><img src="../images/icons/tech/Docker.svg" alt="Docker"></li>
 				`;
+			}
+
+			// Меняем тексты в блоке преимуществ
+			if (this.advantagesItems.first) {
+				this.advantagesItems.first.innerHTML = '<b>Тушим пожары.</b></br>Если у вас есть срочный проект и нет времени собеседовать разработчиков, мы оперативно включимся и вытащим сроки.';
+			}
+			if (this.advantagesItems.second) {
+				this.advantagesItems.second.innerHTML = '<b>Упрощаем.</b></br>Перед тем, как взяться за любой проект мы предложим этапы, улучшения и расскажем на чём можно выиграть время понятным человеческим языком.';
+			}
+			if (this.advantagesItems.third) {
+				this.advantagesItems.third.innerHTML = '<b>Информируем.</b></br>В отличии от больших компаний и фрилансеров, мы, даже в критических ситуациях, держим заказчика в курсе: делаем отчёты, проводим встречи, отвечаем на вопросы.';
 			}
 
 			// Меняем данные для слайдера проектов
