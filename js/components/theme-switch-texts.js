@@ -40,6 +40,12 @@ export default class ThemeSwitchTexts {
       second: document.querySelector('.advantages__body-item:nth-child(2)'),
       third: document.querySelector('.advantages__body-item:nth-child(3)')
     };
+    
+    // Новые элементы в блоке заказа
+    this.orderTitleElement = document.querySelector('#order .section__title');
+    this.orderTextElement = document.querySelector('.order__text p');
+    this.orderTextareaElement = document.querySelector('.feedback-form__textarea');
+    this.orderButtonElement = document.querySelector('.feedback-form__inputs-button');
   }
 
   /**
@@ -96,6 +102,20 @@ export default class ThemeSwitchTexts {
     }
     if (this.advantagesItems.third) {
       this.advantagesItems.third.innerHTML = '<b>Душевно, а не по листочку.</b></br>Нам важнее, чтобы у вас и гостей пробежали мурашки, чтобы они радовались и плакали, чем формальности мероприятия.';
+    }
+    
+    // Меняем тексты в блоке заказа
+    if (this.orderTitleElement) {
+      this.orderTitleElement.textContent = 'Заказать концерт';
+    }
+    if (this.orderTextElement) {
+      this.orderTextElement.innerHTML = 'Сроки и&nbsp;стоимость концерта зависят от города, стиля, продолжительности и количества музыкантов. Минимальная стоимость выступления: 300&nbsp;000 рублей. Если ваш бюджет меньше, к&nbsp;сожалению, мы&nbsp;не&nbsp;сможем вам помочь.';
+    }
+    if (this.orderTextareaElement) {
+      this.orderTextareaElement.setAttribute('placeholder', 'Опишите где будет ваш концерт? Сколько будет человек? В каком духе хотите песни?');
+    }
+    if (this.orderButtonElement) {
+      this.orderButtonElement.textContent = 'Заказать концерт';
     }
 
     // Меняем тексты для анимации набора текста
@@ -160,6 +180,20 @@ export default class ThemeSwitchTexts {
     }
     if (this.advantagesItems.third) {
       this.advantagesItems.third.innerHTML = '<b>Информируем.</b></br>В отличии от больших компаний и фрилансеров, мы, даже в критических ситуациях, держим заказчика в курсе: делаем отчёты, проводим встречи, отвечаем на вопросы.';
+    }
+    
+    // Меняем тексты в блоке заказа
+    if (this.orderTitleElement) {
+      this.orderTitleElement.textContent = 'Заказать проект';
+    }
+    if (this.orderTextElement) {
+      this.orderTextElement.innerHTML = 'Сроки и&nbsp;стоимость проекта рассчитываются индивидуально, после онлайн-встречи. Минимальная стоимость разработки проекта: 5&nbsp;млн. рублей. Если ваш бюджет меньше, к&nbsp;сожалению, мы&nbsp;не&nbsp;сможем вам помочь.';
+    }
+    if (this.orderTextareaElement) {
+      this.orderTextareaElement.setAttribute('placeholder', 'Опишите коротко ваш проект: Что вы хотите реализовать? Для кого? В какие сроки?');
+    }
+    if (this.orderButtonElement) {
+      this.orderButtonElement.textContent = 'Заказать';
     }
 
     // Меняем тексты для анимации набора текста
