@@ -6,6 +6,14 @@ const heroCanDoTexts = [
 	'Разработать образовательные платформы.',
 ];
 
+const heroMusicsTexts = [
+	'Создавать&nbsp;душевную атмосферу.',
+	'Писать музыку и&nbsp;песни.',
+	'Заполнять паузы на&nbsp;деловых мероприятиях.',
+	'Создавать клипы и&nbsp;анимацию.',
+	'Обучаться музыке и&nbsp;вокалу.',
+];
+
 const TYPING_SPEED = 40;
 const ERASING_SPEED = 10;
 const PAUSE_BEFORE_ERASING = 4000;
@@ -94,14 +102,33 @@ class TypingAnimation {
 	}
 }
 
+// Глобальная переменная для выбора набора текстов
+window.heroTextsToUse = 'it';
+
 export function initTextAnimation() {
 	const textElement = document.querySelector(
 		'.hero__description p:nth-child(2)'
 	);
 	if (!textElement) return;
 
-	const animation = new TypingAnimation(textElement, heroCanDoTexts);
+	// Выбираем набор текстов в зависимости от темы
+	const textsToUse = window.heroTextsToUse === 'music' ? heroMusicsTexts : heroCanDoTexts;
+	const animation = new TypingAnimation(textElement, textsToUse);
 	animation.animate();
+
+	// Отслеживаем изменение темы
+	let currentTheme = window.heroTextsToUse;
+	setInterval(() => {
+		if (window.heroTextsToUse !== currentTheme) {
+			currentTheme = window.heroTextsToUse;
+			// Обновляем тексты для анимации
+			animation.texts = currentTheme === 'music' ? heroMusicsTexts : heroCanDoTexts;
+			// Перезапускаем анимацию с новыми текстами
+			animation.currentTextIndex = 0;
+			animation.currentText = '';
+			animation.updateText();
+		}
+	}, 1000);
 }
 
 window.addEventListener('load', initTextAnimation);
