@@ -1,10 +1,27 @@
 :root {
-	--primary-color: #f8ecd1;
-	--primary-white: #ffffff;
-	--primary-dark: #242424;
-	--primary-disable: rgba(36, 36, 36, 0.3);
-	--primary-disable-alt: #afa993;
-	--primary-link: #83ab53; // #628ebb;
+	// IT-команда (основная тема)
+	--it-primary-color: #f8ecd1;
+	--it-primary-white: #ffffff;
+	--it-primary-dark: #242424;
+	--it-primary-disable: rgba(36, 36, 36, 0.3);
+	--it-primary-disable-alt: #afa993;
+	--it-primary-link: #83ab53; // #628ebb;
+
+	// Музыкальная группа (альтернативная тема)
+	--music-primary-color: #ecf6f9;
+	--music-primary-white: #ffffff;
+	--music-primary-dark: #3b3b3b;
+	--music-primary-disable: rgba(59, 59, 59, 0.3);
+	--music-primary-disable-alt: #a2d5f2;
+	--music-primary-link: #6fb0d8;
+
+	// Активные переменные (по умолчанию IT-тема)
+	--primary-color: var(--it-primary-color);
+	--primary-white: var(--it-primary-white);
+	--primary-dark: var(--it-primary-dark);
+	--primary-disable: var(--it-primary-disable);
+	--primary-disable-alt: var(--it-primary-disable-alt);
+	--primary-link: var(--it-primary-link);
 
 	--border: 2px solid var(--primary-dark);
 	--border-radius-card: 15px;

@@ -1,0 +1,63 @@
+.theme-switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	margin: 0;
+	-webkit-tap-highlight-color: transparent; // Убираем подсветку на мобильных устройствах
+
+	&__input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+
+		&:checked + .theme-switch__slider {
+			background-color: var(--primary-link);
+
+			&:before {
+				transform: translateX(26px);
+			}
+		}
+
+		&:focus + .theme-switch__slider {
+			box-shadow: 0 0 1px var(--primary-link);
+		}
+	}
+
+	&__slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: var(--primary-link);
+		transition: 0.4s;
+		border-radius: 34px;
+
+		&:before {
+			position: absolute;
+			content: '';
+			height: 26px;
+			width: 26px;
+			left: 4px;
+			bottom: 4px;
+			background-color: var(--primary-white);
+			transition: 0.4s;
+			border-radius: 50%;
+		}
+	}
+
+	&__container {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		-webkit-tap-highlight-color: transparent; // Дополнительно убираем подсветку для контейнера
+	}
+
+	&__label {
+		font-family: var(--font-family-base);
+		font-size: clamp(20px, 24 / 1920 * 100vw, 24px);
+		color: var(--primary-dark);
+	}
+}
