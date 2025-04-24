@@ -74,6 +74,10 @@ export default class ThemeSwitchTexts {
 			'#reviews .section__title'
 		);
 		this.reviewsContainer = document.querySelector('.reviews');
+
+		// Элементы в блоке проектов/песен
+		this.projectsTitleElement = document.querySelector('#projects .section__title');
+		this.projectsMenuLink = document.querySelector('.header__menu-link[href="#projects"]');
 	}
 
 	/**
@@ -89,6 +93,14 @@ export default class ThemeSwitchTexts {
 		if (this.heroDescriptionElement) {
 			this.heroDescriptionElement.innerHTML =
 				'Мы - музыкальная группа, которая помогает:';
+		}
+
+		// Меняем текст "Проекты" на "Песни" в меню и заголовке раздела
+		if (this.projectsMenuLink) {
+			this.projectsMenuLink.textContent = 'песни';
+		}
+		if (this.projectsTitleElement) {
+			this.projectsTitleElement.textContent = 'Песни';
 		}
 
 		// Меняем тексты в блоке команды
@@ -279,6 +291,14 @@ export default class ThemeSwitchTexts {
 		if (this.heroDescriptionElement) {
 			this.heroDescriptionElement.innerHTML =
 				'Мы&nbsp;—&nbsp;группа разработчиков, которая&nbsp;помогает:';
+		}
+
+		// Возвращаем текст "Песни" на "Проекты" в меню и заголовке раздела
+		if (this.projectsMenuLink) {
+			this.projectsMenuLink.textContent = 'проекты';
+		}
+		if (this.projectsTitleElement) {
+			this.projectsTitleElement.textContent = 'Проекты';
 		}
 
 		// Меняем тексты в блоке команды
