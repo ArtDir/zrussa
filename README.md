@@ -1,1 +1,1 @@
-This is site for z-russa.ru project.
+This is site for zrussa.ru project.
