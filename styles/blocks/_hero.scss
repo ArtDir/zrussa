@@ -64,12 +64,14 @@
 		}
 	}
 
-	&__description p {
-		margin-bottom: 0;
-
+	&__description {
 		@include mobile {
 			min-height: 10em;
 		}
+	}
+
+	&__description p {
+		margin-bottom: 0;
 	}
 }
 
