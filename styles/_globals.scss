@@ -40,12 +40,12 @@ h1 {
 }
 
 h2 {
-	@include fluid-text(64, 60);
+	@include fluid-text(64, 40);
 	line-height: 1em;
 }
 
 h3 {
-	@include fluid-text(36, 32);
+	@include fluid-text(36, 28);
 }
 
 span {
