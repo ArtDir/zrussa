@@ -7,8 +7,14 @@ $lap-top: 1440px;
 $tablet-above: 1024px;
 $tablet: 1023px;
 
+$menu-breakpoint-above: 1251px;
+$menu-breakpoint: 1250px;
+
 $mobile-above: 768px;
 $mobile: 767px;
+
+$small-mobile-above: 451px;
+$small-mobile: 450px;
 
 @mixin desktop-above {
 	@media (min-width: #{$desktop-above}) {
@@ -46,6 +52,18 @@ $mobile: 767px;
 	}
 }
 
+@mixin menu-breakpoint-above {
+	@media (min-width: #{$menu-breakpoint-above}) {
+		@content;
+	}
+}
+
+@mixin menu-breakpoint {
+	@media (max-width: #{$menu-breakpoint}) {
+		@content;
+	}
+}
+
 @mixin mobile-above {
 	@media (min-width: #{$mobile-above}) {
 		@content;
@@ -54,6 +72,18 @@ $mobile: 767px;
 
 @mixin mobile {
 	@media (max-width: #{$mobile}) {
+		@content;
+	}
+}
+
+@mixin small-mobile-above {
+	@media (min-width: #{$small-mobile-above}) {
+		@content;
+	}
+}
+
+@mixin small-mobile {
+	@media (max-width: #{$small-mobile}) {
 		@content;
 	}
 }

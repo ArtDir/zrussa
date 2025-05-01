@@ -28,13 +28,13 @@
 }
 
 .hidden-mobile {
-	@include mobile {
+	@include menu-breakpoint {
 		display: none !important;
 	}
 }
 
 .visible-mobile {
-	@include mobile-above {
+	@include menu-breakpoint-above {
 		display: none !important;
 	}
 }

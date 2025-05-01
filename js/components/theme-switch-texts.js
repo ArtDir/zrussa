@@ -4,6 +4,10 @@
 export default class ThemeSwitchTexts {
 	constructor() {
 		this.initElements();
+		this.isSmallScreen = window.innerWidth <= 450;
+
+		// Добавляем слушатель изменения размера окна
+		window.addEventListener('resize', this.handleResize.bind(this));
 	}
 
 	/**
@@ -76,8 +80,45 @@ export default class ThemeSwitchTexts {
 		this.reviewsContainer = document.querySelector('.reviews');
 
 		// Элементы в блоке проектов/песен
-		this.projectsTitleElement = document.querySelector('#projects .section__title');
-		this.projectsMenuLink = document.querySelector('.header__menu-link[href="#projects"]');
+		this.projectsTitleElement = document.querySelector(
+			'#projects .section__title'
+		);
+		this.projectsMenuLink = document.querySelector(
+			'.header__menu-link[href="#projects"]'
+		);
+	}
+
+	/**
+	 * Обработчик изменения размера окна
+	 */
+	handleResize() {
+		const wasSmallScreen = this.isSmallScreen;
+		this.isSmallScreen = window.innerWidth <= 450;
+
+		// Если размер экрана пересек границу 450px, обновляем текст
+		if (wasSmallScreen !== this.isSmallScreen) {
+			if (this.switchLabelElement) {
+				if (
+					this.switchLabelElement.textContent.includes('Музыкальная') ||
+					this.switchLabelElement.textContent.includes('Муз.')
+				) {
+					this.updateMusicSwitchText();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Обновляет текст переключателя для музыкальной темы в зависимости от размера экрана
+	 */
+	updateMusicSwitchText() {
+		if (!this.switchLabelElement) return;
+
+		if (this.isSmallScreen) {
+			this.switchLabelElement.textContent = 'Муз. группа';
+		} else {
+			this.switchLabelElement.textContent = 'Музыкальная группа';
+		}
 	}
 
 	/**
@@ -86,7 +127,7 @@ export default class ThemeSwitchTexts {
 	applyMusicTheme() {
 		// Меняем текст переключателя
 		if (this.switchLabelElement) {
-			this.switchLabelElement.textContent = 'Музыкальная группа';
+			this.updateMusicSwitchText();
 		}
 
 		// Меняем текст в блоке hero
@@ -175,7 +216,7 @@ export default class ThemeSwitchTexts {
 
 		// Меняем заголовок и содержимое блока отзывов
 		if (this.reviewsTitleElement) {
-			this.reviewsTitleElement.textContent = 'Выступления и СМИ';
+			this.reviewsTitleElement.textContent = 'Выступления и СМИ';
 		}
 		if (this.reviewsContainer) {
 			this.reviewsContainer.innerHTML = `
