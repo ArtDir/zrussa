@@ -29,19 +29,44 @@
 		border-radius: var(--border-radius-card);
 		transition: background-color var(--transition-duration) ease;
 		cursor: pointer;
-		
+		border: 2px solid var(--primary-dark);
+
 		// Адаптивные стили для мобильных устройств
 		@media (max-width: 767px) {
 			@include square(50px);
-			
+
 			svg {
 				width: 30px;
 				height: 30px;
 				padding-top: 5px;
 			}
-			
+
 			svg path {
 				stroke: var(--primary-dark) !important;
+			}
+
+			&:active {
+				background-color: var(--primary-link);
+				
+				svg path {
+					stroke: var(--primary-color) !important;
+				}
+			}
+
+			&--inactive {
+				border: 2px solid var(--primary-disable-alt);
+
+				svg path {
+					stroke: var(--primary-disable-alt) !important;
+				}
+				
+				&:active {
+					background-color: var(--primary-color);
+					
+					svg path {
+						stroke: var(--primary-disable-alt) !important;
+					}
+				}
 			}
 		}
 
@@ -108,7 +133,7 @@
 		overflow-x: visible;
 		transition: margin-left var(--transition-duration) ease;
 	}
-	
+
 	// Адаптивные стили для мобильных устройств
 	@media (max-width: 767px) {
 		&__items {
