@@ -108,4 +108,7 @@ const initSlider = () => {
 	init();
 };
 
+// Делаем функцию доступной глобально
+window.initSlider = initSlider;
+
 window.addEventListener('load', initSlider);
