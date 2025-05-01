@@ -39,11 +39,18 @@ const initSlider = () => {
 	const updateUI = () => {
 		// Применяем плавную анимацию для мобильных устройств
 		if (window.innerWidth <= 767) {
-			elements.items.style.transition = 'margin-left 0.3s ease-out';
+			// Для мобильных устройств используем анимацию через transform
+			elements.items.style.transition = 'transform 0.3s ease-out';
+			elements.items.style.transform = `translateX(${currentOffset}px)`;
+			elements.items.style.webkitTransform = `translateX(${currentOffset}px)`; // Для старых версий Safari
 		} else {
+			// Для десктопа оставляем margin-left
 			elements.items.style.transition = 'margin-left 0.3s ease';
+			elements.items.style.marginLeft = `${currentOffset}px`;
+			// Сбрасываем transform, если он был установлен ранее
+			elements.items.style.transform = '';
+			elements.items.style.webkitTransform = '';
 		}
-		elements.items.style.marginLeft = `${currentOffset}px`;
 		elements.prevBtn.classList.toggle(
 			'projects__slider-button--inactive',
 			currentSlide < 2
