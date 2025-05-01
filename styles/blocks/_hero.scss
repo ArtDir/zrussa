@@ -66,6 +66,10 @@
 
 	&__description p {
 		margin-bottom: 0;
+
+		@include mobile {
+			min-height: 10em;
+		}
 	}
 }
 

@@ -37,6 +37,12 @@ const initSlider = () => {
 	};
 
 	const updateUI = () => {
+		// Применяем плавную анимацию для мобильных устройств
+		if (window.innerWidth <= 767) {
+			elements.items.style.transition = 'margin-left 0.3s ease-out';
+		} else {
+			elements.items.style.transition = 'margin-left 0.3s ease';
+		}
 		elements.items.style.marginLeft = `${currentOffset}px`;
 		elements.prevBtn.classList.toggle(
 			'projects__slider-button--inactive',
