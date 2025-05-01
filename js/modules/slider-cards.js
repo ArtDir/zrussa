@@ -88,17 +88,34 @@ class ProjectsCardBuilder {
 		if (isVideo) {
 			// Создаем видео-элемент для webm
 			const video = document.createElement('video');
-			video.src = cardData.image;
+			// Устанавливаем атрибут loading="lazy" для ленивой загрузки
+			video.setAttribute('loading', 'lazy');
+			// Устанавливаем preload="none" для предотвращения предварительной загрузки
+			video.preload = 'none';
+			// Добавляем обработчик для запуска видео только когда оно в зоне видимости
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						// Загружаем видео только когда оно видимо
+						video.src = cardData.image;
+						video.autoplay = true;
+						video.loop = true;
+						video.muted = true;
+						video.playsInline = true;
+						// Отключаем наблюдатель после загрузки
+						observer.disconnect();
+					}
+				});
+			}, { threshold: 0.1 });
+			
 			video.alt = cardData.title;
 			video.className = 'project-card__image';
-			video.autoplay = true;
-			video.loop = true;
-			video.muted = true;
-			video.playsInline = true;
 			video.setAttribute('playsinline', '');
 			video.setAttribute('disablePictureInPicture', '');
 			video.setAttribute('disableRemotePlayback', '');
 			article.appendChild(video);
+			// Начинаем наблюдение за видео
+			observer.observe(video);
 		} else {
 			// Создаем обычное изображение для других форматов
 			const image = document.createElement('img');

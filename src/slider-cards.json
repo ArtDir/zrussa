@@ -40,7 +40,7 @@
 	},
 	{
 		"theme_label": "it",
-		"image": "../images/project_lively.gif",
+		"image": "../images/project_lively.webm",
 		"title": "Лайвли",
 		"description": "Онлайн-журнал про ЗОЖ. Калькуляторы индекса массы тела, интерактивные статьи, персонализированная рассылка и A/B-тесты для продающих воронок",
 		"buttons": [
