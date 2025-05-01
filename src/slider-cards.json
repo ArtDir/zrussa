@@ -14,7 +14,7 @@
 	},
 	{
 		"theme_label": "it",
-		"image": "../images/project_meta.gif",
+		"image": "../images/project_meta.webm",
 		"title": "Метавселенная",
 		"description": "Массовая онлайн-игра в 3D-пространстве для проведения конференций, симуляции типичных возражений клиентов и проверки знаний сотрудников",
 		"buttons": [
@@ -27,7 +27,7 @@
 	},
 	{
 		"theme_label": "it",
-		"image": "../images/project_froid.gif",
+		"image": "../images/project_froid.webm",
 		"title": "Нейрофрейд",
 		"description": "ИИ-бот для ВКонтакте, который увеличивает охват постов за счет ответов на комментарии и ведения диалога с сохранением контекста переписки",
 		"buttons": [

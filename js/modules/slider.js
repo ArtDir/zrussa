@@ -59,14 +59,18 @@ const initSlider = () => {
 		// Удаление filter:sepia для карточек на мобильном
 		if (window.innerWidth <= 767) {
 			elements.cards.forEach((card, index) => {
-				const image = card.querySelector('.project-card__image');
-				image.style.filter =
-					index === currentSlide - 1 ? 'sepia(0%)' : 'sepia(100%)';
+				const mediaElement = card.querySelector('.project-card__image');
+				if (mediaElement) {
+					mediaElement.style.filter =
+						index === currentSlide - 1 ? 'sepia(0%)' : 'sepia(100%)';
+				}
 			});
 		} else {
 			elements.cards.forEach(card => {
-				const image = card.querySelector('.project-card__image');
-				image.style.filter = '';
+				const mediaElement = card.querySelector('.project-card__image');
+				if (mediaElement) {
+					mediaElement.style.filter = '';
+				}
 			});
 		}
 	};

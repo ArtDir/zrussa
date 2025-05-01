@@ -82,13 +82,32 @@ class ProjectsCardBuilder {
 		// Добавляем атрибут с темой карточки
 		article.setAttribute('data-theme', cardData.theme_label);
 
-		const image = document.createElement('img');
-		image.src = cardData.image;
-		image.alt = cardData.title;
-		image.className = 'project-card__image';
-		image.loading = 'lazy';
+		// Проверяем тип файла по расширению
+		const isVideo = cardData.image.toLowerCase().endsWith('.webm');
 
-		article.appendChild(image);
+		if (isVideo) {
+			// Создаем видео-элемент для webm
+			const video = document.createElement('video');
+			video.src = cardData.image;
+			video.alt = cardData.title;
+			video.className = 'project-card__image';
+			video.autoplay = true;
+			video.loop = true;
+			video.muted = true;
+			video.playsInline = true;
+			video.setAttribute('playsinline', '');
+			video.setAttribute('disablePictureInPicture', '');
+			video.setAttribute('disableRemotePlayback', '');
+			article.appendChild(video);
+		} else {
+			// Создаем обычное изображение для других форматов
+			const image = document.createElement('img');
+			image.src = cardData.image;
+			image.alt = cardData.title;
+			image.className = 'project-card__image';
+			image.loading = 'lazy';
+			article.appendChild(image);
+		}
 
 		const body = document.createElement('div');
 		body.className = 'project-card__body';
