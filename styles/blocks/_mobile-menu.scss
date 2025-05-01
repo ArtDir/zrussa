@@ -1,0 +1,174 @@
+@use '../media' as *;
+@use '../mixins' as *;
+@use '../variables' as *;
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-color);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-duration), visibility var(--transition-duration);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  &__close {
+    @include reset-button;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 30px;
+      height: 2px;
+      background-color: var(--primary-dark);
+      transition: background-color var(--transition-duration);
+    }
+    
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    
+    @include hover {
+      &::before,
+      &::after {
+        background-color: var(--primary-link);
+      }
+    }
+  }
+  
+  &__nav {
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  &__item {
+    text-align: center;
+  }
+  
+  &__link {
+    @include fluid-text(24, 20);
+    font-family: var(--font-family-base);
+    position: relative;
+    display: inline-block;
+    padding: 5px 0;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-dark);
+      transition: width var(--transition-duration);
+    }
+    
+    @include hover {
+      color: var(--primary-link);
+      
+      &::after {
+        width: 100%;
+        background-color: var(--primary-link);
+      }
+    }
+  }
+  
+
+  
+  // Анимация для пунктов меню
+  &.is-open &__item {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+    
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: 0.1s * $i;
+      }
+    }
+  }
+}
+
+// Блокировка прокрутки страницы при открытом меню
+body.menu-open {
+  overflow: hidden;
+}
+
+// Анимация для пунктов меню
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Анимация для кнопки бургер-меню
+.burger-button {
+  &.is-active {
+    &::after {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 2px;
+      background-color: var(--primary-dark);
+      transition: transform var(--transition-duration);
+    }
+    
+    &::before {
+      transform: rotate(45deg);
+    }
+    
+    &::after {
+      transform: rotate(-45deg);
+    }
+    
+    @include hover {
+      &::before,
+      &::after {
+        background-color: var(--primary-link);
+      }
+    }
+  }
+}

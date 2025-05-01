@@ -83,6 +83,11 @@ export default class ThemeSwitch {
 
     // Сохраняем выбранную тему
     this.saveTheme();
+    
+    // Диспатчим событие изменения темы
+    document.dispatchEvent(new CustomEvent('themeChanged', {
+      detail: { theme: this.currentTheme }
+    }));
   }
 
   /**
@@ -110,6 +115,11 @@ export default class ThemeSwitch {
       ThemeSwitchColors.applyMusicTheme();
       this.textsManager.applyMusicTheme();
       ThemeSwitchProjects.loadMusicProjectCards();
+      
+      // Диспатчим событие изменения темы
+      document.dispatchEvent(new CustomEvent('themeChanged', {
+        detail: { theme: this.currentTheme }
+      }));
     }
   }
 }
