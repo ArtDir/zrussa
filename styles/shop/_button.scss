@@ -1,6 +1,7 @@
 @use '../variables' as *;
 
 .shop-products__item-button {
+	padding: 0 !important;
 	width: 100%;
 	height: 3em;
 	border-radius: var(--border-radius-card);
@@ -39,7 +40,7 @@
 
 		img {
 			transition: none;
-			filter: brightness(0) saturate(100%) invert(57%) sepia(16%) 
+			filter: brightness(0) saturate(100%) invert(57%) sepia(16%)
 				saturate(1089%) hue-rotate(55deg) brightness(93%) contrast(78%);
 		}
 	}
@@ -49,4 +50,63 @@
 	width: 30px;
 	height: 30px;
 	object-fit: contain;
+}
+
+.shop-products__item-counter {
+	width: 100%;
+	height: 3em;
+	border-radius: var(--border-radius-card);
+	// border: 2px solid var(--primary-dark);
+	font-size: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	color: var(--primary-dark);
+	background-color: var(--primary-color);
+	transition: color 0.3s ease, border-color 0.3s ease,
+		background-color 0.3s ease;
+
+	// Правильная анимация для иконки
+	img {
+		transition: filter 0.3s ease;
+	}
+}
+
+.shop-products__item-counter__button {
+	max-width: 4em;
+	min-width: 4em;
+	padding: 0px !important;
+	height: 100%;
+	border-radius: 15px;
+	border: 2px solid var(--primary-dark);
+
+	&:hover {
+		color: var(--primary-white);
+		border-color: var(--primary-link);
+		background-color: var(--primary-link);
+
+		img {
+			filter: brightness(0) invert(1);
+		}
+	}
+
+	&:active {
+		/* Убираем переход для мгновенного изменения */
+		transition: none;
+		color: var(--primary-link);
+		background-color: var(--primary-color);
+		border-color: var(--primary-link);
+
+		img {
+			transition: none;
+			filter: brightness(0) saturate(100%) invert(57%) sepia(16%)
+				saturate(1089%) hue-rotate(55deg) brightness(93%) contrast(78%);
+		}
+	}
+}
+
+.shop-products__item-counter__count {
+	display: flex;
+	gap: 0.5em;
 }
