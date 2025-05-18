@@ -1,7 +1,6 @@
 @use '../variables' as *;
 
 .shop-products__item-button {
-	position: relative;
 	width: 100%;
 	height: 3em;
 	border-radius: var(--border-radius-card);
@@ -10,28 +9,44 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding-left: 30px; /* Освобождаем место для иконки */
-	transition: background-color 0.3s ease, color 0.3s ease;
+	gap: 8px;
+	color: var(--primary-dark);
+	background-color: var(--primary-color);
+	transition: color 0.3s ease, border-color 0.3s ease,
+		background-color 0.3s ease;
 
-	&::before {
-		content: '';
-		position: absolute;
-		left: calc(50% - 50px);
-		width: 18px;
-		height: 18px;
-		background-image: url('../images/icons/shop_basket.svg');
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: center;
+	// Правильная анимация для иконки
+	img {
+		transition: filter 0.3s ease;
 	}
 
 	&:hover {
-		background-color: var(--primary-dark);
 		color: var(--primary-white);
+		border-color: var(--primary-link);
+		background-color: var(--primary-link);
 
-		&::before {
-			/* Если нужно изменить цвет иконки при наведении, например для SVG с возможностью цветовой фильтрации */
+		img {
 			filter: brightness(0) invert(1);
 		}
 	}
+
+	&:active {
+		/* Убираем переход для мгновенного изменения */
+		transition: none;
+		color: var(--primary-link);
+		background-color: var(--primary-color);
+		border-color: var(--primary-link);
+
+		img {
+			transition: none;
+			filter: brightness(0) saturate(100%) invert(57%) sepia(16%) 
+				saturate(1089%) hue-rotate(55deg) brightness(93%) contrast(78%);
+		}
+	}
+}
+
+.shop-products__item-button-icon {
+	width: 30px;
+	height: 30px;
+	object-fit: contain;
 }
