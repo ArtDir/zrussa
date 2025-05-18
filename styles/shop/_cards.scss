@@ -6,15 +6,17 @@
 	display: flex;
 	flex-wrap: wrap;
 	margin: 30px -8px 0;
-	gap: 16px;
+	gap: 32px 16px;
 
 	@include mobile-above {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(calc(50% - 16px), 1fr));
+		gap: 32px 16px;
 	}
 
 	@include tablet-above {
 		grid-template-columns: repeat(auto-fill, minmax(calc(33.333% - 16px), 1fr));
+		gap: 16px 16px;
 	}
 }
 
