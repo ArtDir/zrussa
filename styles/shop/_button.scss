@@ -1,0 +1,37 @@
+@use '../variables' as *;
+
+.shop-products__item-button {
+	position: relative;
+	width: 100%;
+	height: 3em;
+	border-radius: var(--border-radius-card);
+	border: 2px solid var(--primary-dark);
+	font-size: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-left: 30px; /* Освобождаем место для иконки */
+	transition: background-color 0.3s ease, color 0.3s ease;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: calc(50% - 50px);
+		width: 18px;
+		height: 18px;
+		background-image: url('../images/icons/shop_basket.svg');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	&:hover {
+		background-color: var(--primary-dark);
+		color: var(--primary-white);
+
+		&::before {
+			/* Если нужно изменить цвет иконки при наведении, например для SVG с возможностью цветовой фильтрации */
+			filter: brightness(0) invert(1);
+		}
+	}
+}
