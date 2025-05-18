@@ -7,6 +7,7 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		main: ['./js/main.js', './styles/styles.scss'],
+		shop: ['./js/shop/shop.js', './styles/styles.scss'],
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -46,6 +47,13 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, 'src', 'index.html'),
+			filename: 'index.html',
+			chunks: ['main']
+		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'shop.html'),
+			filename: 'shop.html',
+			chunks: ['shop']
 		}),
 		new CopyWebpackPlugin({
 			patterns: [{ from: 'images', to: 'images' }],
