@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "type": "book",
+    "tag": "svo",
+    "name": "Это не стратегия",
+    "author": "Юрий Мороз",
+    "price": 50000,
+    "description": "Это книга о том, как выстраить стратегию предприятия и избежать типичных ошибок в разработке стратегии.",
+    "picture": "images/shop/books/Strategy_book.png",
+    "link": "https://ozon.ru/somelink1"
+  },
+  {
+    "id": 2,
+    "type": "book",
+    "tag": "elbook",
+    "name": "Логика на примерах западной пропаганды",
+    "author": "Павел Макевич",
+    "price": 5000,
+    "description": "Книга помогает развить логическое мышление и критический анализ информации на примерах современной пропаганды.",
+    "picture": "images/shop/books/Logic_book.png",
+    "link": "https://ozon.ru/somelink2"
+  },
+  {
+    "id": 3,
+    "type": "book",
+    "tag": "",
+    "name": "Как при помощи правого полушария создавать новые идеи",
+    "author": "Юрий Мороз",
+    "price": 5000,
+    "description": "Практическое руководство по развитию креативности и генерации новых идей с использованием правого полушария мозга.",
+    "picture": "images/shop/books/Polusharie_book.png",
+    "link": "https://ozon.ru/somelink3"
+  },
+  {
+    "id": 4,
+    "type": "course",
+    "tag": "svo",
+    "name": "Курс по развитию бизнеса",
+    "author": "Юрий Мороз",
+    "price": 50000,
+    "description": "Интенсивный курс для предпринимателей, желающих вывести свой бизнес на новый уровень.",
+    "picture": "images/shop/books/Strategy_book.png",
+    "link": "https://ozon.ru/somelink4"
+  },
+  {
+    "id": 5,
+    "type": "book",
+    "tag": "elbook",
+    "name": "Логика мышления",
+    "author": "Павел Макевич",
+    "price": 5000,
+    "description": "Расширенный справочник по логическому мышлению и анализу информации в современном мире.",
+    "picture": "images/shop/books/Logic_book.png",
+    "link": "https://ozon.ru/somelink5"
+  },
+  {
+    "id": 6,
+    "type": "book",
+    "tag": "",
+    "name": "Креативное мышление",
+    "author": "Юрий Мороз",
+    "price": 5000,
+    "description": "Подробное руководство по развитию творческого мышления и применению его в бизнесе и повседневной жизни.",
+    "picture": "images/shop/books/Polusharie_book.png",
+    "link": "https://ozon.ru/somelink6"
+  }
+]

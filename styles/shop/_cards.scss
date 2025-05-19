@@ -16,7 +16,7 @@
 
 	@include tablet-above {
 		grid-template-columns: repeat(auto-fill, minmax(calc(33.333% - 16px), 1fr));
-		gap: 16px 16px;
+		gap: 48px 16px;
 	}
 }
 

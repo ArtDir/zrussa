@@ -56,7 +56,10 @@ module.exports = {
 			chunks: ['shop']
 		}),
 		new CopyWebpackPlugin({
-			patterns: [{ from: 'images', to: 'images' }],
+			patterns: [
+				{ from: 'images', to: 'images' },
+				{ from: 'js/shop/products.json', to: 'js/shop/products.json' }
+			],
 		}),
 	],
 	optimization: {
