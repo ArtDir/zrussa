@@ -1,0 +1,142 @@
+@use '../mixins' as *;
+@use '../media' as *;
+@use '../variables' as *;
+
+.basket__description {
+	margin-bottom: 2em;
+}
+
+.basket__content {
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	gap: 32px;
+}
+
+.basket__content-products {
+	background-color: var(--primary-white);
+	border-radius: var(--border-radius-card);
+	padding: 50px 40px;
+
+	&_item {
+		display: flex;
+		margin-bottom: 40px;
+
+		&-image {
+			max-width: 8em;
+			margin-right: 0;
+		}
+
+		&-description {
+			padding: 10px 15px;
+			flex-grow: 1;
+
+			p {
+				margin-bottom: 0px;
+			}
+		}
+
+		&-close {
+			margin-left: auto; // Прижимает крестик к правому краю
+			display: flex;
+			margin: 15px 20px 0 0;
+			padding-left: 20px; // Отступ от описания
+		}
+	}
+}
+
+.basket__content-total_cost {
+	background-color: var(--primary-white);
+	border-radius: var(--border-radius-card);
+	padding: 30px 20px;
+	max-height: 16em;
+}
+
+.basket-products__item-counter {
+	width: 230px;
+	height: 50px;
+	margin: 20px 0px;
+	border-radius: var(--border-radius-card);
+	// border: 2px solid var(--primary-dark);
+	font-size: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	color: var(--primary-dark);
+	background-color: var(--primary-color);
+	transition: color 0.3s ease, border-color 0.3s ease,
+		background-color 0.3s ease;
+
+	// Правильная анимация для иконки
+	img {
+		transition: filter 0.3s ease;
+	}
+}
+
+.basket-products__item-counter__button {
+	max-width: 50px;
+	min-width: 50px;
+	padding: 0px !important;
+	height: 100%;
+	border-radius: 15px;
+	border: 2px solid var(--primary-dark);
+
+	&:hover {
+		color: var(--primary-white);
+		border-color: var(--primary-link);
+		background-color: var(--primary-link);
+
+		img {
+			filter: brightness(0) invert(1);
+		}
+	}
+
+	&:active {
+		/* Убираем переход для мгновенного изменения */
+		transition: none;
+		color: var(--primary-link);
+		background-color: var(--primary-color);
+		border-color: var(--primary-link);
+
+		img {
+			transition: none;
+			filter: brightness(0) saturate(100%) invert(57%) sepia(16%)
+				saturate(1089%) hue-rotate(55deg) brightness(93%) contrast(78%);
+		}
+	}
+}
+
+.basket-products__item-counter__count {
+	display: flex;
+	gap: 5px;
+}
+
+.basket-products__item-button-icon {
+	width: 30px;
+	height: 30px;
+	object-fit: contain;
+}
+
+.cross {
+	background-color: var(--primary-color);
+	border-radius: var(--border-radius-card);
+	max-height: 55px;
+	max-width: 55px;
+	border-width: 0px;
+	padding: 0px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+
+	img {
+		transition: filter 0.3s ease;
+	}
+
+	&:hover {
+		background-color: var(--primary-error);
+		border-radius: var(--border-radius-card);
+
+		img {
+			filter: brightness(0) invert(1);
+		}
+	}
+}

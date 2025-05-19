@@ -25,14 +25,16 @@ class Basket {
 	init() {
 		console.log('Начало инициализации корзины');
 		// Загружаем данные корзины и обновляем UI только после загрузки
-		this.loadCartData().then(() => {
-			console.log('Данные корзины загружены:', this.cartItems);
-			this.renderCartItems();
-			this.updateDescription();
-			console.log('Обновление UI завершено');
-		}).catch(error => {
-			console.error('Ошибка при инициализации корзины:', error);
-		});
+		this.loadCartData()
+			.then(() => {
+				console.log('Данные корзины загружены:', this.cartItems);
+				this.renderCartItems();
+				this.updateDescription();
+				console.log('Обновление UI завершено');
+			})
+			.catch(error => {
+				console.error('Ошибка при инициализации корзины:', error);
+			});
 	}
 
 	/**
@@ -44,11 +46,11 @@ class Basket {
 	 */
 	loadCartData() {
 		console.log('Начало загрузки данных корзины');
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			try {
 				const cartData = localStorage.getItem('shopCart');
 				console.log('Полученные данные из localStorage:', cartData);
-				
+
 				if (cartData) {
 					// Преобразуем данные из формата shopCart в формат корзины
 					const shopCartData = JSON.parse(cartData);
@@ -59,15 +61,15 @@ class Basket {
 
 					// Проверяем разные пути к файлу products.json
 					console.log('Попытка загрузить products.json');
-					
+
 					// Пробуем несколько вариантов путей
 					const paths = [
 						'./js/shop/products.json',
 						'/js/shop/products.json',
 						'../js/shop/products.json',
-						'../../js/shop/products.json'
+						'../../js/shop/products.json',
 					];
-					
+
 					// Пробуем каждый путь по очереди
 					this.tryLoadProducts(paths, 0, shopCartData, resolve);
 				} else {
@@ -125,6 +127,11 @@ class Basket {
 	 * Отображение товаров в корзине
 	 */
 	renderCartItems() {
+		// Вся функция временно закомментирована, так как мы хотим верстать корзину вручную
+		console.log('Функция отрисовки товаров временно отключена');
+		return;
+
+		/*
 		if (!this.basketContent) return;
 
 		// Очищаем контейнер корзины
@@ -153,6 +160,7 @@ class Basket {
 		buttonContainer.appendChild(checkoutButton);
 
 		this.basketContent.appendChild(buttonContainer);
+		*/
 	}
 
 	/**
@@ -160,7 +168,9 @@ class Basket {
 	 * @param {Object} item - данные о товаре
 	 * @returns {HTMLElement} HTML-элемент товара
 	 */
+	// Этот метод также временно отключен
 	createCartItemElement(item) {
+		/*
 		const itemElement = document.createElement('div');
 		itemElement.className = 'basket__item';
 		itemElement.dataset.id = item.id;
@@ -202,6 +212,8 @@ class Basket {
 		removeButton.addEventListener('click', () => this.removeItem(item.id));
 
 		return itemElement;
+		*/
+		return document.createElement('div'); // Возвращаем пустой div на время отключения
 	}
 
 	/**
@@ -288,55 +300,65 @@ class Basket {
 // Инициализация корзины при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
 	// Добавляем метод для последовательной проверки разных путей до products.json
-Basket.prototype.tryLoadProducts = function(paths, index, shopCartData, resolve) {
-	if (index >= paths.length) {
-		console.error('Не удалось загрузить products.json ни по одному из путей');
-		resolve();
-		return;
-	}
-	
-	const path = paths[index];
-	console.log(`Пробуем загрузить из ${path}`);
-	
-	fetch(path)
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-			console.log(`Успешно загружен файл из ${path}`);
-			return response.json();
-		})
-		.then(products => {
-			console.log('Получены данные о товарах:', products);
-			
-			// Преобразуем данные корзины
-			for (const productId in shopCartData) {
-				const quantity = shopCartData[productId];
-				// Исправляем проблему с типами: преобразуем productId в число, для сравнения с p.id
-				const numericProductId = parseInt(productId, 10);
-				const product = products.find(p => p.id === numericProductId);
-				console.log(`Поиск товара ID: ${productId} (${numericProductId}), найден:`, product);
-
-				if (product) {
-					// Исправляем несоответствие имен полей между products.json и шаблоном
-					this.cartItems.push({
-						id: product.id,
-						title: product.name, // В JSON это поле называется 'name'
-						description: product.description,
-						price: product.price,
-						image: product.picture, // В JSON это поле называется 'picture'
-						quantity: quantity,
-					});
-				}
-			}
+	Basket.prototype.tryLoadProducts = function (
+		paths,
+		index,
+		shopCartData,
+		resolve
+	) {
+		if (index >= paths.length) {
+			console.error('Не удалось загрузить products.json ни по одному из путей');
 			resolve();
-		})
-		.catch(error => {
-			console.error(`Ошибка при загрузке из ${path}:`, error);
-			// Пробуем следующий путь
-			this.tryLoadProducts(paths, index + 1, shopCartData, resolve);
-		});
-};
+			return;
+		}
 
-new Basket();
+		const path = paths[index];
+		console.log(`Пробуем загрузить из ${path}`);
+
+		fetch(path)
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				console.log(`Успешно загружен файл из ${path}`);
+				return response.json();
+			})
+			.then(products => {
+				console.log('Получены данные о товарах:', products);
+
+				// Преобразуем данные корзины
+				for (const productId in shopCartData) {
+					const quantity = shopCartData[productId];
+					// Исправляем проблему с типами: преобразуем productId в число, для сравнения с p.id
+					const numericProductId = parseInt(productId, 10);
+					const product = products.find(p => p.id === numericProductId);
+					console.log(
+						`Поиск товара ID: ${productId} (${numericProductId}), найден:`,
+						product
+					);
+
+					if (product) {
+						// Исправляем несоответствие имен полей между products.json и шаблоном
+						this.cartItems.push({
+							id: product.id,
+							title: product.name, // В JSON это поле называется 'name'
+							description: product.description,
+							price: product.price,
+							image: product.picture, // В JSON это поле называется 'picture'
+							quantity: quantity,
+						});
+					}
+				}
+				resolve();
+			})
+			.catch(error => {
+				console.error(`Ошибка при загрузке из ${path}:`, error);
+				// Пробуем следующий путь
+				this.tryLoadProducts(paths, index + 1, shopCartData, resolve);
+			});
+	};
+
+	// Отключаем инициализацию корзины для ручной верстки
+	console.log('Инициализация Basket отключена для ручной верстки');
+	// new Basket(); - Отключено для ручной верстки
 });

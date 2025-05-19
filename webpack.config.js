@@ -109,6 +109,7 @@ module.exports = {
 			directory: path.join(__dirname, 'dist'),
 		},
 		hot: true,
-		port: 3000,
+		port: 3001, // Изменили порт с 3000 на 3001, чтобы избежать конфликта
+		watchFiles: ['src/**/*.html'], // Добавляем отслеживание HTML-файлов для автоматического обновления
 	},
 }
