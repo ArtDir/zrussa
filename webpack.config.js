@@ -55,6 +55,11 @@ module.exports = {
 			filename: 'shop.html',
 			chunks: ['shop']
 		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'basket.html'),
+			filename: 'basket.html',
+			chunks: ['shop']
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: 'images', to: 'images' },

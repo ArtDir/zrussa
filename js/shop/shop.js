@@ -7,6 +7,7 @@ import '../modules/scrolling.js';
 import './shop-add-button.js';
 import './shop-cards.js';
 import './bottom-menu.js';
+import './basket.js'; // Импортируем логику корзины
 
 // Инициализация компонентов
 document.addEventListener('DOMContentLoaded', () => {

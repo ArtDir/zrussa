@@ -73,8 +73,8 @@ class ShopBottomMenu {
     const cartButton = this.menuElement.querySelector('.shop-bottom-menu__button');
     if (cartButton) {
       cartButton.addEventListener('click', () => {
-        // В будущем здесь будет переход в корзину
-        console.log('Переход в корзину');
+        // Переход на страницу корзины
+        window.location.href = 'basket.html';
       });
     }
   }
