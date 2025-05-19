@@ -16,7 +16,7 @@
 
 	@include tablet-above {
 		grid-template-columns: repeat(auto-fill, minmax(calc(33.333% - 16px), 1fr));
-		gap: 48px 16px;
+		gap: 42px 16px;
 	}
 }
 
@@ -89,5 +89,87 @@
 		font-size: 0.9em;
 		margin: 0 0 15px 0;
 		color: #666;
+	}
+}
+
+// Стили для кнопки добавления товара
+.shop-products__item-button {
+	width: 100%;
+	background-color: var(--primary-white);
+	border: var(--border);
+	border-radius: var(--border-radius-button);
+	padding: 12px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	color: var(--primary-dark);
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
+
+	&:hover {
+		background-color: var(--primary-dark);
+		color: var(--primary-white);
+
+		img {
+			filter: brightness(0) invert(1);
+		}
+	}
+
+	&-icon {
+		width: 18px;
+		height: 18px;
+		transition: filter 0.3s ease;
+	}
+}
+
+// Стили для счетчика товаров
+.shop-products__item-counter {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 50px;
+	background-color: var(--primary-color);
+	border-radius: var(--border-radius-button);
+	overflow: hidden;
+
+	&__button {
+		width: 65px;
+		height: 50px;
+		border-radius: 0;
+		background-color: transparent;
+		border: var(--border);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: var(--primary-dark);
+
+			img {
+				filter: brightness(0) invert(1);
+			}
+		}
+	}
+
+	&__count {
+		flex-grow: 1;
+		background-color: transparent;
+		border: none;
+		margin: 0;
+		height: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+		padding: 0;
+
+		img {
+			width: 30px;
+			height: 30px;
+		}
 	}
 }
