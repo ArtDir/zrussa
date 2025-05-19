@@ -30,6 +30,12 @@
 	&__total {
 		font-weight: 300;
 		margin: 0;
+		
+		strong {
+			font-weight: 700;
+			color: var(--primary-link);
+			transition: color 0.2s ease;
+		}
 	}
 
 	&__button {

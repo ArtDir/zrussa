@@ -149,9 +149,27 @@ class ShopBottomMenu {
   updateDisplay() {
     const total = this.calculateTotal();
     
-    // Обновляем текст с суммой
+    // Обновляем текст с суммой и добавляем анимацию
     if (this.totalElement) {
-      this.totalElement.textContent = `Товаров в корзине на сумму: ${this.formatAmount(total)}`;
+      // Сохраняем предыдущее значение суммы
+      const prevAmountElement = this.totalElement.querySelector('strong');
+      let prevAmount = 0;
+      
+      if (prevAmountElement) {
+        // Получаем текущее значение, удаляя нечисловые символы
+        const prevText = prevAmountElement.textContent.replace(/[^\d]/g, '');
+        prevAmount = parseInt(prevText, 10) || 0;
+      }
+      
+      // Если сумма изменилась, запускаем анимацию
+      if (prevAmount !== total && prevAmount > 0) {
+        this.animateCounter(prevAmount, total, (currentValue) => {
+          this.updateTotalText(currentValue);
+        });
+      } else {
+        // Если нет предыдущего значения или оно не изменилось, просто обновляем текст
+        this.updateTotalText(total);
+      }
     }
     
     // Показываем или скрываем меню в зависимости от наличия товаров в корзине
@@ -160,6 +178,61 @@ class ShopBottomMenu {
     } else {
       this.menuElement.classList.remove('shop-bottom-menu--visible');
     }
+  }
+  
+  /**
+   * Обновление текста с суммой
+   * @param {number} amount - сумма для отображения
+   */
+  updateTotalText(amount) {
+    if (this.totalElement) {
+      // Добавляем <strong> для выделения суммы жирным
+      this.totalElement.innerHTML = `Товаров в корзине на сумму: <strong>${this.formatAmount(amount)}</strong>`;
+    }
+  }
+  
+  /**
+   * Анимация изменения суммы
+   * @param {number} startValue - начальное значение
+   * @param {number} endValue - конечное значение
+   * @param {Function} updateCallback - функция обновления
+   */
+  animateCounter(startValue, endValue, updateCallback) {
+    const duration = 800; // Длительность анимации в мс
+    const stepCount = 30; // Количество шагов анимации
+    const valueChange = endValue - startValue;
+    const stepDuration = duration / stepCount;
+    
+    let currentStep = 0;
+    
+    // Функция для плавного изменения (ускорение/замедление)
+    const easeInOut = (t) => {
+      return t < 0.5 
+        ? 4 * t * t * t 
+        : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    };
+    
+    const animate = () => {
+      currentStep++;
+      
+      if (currentStep <= stepCount) {
+        // Вычисляем промежуточное значение с учетом функции ускорения
+        const progress = easeInOut(currentStep / stepCount);
+        const currentValue = Math.round(startValue + valueChange * progress);
+        
+        // Обновляем отображение
+        updateCallback(currentValue);
+        
+        // Планируем следующий шаг
+        setTimeout(animate, stepDuration);
+      } else {
+        // Достигнуто конечное значение
+        updateCallback(endValue);
+      }
+    };
+    
+    // Запускаем анимацию
+    animate();
   }
 }
 

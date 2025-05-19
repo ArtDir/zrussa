@@ -4,9 +4,30 @@
 class ShopCards {
 	constructor() {
 		this.productsContainer = document.querySelector('.shop-products');
+		// Добавляем поле для хранения данных корзины
+		this.cart = {};
 
 		if (this.productsContainer) {
+			// Загружаем данные корзины из localStorage при инициализации
+			this.loadCartData();
 			this.initCards();
+		}
+	}
+	
+	/**
+	 * Загрузка данных корзины из localStorage
+	 */
+	loadCartData() {
+		const savedCart = localStorage.getItem('shopCart');
+		if (savedCart) {
+			try {
+				this.cart = JSON.parse(savedCart);
+			} catch (e) {
+				console.error('Ошибка при загрузке корзины:', e);
+				this.cart = {};
+			}
+		} else {
+			this.cart = {};
 		}
 	}
 
@@ -138,7 +159,65 @@ class ShopCards {
 				newProductsContainer,
 				this.productsContainer
 			);
+			
+			// Обновляем отображение карточек с учетом данных корзины
+			this.updateProductCards(newProductsContainer);
 		}
+	}
+	
+	/**
+	 * Обновление карточек товаров с учетом данных корзины
+	 * @param {HTMLElement} container - контейнер с карточками товаров
+	 */
+	updateProductCards(container) {
+		// Проверяем, есть ли товары в корзине
+		if (Object.keys(this.cart).length === 0) {
+			return; // Если корзина пуста, ничего не делаем
+		}
+		
+		// Проходим по всем товарам в корзине
+		Object.keys(this.cart).forEach(productId => {
+			const quantity = this.cart[productId];
+			const productItems = container.querySelectorAll(`.shop-products__item[data-product-id="${productId}"]`);
+			
+			productItems.forEach(productItem => {
+				// Для каждого товара из корзины создаем счетчик вместо кнопки
+				this.replaceButtonWithCounter(productItem, productId, quantity);
+			});
+		});
+	}
+
+	/**
+	 * Замена кнопки на счетчик товаров
+	 * @param {HTMLElement} productItem - карточка товара
+	 * @param {string} productId - ID товара
+	 * @param {number} quantity - количество товара
+	 */
+	replaceButtonWithCounter(productItem, productId, quantity) {
+		const button = productItem.querySelector('.shop-products__item-button');
+		if (!button) return;
+		
+		// Создаем счетчик с текущим количеством товара
+		const counterHTML = `
+			<div class="shop-products__item-counter">
+				<button class="shop-products__item-counter__button button">
+					<img src="images/icons/button_minus.svg" alt="" class="shop-products__item-counter-icon" />
+				</button>
+				<div class="shop-products__item-counter__count">
+					<img src="images/icons/shop_basket.svg" alt="" class="shop-products__item-button-icon" />
+					${quantity}
+				</div>
+				<button class="shop-products__item-counter__button button">
+					<img src="images/icons/button_plus.svg" alt="" class="shop-products__item-counter-icon" />
+				</button>
+			</div>
+		`;
+		
+		// Заменяем кнопку на счетчик
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = counterHTML.trim();
+		const counterElement = tempDiv.firstChild;
+		button.parentNode.replaceChild(counterElement, button);
 	}
 }
 
