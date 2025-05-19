@@ -19,6 +19,34 @@
 		}
 	}
 
+	&__home-link {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--primary-dark);
+		text-decoration: none;
+		font-weight: 300;
+		transition: color 0.3s ease;
+		padding: 5px 10px;
+		border-radius: var(--border-radius-button);
+
+		&:hover {
+			color: var(--primary-link);
+
+			img {
+				transform: translateX(-5px);
+				filter: invert(59%) sepia(39%) saturate(463%) hue-rotate(52deg)
+					brightness(88%) contrast(88%);
+			}
+		}
+	}
+
+	&__home-icon {
+		width: 40px;
+		height: 40px;
+		transition: transform 0.3s ease, filter 0.3s ease;
+	}
+
 	&__menu {
 		margin-left: auto;
 
