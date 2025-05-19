@@ -7,6 +7,15 @@ class Basket {
 		this.basketContent = document.querySelector('.basket__content');
 		this.basketDescription = document.querySelector('.basket__description p');
 
+		// Дебаг: выводим все компоненты в консоль
+		console.log('Баскет начал инициализацию');
+		console.log('basketContent найден:', this.basketContent);
+		console.log('basketDescription найден:', this.basketDescription);
+
+		// Выводим содержимое localStorage
+		const shopCartData = localStorage.getItem('shopCart');
+		console.log('Содержимое localStorage[shopCart]:', shopCartData);
+
 		this.init();
 	}
 
@@ -14,55 +23,63 @@ class Basket {
 	 * Инициализация корзины
 	 */
 	init() {
-		this.loadCartData();
-		this.renderCartItems();
-		this.updateDescription();
+		console.log('Начало инициализации корзины');
+		// Загружаем данные корзины и обновляем UI только после загрузки
+		this.loadCartData().then(() => {
+			console.log('Данные корзины загружены:', this.cartItems);
+			this.renderCartItems();
+			this.updateDescription();
+			console.log('Обновление UI завершено');
+		}).catch(error => {
+			console.error('Ошибка при инициализации корзины:', error);
+		});
 	}
 
 	/**
 	 * Загрузка данных корзины из localStorage
 	 */
+	/**
+	 * Загрузка данных корзины из localStorage
+	 * @returns {Promise} Promise, который разрешается после загрузки данных
+	 */
 	loadCartData() {
-		try {
-			const cartData = localStorage.getItem('shopCart');
-			if (cartData) {
-				// Преобразуем данные из формата shopCart в формат корзины
-				const shopCartData = JSON.parse(cartData);
+		console.log('Начало загрузки данных корзины');
+		return new Promise((resolve) => {
+			try {
+				const cartData = localStorage.getItem('shopCart');
+				console.log('Полученные данные из localStorage:', cartData);
+				
+				if (cartData) {
+					// Преобразуем данные из формата shopCart в формат корзины
+					const shopCartData = JSON.parse(cartData);
+					console.log('Парсинг данных корзины:', shopCartData);
 
-				// Преобразуем формат данных из {id: quantity} в массив объектов
+					// Преобразуем формат данных из {id: quantity} в массив объектов
+					this.cartItems = [];
+
+					// Проверяем разные пути к файлу products.json
+					console.log('Попытка загрузить products.json');
+					
+					// Пробуем несколько вариантов путей
+					const paths = [
+						'./js/shop/products.json',
+						'/js/shop/products.json',
+						'../js/shop/products.json',
+						'../../js/shop/products.json'
+					];
+					
+					// Пробуем каждый путь по очереди
+					this.tryLoadProducts(paths, 0, shopCartData, resolve);
+				} else {
+					console.log('Корзина пуста');
+					resolve();
+				}
+			} catch (error) {
+				console.error('Ошибка при загрузке данных корзины:', error);
 				this.cartItems = [];
-
-				// Загружаем данные о товарах для получения дополнительной информации
-				fetch('../js/shop/products.json')
-					.then(response => response.json())
-					.then(products => {
-						// Преобразуем данные корзины
-						for (const productId in shopCartData) {
-							const quantity = shopCartData[productId];
-							const product = products.find(p => p.id === productId);
-
-							if (product) {
-								this.cartItems.push({
-									id: product.id,
-									title: product.title,
-									description: product.description,
-									price: product.price,
-									image: product.image,
-									quantity: quantity,
-								});
-							}
-						}
-						// Обновляем отображение после загрузки данных
-						this.updateUI();
-					})
-					.catch(error => {
-						console.error('Ошибка при загрузке данных о товарах:', error);
-					});
+				resolve();
 			}
-		} catch (error) {
-			console.error('Ошибка при загрузке данных корзины:', error);
-			this.cartItems = [];
-		}
+		});
 	}
 
 	/**
@@ -270,5 +287,56 @@ class Basket {
 
 // Инициализация корзины при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-	new Basket();
+	// Добавляем метод для последовательной проверки разных путей до products.json
+Basket.prototype.tryLoadProducts = function(paths, index, shopCartData, resolve) {
+	if (index >= paths.length) {
+		console.error('Не удалось загрузить products.json ни по одному из путей');
+		resolve();
+		return;
+	}
+	
+	const path = paths[index];
+	console.log(`Пробуем загрузить из ${path}`);
+	
+	fetch(path)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			console.log(`Успешно загружен файл из ${path}`);
+			return response.json();
+		})
+		.then(products => {
+			console.log('Получены данные о товарах:', products);
+			
+			// Преобразуем данные корзины
+			for (const productId in shopCartData) {
+				const quantity = shopCartData[productId];
+				// Исправляем проблему с типами: преобразуем productId в число, для сравнения с p.id
+				const numericProductId = parseInt(productId, 10);
+				const product = products.find(p => p.id === numericProductId);
+				console.log(`Поиск товара ID: ${productId} (${numericProductId}), найден:`, product);
+
+				if (product) {
+					// Исправляем несоответствие имен полей между products.json и шаблоном
+					this.cartItems.push({
+						id: product.id,
+						title: product.name, // В JSON это поле называется 'name'
+						description: product.description,
+						price: product.price,
+						image: product.picture, // В JSON это поле называется 'picture'
+						quantity: quantity,
+					});
+				}
+			}
+			resolve();
+		})
+		.catch(error => {
+			console.error(`Ошибка при загрузке из ${path}:`, error);
+			// Пробуем следующий путь
+			this.tryLoadProducts(paths, index + 1, shopCartData, resolve);
+		});
+};
+
+new Basket();
 });

@@ -15,6 +15,11 @@ class ShopBottomMenu {
    * Инициализация нижнего меню корзины
    */
   init() {
+    // Проверяем, не находимся ли мы на странице корзины
+    if (this.isBasketPage()) {
+      return; // Если это страница корзины, не создаем нижнее меню
+    }
+    
     // Создаем элемент меню, если его еще нет на странице
     this.createMenuElement();
     
@@ -141,6 +146,14 @@ class ShopBottomMenu {
    */
   formatAmount(amount) {
     return new Intl.NumberFormat('ru-RU').format(amount) + ' руб.';
+  }
+  
+  /**
+   * Проверка, находимся ли мы на странице корзины
+   * @returns {boolean} true, если это страница корзины
+   */
+  isBasketPage() {
+    return window.location.pathname.endsWith('basket.html');
   }
   
   /**
