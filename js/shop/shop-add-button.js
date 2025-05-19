@@ -125,10 +125,14 @@ class ShopAddButton {
   }
 
   /**
-   * Сохранение корзины в localStorage
+   * Сохранение корзины в localStorage и оповещение об изменениях
    */
   saveCart() {
     localStorage.setItem('shopCart', JSON.stringify(this.cart));
+    
+    // Создаем и диспетчеризуем событие обновления корзины
+    const event = new CustomEvent('cartUpdated');
+    document.dispatchEvent(event);
   }
 
   /**

@@ -6,6 +6,7 @@ import '../modules/popup.js';
 import '../modules/scrolling.js';
 import './shop-add-button.js';
 import './shop-cards.js';
+import './bottom-menu.js';
 
 // Инициализация компонентов
 document.addEventListener('DOMContentLoaded', () => {
