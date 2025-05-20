@@ -21,19 +21,86 @@ export default class ThemeSwitch {
     // Создаем элемент переключателя
     this.createSwitchElement();
 
+    // Если мы на странице магазина, то не нужно настраивать переключатель
+    if (this.isShopPage()) {
+      return; 
+    }
+    
+    // Проверяем наличие элемента переключателя
+    if (!this.switchElement) {
+      return;
+    }
+
     // Добавляем обработчик события
-    this.switchElement
-      .querySelector('.theme-switch__input')
-      .addEventListener('change', this.toggleTheme.bind(this));
+    const input = this.switchElement.querySelector('.theme-switch__input');
+    if (input) {
+      input.addEventListener('change', this.toggleTheme.bind(this));
+    }
 
     // Проверяем сохраненную тему
     this.checkSavedTheme();
   }
 
   /**
+   * Проверяет, находимся ли мы на странице магазина
+   * @returns {boolean} true, если текущая страница - shop.html или basket.html
+   */
+  isShopPage() {
+    const path = window.location.pathname.toLowerCase();
+    return path.includes('shop.html') || path.includes('basket.html');
+  }
+  
+  /**
+   * Применяет выбранную тему
+   * @param {string} theme - Имя темы ('it' или 'music')
+   */
+  applyTheme(theme) {
+    if (theme === 'music') {
+      // Применяем музыкальную тему
+      this.currentTheme = 'music';
+      try {
+        ThemeSwitchColors.applyMusicTheme();
+        this.textsManager.applyMusicTheme();
+        ThemeSwitchProjects.loadMusicProjectCards();
+      } catch (e) {
+        console.log('Не удалось применить музыкальную тему:', e);
+      }
+    } else {
+      // Применяем IT тему по умолчанию
+      this.currentTheme = 'it';
+      try {
+        ThemeSwitchColors.applyITTheme();
+        this.textsManager.applyITTheme();
+        ThemeSwitchProjects.loadITProjectCards();
+      } catch (e) {
+        console.log('Не удалось применить IT тему:', e);
+      }
+    }
+    
+    // Сохраняем выбранную тему
+    try {
+      this.saveTheme();
+    } catch (e) {
+      console.log('Не удалось сохранить тему:', e);
+    }
+  }
+
+  /**
    * Создает элемент переключателя темы
    */
   createSwitchElement() {
+    // На страницах магазина используем фиксированную тему "ШЕ"
+    if (this.isShopPage()) {
+      this.currentTheme = 'it'; // Фиксируем тему "ШЕ" для магазина
+      try {
+        // Напрямую вызываем методы темы, избегая вызова applyTheme
+        ThemeSwitchColors.applyITTheme();
+      } catch (e) {
+        console.log('Не удалось применить IT тему для магазина:', e);
+      }
+      return;
+    }
+    
     // Получаем ссылку на элемент, который нужно заменить
     const logoElement = document.querySelector('.header__logo');
     if (!logoElement) return;

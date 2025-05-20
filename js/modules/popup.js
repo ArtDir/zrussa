@@ -48,6 +48,13 @@ function handleOverlayClick(event) {
 // Функция инициализации модального окна
 export function initPopup() {
 	const overlay = document.getElementById('overlay');
+	
+	// Добавляем проверку наличия элемента overlay на странице
+	if (!overlay) {
+		// На этой странице нет модальных окон, прерываем инициализацию
+		return;
+	}
+	
 	const closeButton = overlay.querySelector('.popup__close');
 
 	// Удаляем старые обработчики, если они были добавлены
