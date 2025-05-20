@@ -8,6 +8,7 @@ import './shop-add-button.js';
 import './shop-cards.js';
 import './bottom-menu.js';
 import './basket.js'; // Импортируем логику корзины
+import './order.js'; // Импортируем логику оформления заказа
 
 // Инициализация компонентов
 document.addEventListener('DOMContentLoaded', () => {

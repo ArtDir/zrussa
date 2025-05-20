@@ -60,6 +60,11 @@ module.exports = {
 			filename: 'basket.html',
 			chunks: ['shop']
 		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'order.html'),
+			filename: 'order.html',
+			chunks: ['shop']
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: 'images', to: 'images' },
