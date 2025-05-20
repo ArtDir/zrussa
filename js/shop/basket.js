@@ -127,40 +127,96 @@ class Basket {
 	 * Отображение товаров в корзине
 	 */
 	renderCartItems() {
-		// Вся функция временно закомментирована, так как мы хотим верстать корзину вручную
-		console.log('Функция отрисовки товаров временно отключена');
-		return;
+		console.log('Рендерим товары в существующей HTML-структуре');
 
-		/*
-		if (!this.basketContent) return;
-
-		// Очищаем контейнер корзины
-		this.basketContent.innerHTML = '';
-
-		if (this.cartItems.length === 0) {
-			this.basketContent.innerHTML =
-				'<div class="basket__empty">Ваша корзина пуста</div>';
+		// Получаем контейнер для товаров
+		const productsContainer = document.querySelector('.basket__content-products');
+		if (!productsContainer) {
+			console.error('Не найден контейнер для товаров');
 			return;
 		}
 
-		// Создаем элементы для каждого товара в корзине
+		// Очищаем контейнер товаров
+		productsContainer.innerHTML = '';
+
+		// Получаем элемент с итоговой суммой
+		const totalCostElement = document.querySelector('.basket__content-total_cost h3');
+
+		if (this.cartItems.length === 0) {
+			console.log('Корзина пуста');
+			productsContainer.innerHTML = 
+				'<div class="basket__empty">Ваша корзина пуста</div>';
+			
+			if (totalCostElement) {
+				totalCostElement.textContent = 'Итого: 0 руб.';
+			}
+			return;
+		}
+
+		// Теперь создаем товары в соответствии с нашей HTML-структурой
+		let totalCost = 0;
+
 		this.cartItems.forEach(item => {
-			const itemElement = this.createCartItemElement(item);
-			this.basketContent.appendChild(itemElement);
+			totalCost += item.price * item.quantity;
+			
+			// Создаем HTML-элемент товара в соответствии с существующей версткой
+			const itemElement = document.createElement('div');
+			itemElement.className = 'basket__content-products_item';
+			itemElement.dataset.id = item.id;
+
+			itemElement.innerHTML = `
+				<div class="basket__content-products_item-image">
+					<img src="${item.image}" alt="${item.title}" loading="lazy" />
+				</div>
+				<div class="basket__content-products_item-description">
+					<p>${item.title}</p>
+					<p><i>Автор: ${item.author}</i></p>
+					<div class="basket-products__item-counter">
+						<button class="basket-products__item-counter__button button decrease-button">
+							<img src="images/icons/button_minus.svg" alt="" class="basket-products__item-counter-icon" />
+						</button>
+						<div class="basket-products__item-counter__count">
+							<img src="images/icons/shop_basket.svg" alt="" class="basket-products__item-button-icon" />
+							${item.quantity}
+						</div>
+						<button class="basket-products__item-counter__button button increase-button">
+							<img src="images/icons/button_plus.svg" alt="" class="basket-products__item-counter-icon" />
+						</button>
+					</div>
+					<p><b>${this.formatAmount(item.price * item.quantity)} руб.</b></p>
+				</div>
+				<div class="basket__content-products_item-close">
+					<button class="cross remove-button">
+						<img src="/images/icons/cross.svg" alt="close" />
+					</button>
+				</div>
+			`;
+
+			// Добавляем обработчики событий
+			const decreaseButton = itemElement.querySelector('.decrease-button');
+			const increaseButton = itemElement.querySelector('.increase-button');
+			const removeButton = itemElement.querySelector('.remove-button');
+
+			decreaseButton.addEventListener('click', () => this.decreaseQuantity(item.id));
+			increaseButton.addEventListener('click', () => this.increaseQuantity(item.id));
+			removeButton.addEventListener('click', () => this.removeItem(item.id));
+
+			productsContainer.appendChild(itemElement);
 		});
 
-		// Добавляем кнопку оформления заказа
-		const checkoutButton = document.createElement('button');
-		checkoutButton.className = 'basket__checkout-button button';
-		checkoutButton.textContent = 'Оформить заказ';
-		checkoutButton.addEventListener('click', () => this.handleCheckout());
+		// Обновляем итоговую сумму
+		if (totalCostElement) {
+			totalCostElement.textContent = `Итого: ${this.formatAmount(totalCost)} руб.`;
+		}
 
-		const buttonContainer = document.createElement('div');
-		buttonContainer.className = 'basket__button-container';
-		buttonContainer.appendChild(checkoutButton);
-
-		this.basketContent.appendChild(buttonContainer);
-		*/
+		// Добавляем обработчик для кнопки заказа
+		const orderButton = document.querySelector('.basket__content-total_cost-button');
+		if (orderButton) {
+			// Удаляем старые обработчики
+			const newOrderButton = orderButton.cloneNode(true);
+			orderButton.parentNode.replaceChild(newOrderButton, orderButton);
+			newOrderButton.addEventListener('click', () => this.handleCheckout());
+		}
 	}
 
 	/**
@@ -284,6 +340,7 @@ class Basket {
 	 * Обновление UI после изменений в корзине
 	 */
 	updateUI() {
+		console.log('Обновляем интерфейс корзины');
 		this.renderCartItems();
 		this.updateDescription();
 	}
@@ -343,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
 							id: product.id,
 							title: product.name, // В JSON это поле называется 'name'
 							description: product.description,
+							author: product.author, // Добавляем поле автора
 							price: product.price,
 							image: product.picture, // В JSON это поле называется 'picture'
 							quantity: quantity,
@@ -358,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 	};
 
-	// Отключаем инициализацию корзины для ручной верстки
-	console.log('Инициализация Basket отключена для ручной верстки');
-	// new Basket(); - Отключено для ручной верстки
+	// Включаем инициализацию корзины с работой с готовой HTML-структурой
+	console.log('Инициализируем Basket для работы с данными в HTML-шаблоне');
+	new Basket();
 });
