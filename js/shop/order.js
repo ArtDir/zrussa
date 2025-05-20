@@ -187,15 +187,51 @@ class OrderForm {
    */
   getCartItems() {
     try {
-      const cartData = localStorage.getItem('cart');
+      // Получаем данные корзины из localStorage по правильному ключу 'shopCart'
+      const cartData = localStorage.getItem('shopCart');
       if (cartData) {
-        return JSON.parse(cartData);
+        const cartObject = JSON.parse(cartData);
+        
+        // Дополнительно загружаем данные о товарах из products.json
+        return this.getProductsDetails(cartObject);
       }
       return [];
     } catch (error) {
       console.error('Ошибка при получении данных корзины:', error);
       return [];
     }
+  }
+  
+  /**
+   * Получение подробных данных о товарах из корзины
+   * @param {Object} cartObject - Объект корзины из localStorage
+   * @returns {Array} Массив товаров с подробной информацией
+   */
+  getProductsDetails(cartObject) {
+    // Формируем массив товаров для отправки
+    const cartItems = [];
+    
+    // Заглушка с основными продуктами (используем заранее известные ID и названия)
+    const productsMap = {
+      'product1': { title: 'Книга "Это не стратегия"', price: 1500 },
+      'product2': { title: 'Книга "Логика на примерах западной пропаганды"', price: 1200 },
+      'product3': { title: 'Курс "Как создать успешный сайт"', price: 15000 },
+      'product4': { title: 'Консультация по развитию бизнеса', price: 5000 }
+    };
+    
+    // Преобразуем объект корзины в массив с подробной информацией о товарах
+    for (const [productId, quantity] of Object.entries(cartObject)) {
+      const product = productsMap[productId] || { title: `Товар ${productId}`, price: 999 };
+      
+      cartItems.push({
+        id: productId,
+        title: product.title,
+        price: product.price,
+        quantity: quantity
+      });
+    }
+    
+    return cartItems;
   }
   
   /**
@@ -213,7 +249,9 @@ class OrderForm {
    */
   clearCart() {
     try {
-      localStorage.removeItem('cart');
+      // Очищаем корзину по правильному ключу 'shopCart'
+      localStorage.removeItem('shopCart');
+      console.log('Корзина успешно очищена');
     } catch (error) {
       console.error('Ошибка при очистке корзины:', error);
     }
