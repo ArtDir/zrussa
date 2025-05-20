@@ -100,8 +100,35 @@ class OrderForm {
     const zipCode = this.form.querySelector('input[placeholder="Почтовый индекс"]').value.trim();
     const address = this.form.querySelector('input[placeholder="Адрес доставки"]').value.trim();
     
-    // Создаем объект с данными заказа
+    // Получаем данные о товарах из корзины
+    const cartItems = this.getCartItems();
+    
+    // Формируем описание заказа для поля projectDescription
+    let projectDescription = 'Заказ из интернет-магазина:\n';
+    
+    if (cartItems && cartItems.length > 0) {
+      // Добавляем информацию о каждом товаре
+      projectDescription += cartItems.map((item, index) => {
+        return `${index + 1}. ${item.title || 'Товар'} - ${item.quantity || 1} шт. x ${item.price || 0} руб. = ${(item.quantity || 1) * (item.price || 0)} руб.`;
+      }).join('\n');
+      
+      // Подсчитываем общую сумму
+      const totalSum = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
+      projectDescription += `\n\nИтого: ${totalSum} руб.`;
+    } else {
+      projectDescription += 'Корзина пуста';
+    }
+    
+    // Формируем контактную информацию для поля contactInfo
+    const contactInfo = `ФИО: ${fullName}\nТелефон: ${phone}\nEmail: ${email}\nСтрана: ${country}\nГород: ${city}\nИндекс: ${zipCode}\nАдрес: ${address}`;
+    
+    // Создаем объект с данными в формате, идентичном основной форме
     const formData = {
+      projectDescription,
+      contactInfo,
+      submissionTime: new Date().toISOString(),
+      orderType: 'shop_order', // Дополнительное поле для различения форм
+      // Сохраняем исходные данные для возможной дополнительной обработки
       fullName,
       phone,
       email,
@@ -109,10 +136,7 @@ class OrderForm {
       city,
       zipCode,
       address,
-      orderType: 'shop_order', // Тип заказа для различения от основной формы
-      submissionTime: new Date().toISOString(),
-      // Получаем данные о товарах из localStorage
-      cartItems: this.getCartItems()
+      cartItems
     };
     
     try {
