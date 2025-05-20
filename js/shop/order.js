@@ -107,9 +107,16 @@ class OrderForm {
     let projectDescription = 'Заказ из интернет-магазина:\n';
     
     if (cartItems && cartItems.length > 0) {
-      // Добавляем информацию о каждом товаре
+      // Добавляем информацию о каждом товаре в формате:
+      // 1. Название товара - 2 шт. x 50000 руб. = 100000 руб.
       projectDescription += cartItems.map((item, index) => {
-        return `${index + 1}. ${item.title || 'Товар'} - ${item.quantity || 1} шт. x ${item.price || 0} руб. = ${(item.quantity || 1) * (item.price || 0)} руб.`;
+        const title = item.title || 'Товар';
+        const author = item.author ? ` (Автор: ${item.author})` : '';
+        const quantity = item.quantity || 1;
+        const price = item.price || 0;
+        const total = quantity * price;
+        
+        return `${index + 1}. ${title}${author} - ${quantity} шт. x ${price} руб. = ${total} руб.`;
       }).join('\n');
       
       // Подсчитываем общую сумму
@@ -211,21 +218,29 @@ class OrderForm {
     // Формируем массив товаров для отправки
     const cartItems = [];
     
-    // Заглушка с основными продуктами (используем заранее известные ID и названия)
+    // Точные данные о товарах из products.json
     const productsMap = {
-      'product1': { title: 'Книга "Это не стратегия"', price: 1500 },
-      'product2': { title: 'Книга "Логика на примерах западной пропаганды"', price: 1200 },
-      'product3': { title: 'Курс "Как создать успешный сайт"', price: 15000 },
-      'product4': { title: 'Консультация по развитию бизнеса', price: 5000 }
+      '1': { title: 'Это не стратегия', price: 50000, author: 'Юрий Мороз' },
+      '2': { title: 'Логика на примерах западной пропаганды', price: 5000, author: 'Павел Макевич' },
+      '3': { title: 'Как при помощи правого полушария создавать новые идеи', price: 5000, author: 'Юрий Мороз' },
+      '4': { title: 'Курс по развитию бизнеса', price: 50000, author: 'Юрий Мороз' },
+      '5': { title: 'Логика мышления', price: 5000, author: 'Павел Макевич' },
+      '6': { title: 'Креативное мышление', price: 5000, author: 'Юрий Мороз' }
     };
     
     // Преобразуем объект корзины в массив с подробной информацией о товарах
     for (const [productId, quantity] of Object.entries(cartObject)) {
-      const product = productsMap[productId] || { title: `Товар ${productId}`, price: 999 };
+      // Очищенный ID продукта (без префикса "product")
+      const cleanId = productId.replace('product', '');
       
+      // Получаем информацию о товаре из нашего справочника
+      const product = productsMap[cleanId] || { title: `Товар ${cleanId}`, price: 999 };
+      
+      // Добавляем товар в массив
       cartItems.push({
-        id: productId,
+        id: cleanId,
         title: product.title,
+        author: product.author || '',
         price: product.price,
         quantity: quantity
       });
