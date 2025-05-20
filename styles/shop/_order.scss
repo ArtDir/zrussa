@@ -32,12 +32,17 @@
 		display: flex;
 		gap: 16px;
 
-		// Отступ после контактной информации
+		&--contacts,
+		&--location {
+			> * {
+				flex: 1;
+			}
+		}
+
 		&--contacts {
 			margin-bottom: 32px;
 		}
 
-		// Отступ перед кнопкой отправки
 		&--submit {
 			margin-top: 40px;
 			justify-content: center;
@@ -68,9 +73,10 @@
 			box-shadow: 0 0 0 1px var(--primary-error);
 		}
 
+		/* Переопределяем браузерные стили для invalid */
 		&:invalid {
-			background-color: rgba(221, 107, 87, 0.05);
-			box-shadow: 0 0 0 1px var(--primary-error);
+			background-color: var(--primary-white) !important;
+			box-shadow: none !important;
 		}
 	}
 
@@ -88,25 +94,6 @@
 		&:hover {
 			background-color: var(--primary-link);
 			color: var(--primary-white);
-		}
-	}
-}
-
-// Адаптивность для мобильных устройств
-@media screen and (max-width: 768px) {
-	.order-form {
-		&__row {
-			flex-direction: column;
-			gap: 12px;
-
-			&--contacts,
-			&--location {
-				flex-direction: column;
-			}
-		}
-
-		&__submit {
-			width: 100%;
 		}
 	}
 }

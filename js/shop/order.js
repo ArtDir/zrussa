@@ -16,6 +16,31 @@ class OrderForm {
   init() {
     if (!this.form) return;
     
+    // Полностью сбрасываем форму при загрузке страницы
+    this.form.reset();
+    
+    // Удаляем все классы валидации из каждого поля
+    const inputs = this.form.querySelectorAll('input');
+    inputs.forEach(input => {
+      // Сбрасываем стили валидации
+      input.classList.remove('invalid');
+      input.removeAttribute('aria-invalid');
+      input.setCustomValidity('');
+      
+      // Добавляем обработчики для очистки состояния при фокусе или вводе
+      input.addEventListener('focus', () => {
+        input.classList.remove('invalid');
+        input.removeAttribute('aria-invalid');
+        input.setCustomValidity('');
+      });
+      
+      input.addEventListener('input', () => {
+        input.classList.remove('invalid');
+        input.removeAttribute('aria-invalid');
+        input.setCustomValidity('');
+      });
+    });
+    
     // Применяем валидацию телефона
     if (this.phoneInput) {
       this.phoneInput.addEventListener('input', this.formatPhoneNumber.bind(this));
@@ -170,15 +195,12 @@ class OrderForm {
       submitButton.disabled = false;
       
       if (response.ok) {
-        // Очищаем форму и корзину
-        this.clearForm();
+        // Очищаем корзину до перенаправления
         this.clearCart();
         
-        // Показываем сообщение об успехе
-        alert('Заказ успешно оформлен! Спасибо за покупку.');
-        
-        // Редирект на главную страницу (в будущем можно изменить на страницу оплаты)
-        window.location.href = '/';
+        // Немедленно перенаправляем на страницу успеха
+        // Вместо очистки и показа очищенной формы показываем новую страницу
+        window.location.href = 'success.html'; // Убрал начальный слэш, используем относительный путь
       } else {
         throw new Error('Не удалось отправить заказ');
       }
@@ -250,12 +272,19 @@ class OrderForm {
   }
   
   /**
-   * Очистка формы
+   * Полная очистка формы и сброс состояния валидации
    */
   clearForm() {
+    // Сбрасываем всю форму (это лучше, чем просто очищать значения)
+    this.form.reset();
+    
+    // Сбрасываем состояние валидации для каждого поля
     const inputs = this.form.querySelectorAll('input');
     inputs.forEach(input => {
-      input.value = '';
+      // Удаляем классы стилей для невалидных полей
+      input.classList.remove('invalid');
+      // Сбрасываем пользовательскую валидацию
+      input.setCustomValidity('');
     });
   }
   

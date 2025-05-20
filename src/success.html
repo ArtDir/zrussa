@@ -6,20 +6,22 @@
 			name="viewport"
 			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
 		/>
+		<!-- Используем только SVG-иконку с правильным путем -->
 		<link rel="icon" type="image/svg+xml" href="images/zrussa.svg" />
+		<!-- Этот тег предотвращает автоматический запрос favicon.ico -->
 		<link rel="icon" href="data:," />
-		<title>Оформление заказа</title>
+		<title>Заказ оформлен</title>
 	</head>
 	<body>
 		<header class="header">
 			<div class="header__inner container">
-				<a href="/basket.html" class="header__home-link">
+				<a href="/" class="header__home-link">
 					<img
 						src="images/icons/button_arrow_left.svg"
 						alt=""
 						class="header__home-icon"
 					/>
-					корзина
+					на главную
 				</a>
 				<nav class="header__menu hidden-mobile">
 					<ul class="header__menu-list">
@@ -49,45 +51,12 @@
 		<main class="content">
 			<section class="section container">
 				<div class="section__header">
-					<h1 class="section__title">Оформление заказа</h1>
+					<h1 class="section__title">Спасибо, заказ оформлен</h1>
 				</div>
 				<div class="section__body">
-					<!-- Здесь будет содержимое магазина -->
 					<div class="order">
 						<div class="order__description">
-							<p>
-								Пожалуйста, заполните свои данные в форме ниже.</br>
-Доставка по России входит в стоимость товаров.
-							</p>
-						</div>
-						<div class="order__content">
-							<form class="order-form" id="orderForm" novalidate>
-								<div class="order-form__row">
-									<input type="text" class="order-form__input" placeholder="Имя и фамилия" required>
-								</div>
-								
-								<div class="order-form__row order-form__row--contacts">
-									<input type="tel" class="order-form__input" placeholder="Мобильный телефон" required>
-									<input type="email" class="order-form__input" placeholder="Эл. почта" required>
-								</div>
-								
-								<div class="order-form__row order-form__row--location">
-									<input type="text" class="order-form__input" placeholder="Страна" required>
-									<input type="text" class="order-form__input" placeholder="Город" required>
-								</div>
-								
-								<div class="order-form__row">
-									<input type="text" class="order-form__input" placeholder="Почтовый индекс" required>
-								</div>
-								
-								<div class="order-form__row">
-									<input type="text" class="order-form__input" placeholder="Адрес доставки" required>
-								</div>
-								
-								<div class="order-form__row order-form__row--submit">
-									<button type="submit" class="order-form__submit button">Перейти к оплате</button>
-								</div>
-							</form>
+							<p>Мы свяжемся с вами по поводу оплаты в ближайшее время.</p>
 						</div>
 					</div>
 				</div>
