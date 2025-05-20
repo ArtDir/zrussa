@@ -61,7 +61,33 @@
 							</p>
 						</div>
 						<div class="order__content">
-							12345
+							<form class="order-form">
+								<div class="order-form__row">
+									<input type="text" class="order-form__input" placeholder="Имя и фамилия" required>
+								</div>
+								
+								<div class="order-form__row order-form__row--contacts">
+									<input type="tel" class="order-form__input" placeholder="Мобильный телефон" required>
+									<input type="email" class="order-form__input" placeholder="Эл. почта" required>
+								</div>
+								
+								<div class="order-form__row order-form__row--location">
+									<input type="text" class="order-form__input" placeholder="Страна" required>
+									<input type="text" class="order-form__input" placeholder="Город" required>
+								</div>
+								
+								<div class="order-form__row">
+									<input type="text" class="order-form__input" placeholder="Почтовый индекс" required>
+								</div>
+								
+								<div class="order-form__row">
+									<input type="text" class="order-form__input" placeholder="Адрес доставки" required>
+								</div>
+								
+								<div class="order-form__row order-form__row--submit">
+									<button type="submit" class="order-form__submit button">Перейти к оплате</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
