@@ -189,7 +189,7 @@ class Basket {
 					</div>
 					<p><b>${this.formatAmount(item.price * item.quantity)} руб.</b></p>
 				</div>
-				<div class="basket__content-products_item-close">
+				<div class="basket__content-products_item-close hidden-mobile">
 					<button class="cross remove-button">
 						<img src="/images/icons/cross.svg" alt="close" />
 					</button>
@@ -201,9 +201,18 @@ class Basket {
 			const increaseButton = itemElement.querySelector('.increase-button');
 			const removeButton = itemElement.querySelector('.remove-button');
 
-			decreaseButton.addEventListener('click', () =>
-				this.decreaseQuantity(item.id)
-			);
+			// Добавляем класс disabled для кнопки минус, если количество товара равно 1
+			if (item.quantity === 1) {
+				decreaseButton.classList.add('disabled');
+			}
+
+			decreaseButton.addEventListener('click', () => {
+				// Не уменьшаем количество, если кнопка заблокирована
+				if (!decreaseButton.classList.contains('disabled')) {
+					this.decreaseQuantity(item.id);
+				}
+			});
+
 			increaseButton.addEventListener('click', () =>
 				this.increaseQuantity(item.id)
 			);
@@ -212,11 +221,12 @@ class Basket {
 			productsContainer.appendChild(itemElement);
 		});
 
-		// Обновляем итоговую сумму
+		// Обновляем итоговую сумму с неразрывными пробелами
 		if (totalCostElement) {
-			totalCostElement.textContent = `Итого: ${this.formatAmount(
+			// Используем innerHTML вместо textContent для поддержки HTML-сущностей
+			totalCostElement.innerHTML = `Итого: ${this.formatAmount(
 				totalCost
-			)} руб.`;
+			).replace(/ /g, '&nbsp;')}&nbsp;руб.`;
 		}
 
 		// Добавляем обработчик для кнопки заказа
@@ -365,9 +375,27 @@ class Basket {
 		console.log(`Увеличиваем количество товара ID: ${productId}`);
 		const item = this.cartItems.find(item => item.id === productId);
 		if (item) {
+			// Запоминаем предыдущее количество
+			const oldQuantity = item.quantity;
+
+			// Увеличиваем количество
 			item.quantity += 1;
+
+			// Сохраняем данные и обновляем UI
 			this.saveCartData();
 			this.updateUI();
+
+			// Если количество увеличилось с 1 до 2, нужно снять блокировку с кнопки минус
+			if (oldQuantity === 1) {
+				// Находим все кнопки минус для этого товара
+				const itemElement = document.querySelector(`[data-id="${productId}"]`);
+				if (itemElement) {
+					const decreaseButton = itemElement.querySelector('.decrease-button');
+					if (decreaseButton) {
+						decreaseButton.classList.remove('disabled');
+					}
+				}
+			}
 		}
 	}
 

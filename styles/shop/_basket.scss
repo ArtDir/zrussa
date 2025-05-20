@@ -10,6 +10,20 @@
 	display: grid;
 	grid-template-columns: 3fr 1fr;
 	gap: 32px;
+
+	@include tablet {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		width: 70%;
+		margin: 0;
+	}
+
+	@include mobile {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		width: 100%;
+		gap: 20px;
+	}
 }
 
 .basket__content-products {
@@ -21,7 +35,12 @@
 		display: flex;
 		margin-bottom: 40px;
 
+		@include small-mobile {
+			flex-direction: column;
+		}
+
 		&-image {
+			min-width: 5em;
 			max-width: 8em;
 			margin-right: 0;
 		}
@@ -48,11 +67,16 @@
 	background-color: var(--primary-white);
 	border-radius: var(--border-radius-card);
 	padding: 30px 20px;
-	max-height: 16em;
+	align-self: start; // Важно: это предотвратит растягивание в grid-сетке
+
+	@include mobile {
+		padding: 20px 15px;
+	}
 }
 
 .basket-products__item-counter {
-	width: 230px;
+	max-width: 230px;
+	min-width: 170px;
 	height: 50px;
 	margin: 20px 0px;
 	border-radius: var(--border-radius-card);
@@ -115,6 +139,28 @@
 	width: 30px;
 	height: 30px;
 	object-fit: contain;
+	transition: background-color 0.3s ease;
+
+	img {
+		transition: filter 0.3s ease;
+	}
+}
+
+.basket-products__item-counter__button.disabled {
+	background-color: var(--primary-color);
+	cursor: not-allowed;
+	opacity: 0.7;
+	border: 2px solid rgba(0, 0, 0, 0.5); // Полупрозрачная обводка
+
+	&:hover {
+		img {
+			filter: none;
+		}
+	}
+
+	img {
+		opacity: 0.5;
+	}
 }
 
 .cross {
@@ -145,6 +191,7 @@
 .basket__content-total_cost h3 {
 	margin: 0 0 20px 0;
 	text-align: center;
+	line-height: 1em;
 }
 
 .basket__content-total_cost-button {
