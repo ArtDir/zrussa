@@ -109,9 +109,9 @@ class Basket {
 			itemsText = 'товара';
 		}
 
-		this.basketDescription.textContent = `${itemCount} ${itemsText} на сумму ${this.formatAmount(
+		this.basketDescription.innerHTML = `${itemCount} ${itemsText} на сумму ${this.formatAmount(
 			totalAmount
-		)} руб. Доставка по России входит в стоимость товаров.`;
+		)} руб.<br> Доставка по России входит в стоимость товаров.`;
 	}
 
 	/**
@@ -130,7 +130,9 @@ class Basket {
 		console.log('Рендерим товары в существующей HTML-структуре');
 
 		// Получаем контейнер для товаров
-		const productsContainer = document.querySelector('.basket__content-products');
+		const productsContainer = document.querySelector(
+			'.basket__content-products'
+		);
 		if (!productsContainer) {
 			console.error('Не найден контейнер для товаров');
 			return;
@@ -140,13 +142,15 @@ class Basket {
 		productsContainer.innerHTML = '';
 
 		// Получаем элемент с итоговой суммой
-		const totalCostElement = document.querySelector('.basket__content-total_cost h3');
+		const totalCostElement = document.querySelector(
+			'.basket__content-total_cost h3'
+		);
 
 		if (this.cartItems.length === 0) {
 			console.log('Корзина пуста');
-			productsContainer.innerHTML = 
-				'<div class="basket__empty">Ваша корзина пуста</div>';
-			
+			productsContainer.innerHTML =
+				'<div class="basket__empty">Ваша корзина пуста. Выберите хотябы один товар на <a href="/shop.html">витрине</a>.';
+
 			if (totalCostElement) {
 				totalCostElement.textContent = 'Итого: 0 руб.';
 			}
@@ -158,7 +162,7 @@ class Basket {
 
 		this.cartItems.forEach(item => {
 			totalCost += item.price * item.quantity;
-			
+
 			// Создаем HTML-элемент товара в соответствии с существующей версткой
 			const itemElement = document.createElement('div');
 			itemElement.className = 'basket__content-products_item';
@@ -197,8 +201,12 @@ class Basket {
 			const increaseButton = itemElement.querySelector('.increase-button');
 			const removeButton = itemElement.querySelector('.remove-button');
 
-			decreaseButton.addEventListener('click', () => this.decreaseQuantity(item.id));
-			increaseButton.addEventListener('click', () => this.increaseQuantity(item.id));
+			decreaseButton.addEventListener('click', () =>
+				this.decreaseQuantity(item.id)
+			);
+			increaseButton.addEventListener('click', () =>
+				this.increaseQuantity(item.id)
+			);
 			removeButton.addEventListener('click', () => this.removeItem(item.id));
 
 			productsContainer.appendChild(itemElement);
@@ -206,11 +214,15 @@ class Basket {
 
 		// Обновляем итоговую сумму
 		if (totalCostElement) {
-			totalCostElement.textContent = `Итого: ${this.formatAmount(totalCost)} руб.`;
+			totalCostElement.textContent = `Итого: ${this.formatAmount(
+				totalCost
+			)} руб.`;
 		}
 
 		// Добавляем обработчик для кнопки заказа
-		const orderButton = document.querySelector('.basket__content-total_cost-button');
+		const orderButton = document.querySelector(
+			'.basket__content-total_cost-button'
+		);
 		if (orderButton) {
 			// Удаляем старые обработчики
 			const newOrderButton = orderButton.cloneNode(true);
@@ -343,6 +355,51 @@ class Basket {
 		console.log('Обновляем интерфейс корзины');
 		this.renderCartItems();
 		this.updateDescription();
+	}
+
+	/**
+	 * Увеличивает количество товара в корзине
+	 * @param {number} productId - ID товара
+	 */
+	increaseQuantity(productId) {
+		console.log(`Увеличиваем количество товара ID: ${productId}`);
+		const item = this.cartItems.find(item => item.id === productId);
+		if (item) {
+			item.quantity += 1;
+			this.saveCartData();
+			this.updateUI();
+		}
+	}
+
+	/**
+	 * Уменьшает количество товара в корзине или удаляет его, если количество становится 0
+	 * @param {number} productId - ID товара
+	 */
+	decreaseQuantity(productId) {
+		console.log(`Уменьшаем количество товара ID: ${productId}`);
+		const item = this.cartItems.find(item => item.id === productId);
+		if (item) {
+			item.quantity -= 1;
+
+			if (item.quantity <= 0) {
+				// Удаляем товар, если количество стало 0 или меньше
+				this.removeItem(productId);
+			} else {
+				this.saveCartData();
+				this.updateUI();
+			}
+		}
+	}
+
+	/**
+	 * Удаляет товар из корзины
+	 * @param {number} productId - ID товара
+	 */
+	removeItem(productId) {
+		console.log(`Удаляем товар ID: ${productId}`);
+		this.cartItems = this.cartItems.filter(item => item.id !== productId);
+		this.saveCartData();
+		this.updateUI();
 	}
 
 	/**
