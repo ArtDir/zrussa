@@ -52,14 +52,25 @@
 		border-radius: var(--border-radius-card);
 		background-color: var(--primary-white);
 		border: 0px;
+		transition: box-shadow 0.2s, background-color 0.2s;
 
 		&:focus {
 			outline: none;
-			border-color: var(--primary-color);
+			box-shadow: 0 0 0 2px var(--primary-link);
 		}
 
 		&::placeholder {
 			color: #4f4f4f;
+		}
+
+		&.invalid {
+			background-color: rgba(221, 107, 87, 0.05);
+			box-shadow: 0 0 0 1px var(--primary-error);
+		}
+
+		&:invalid {
+			background-color: rgba(221, 107, 87, 0.05);
+			box-shadow: 0 0 0 1px var(--primary-error);
 		}
 	}
 
