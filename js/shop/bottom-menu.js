@@ -149,11 +149,12 @@ class ShopBottomMenu {
   }
   
   /**
-   * Проверка, находимся ли мы на странице корзины
-   * @returns {boolean} true, если это страница корзины
+   * Проверка, находимся ли мы на странице корзины или заказа
+   * @returns {boolean} true, если это страница корзины или заказа
    */
   isBasketPage() {
-    return window.location.pathname.endsWith('basket.html');
+    const path = window.location.pathname;
+    return path.endsWith('basket.html') || path.endsWith('order.html');
   }
   
   /**
