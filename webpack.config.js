@@ -70,6 +70,21 @@ module.exports = {
 			filename: 'success.html',
 			chunks: ['shop']
 		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'offer.html'),
+			filename: 'offer.html',
+			chunks: ['shop']
+		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'deliver.html'),
+			filename: 'deliver.html',
+			chunks: ['shop']
+		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'contacts.html'),
+			filename: 'contacts.html',
+			chunks: ['shop']
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: 'images', to: 'images' },
@@ -120,16 +135,16 @@ module.exports = {
 		},
 		hot: true,
 		liveReload: true,
-		port: 3002, // Изменили порт с 3001 на 3002, чтобы избежать конфликта
-		watchFiles: ['src/**/*.html'], // Добавляем отслеживание HTML-файлов для автоматического обновления
-		open: true, // Автоматически открывать браузер
+		port: 3000,
+		watchFiles: ['src/**/*.html'],
+		open: true,
 		devMiddleware: {
-			writeToDisk: true, // Записывать файлы на диск для корректной работы с HTML
+			writeToDisk: true,
 		},
 		client: {
-			overlay: true, // Показывать ошибки в оверлее в браузере
-			progress: true, // Показывать прогресс сборки
-			reconnect: true, // Автоматически переподключаться при потере соединения
+			overlay: true,
+			progress: true,
+			reconnect: true,
 		},
 	},
 }
