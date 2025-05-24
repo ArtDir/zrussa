@@ -1,4 +1,45 @@
+@use '../mixins' as *;
+@use '../media' as *;
+@use '../variables' as *;
+
 .shop__description {
 	padding-bottom: 2em;
 	max-width: 41em;
+}
+
+// Стили для футера и ссылок в нем
+.footer__body {
+	// Стандартный лейаут для десктопа
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	
+	// Адаптивный лейаут для мобильных и планшетов
+	@include mobile {
+		flex-direction: column;
+		gap: 10px;
+		text-align: center;
+	}
+	
+	@include tablet {
+		flex-direction: column;
+		gap: 15px;
+		text-align: center;
+	}
+}
+
+.footer__body-links {
+	p {
+		color: var(--primary-disable); // Цвет точек такой же, как у ссылок
+	}
+	
+	a {
+		color: var(--primary-disable);
+		text-decoration: none;
+		transition: text-decoration 0.2s ease-in-out;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }
