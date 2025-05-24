@@ -268,6 +268,12 @@ class OrderForm {
 			submitButton.disabled = false;
 
 			if (response.ok) {
+				// Очищаем корзину после успешной отправки заказа
+				localStorage.removeItem('shopCart');
+				
+				// Сохраняем флаг, что заказ был размещен
+				localStorage.setItem('orderPlaced', 'true');
+				
 				// Перенаправляем пользователя на страницу оплаты Робокассы
 				window.location.href = robokassaUrl;
 			} else {
@@ -310,40 +316,45 @@ class OrderForm {
 	getProductsDetails(cartObject) {
 		// Формируем массив товаров для отправки
 		const cartItems = [];
-
-		//
-		const productsMap = {
-			1: { title: 'Это не стратегия', price: 50000, author: 'Юрий Мороз' },
-			2: {
-				title: 'Логика на примерах западной пропаганды',
-				price: 5000,
-				author: 'Павел Макевич',
-			},
-			3: {
-				title: 'Как при помощи правого полушария создавать новые идеи',
-				price: 5000,
-				author: 'Юрий Мороз',
-			},
-			4: {
-				title: 'Курс по развитию бизнеса',
-				price: 50000,
-				author: 'Юрий Мороз',
-			},
-			5: { title: 'Логика мышления', price: 5000, author: 'Павел Макевич' },
-			6: { title: 'Креативное мышление', price: 5000, author: 'Юрий Мороз' },
-		};
-
+		
+		// Загружаем данные о товарах из products.json
+		let productsMap = {};
+		
+		try {
+			// Загружаем данные синхронно
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', '/js/shop/products.json', false);
+			xhr.send(null);
+			
+			if (xhr.status === 200) {
+				const productsArray = JSON.parse(xhr.responseText);
+				
+				// Преобразуем массив в объект для удобного доступа по id
+				productsArray.forEach(product => {
+					productsMap[product.id] = {
+						title: product.name,
+						price: product.price,
+						author: product.author
+					};
+				});
+			} else {
+				console.error('Ошибка загрузки данных о товарах:', xhr.status);
+			}
+		} catch (error) {
+			console.error('Ошибка при загрузке данных о товарах:', error);
+		}
+		
 		// Преобразуем объект корзины в массив с подробной информацией о товарах
 		for (const [productId, quantity] of Object.entries(cartObject)) {
 			// Очищенный ID продукта (без префикса "product")
 			const cleanId = productId.replace('product', '');
-
+			
 			// Получаем информацию о товаре из нашего справочника
 			const product = productsMap[cleanId] || {
 				title: `Товар ${cleanId}`,
 				price: 999,
 			};
-
+			
 			// Добавляем товар в массив
 			cartItems.push({
 				id: cleanId,
@@ -353,7 +364,7 @@ class OrderForm {
 				quantity: quantity,
 			});
 		}
-
+		
 		return cartItems;
 	}
 
