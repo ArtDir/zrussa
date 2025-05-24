@@ -135,16 +135,16 @@ module.exports = {
 		},
 		hot: true,
 		liveReload: true,
-		port: 3000,
-		watchFiles: ['src/**/*.html'],
-		open: true,
+		port: 3002, // Изменили порт с 3001 на 3002, чтобы избежать конфликта
+		watchFiles: ['src/**/*.html', 'src/offer.html', 'src/deliver.html', 'src/contacts.html'], // Добавляем отслеживание HTML-файлов для автоматического обновления
+		open: true, // Автоматически открывать браузер
 		devMiddleware: {
-			writeToDisk: true,
+			writeToDisk: true, // Записывать файлы на диск для корректной работы с HTML
 		},
 		client: {
-			overlay: true,
-			progress: true,
-			reconnect: true,
+			overlay: true, // Показывать ошибки в оверлее в браузере
+			progress: true, // Показывать прогресс сборки
+			reconnect: true, // Автоматически переподключаться при потере соединения
 		},
 	},
 }
