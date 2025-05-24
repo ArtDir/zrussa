@@ -46,6 +46,12 @@ class ShopBottomMenu {
       this.loadCartData();
       this.updateDisplay();
     });
+    
+    // Устанавливаем слушатель изменения размера окна для адаптивности в инспекторе
+    window.addEventListener('resize', () => {
+      // Обновляем отображение при изменении размера окна
+      this.updateDisplay();
+    });
   }
   
   /**
@@ -59,11 +65,17 @@ class ShopBottomMenu {
       return;
     }
     
+    // Определяем, является ли устройство мобильным
+    const isMobile = window.innerWidth <= 768;
+    
     // Создаем элемент меню
     const menuHTML = `
       <div class="shop-bottom-menu">
-        <p class="shop-bottom-menu__total">Товаров в корзине на сумму: 0 руб.</p>
-        <button class="shop-bottom-menu__button">перейти в корзину</button>
+        <div class="shop-bottom-menu__info">
+          <p class="shop-bottom-menu__total">Товаров ${isMobile ? 'на&nbsp;сумму:' : 'в&nbsp;корзине на&nbsp;сумму:'}</p>
+          <p class="shop-bottom-menu__amount">0 руб.</p>
+        </div>
+        <button class="shop-bottom-menu__button">${isMobile ? 'в&nbsp;корзину' : 'перейти в&nbsp;корзину'}</button>
       </div>
     `;
     
@@ -200,8 +212,23 @@ class ShopBottomMenu {
    */
   updateTotalText(amount) {
     if (this.totalElement) {
-      // Добавляем <strong> для выделения суммы жирным
-      this.totalElement.innerHTML = `Товаров в корзине на сумму: <strong>${this.formatAmount(amount)}</strong>`;
+      // Определяем, является ли устройство мобильным
+      const isMobile = window.innerWidth <= 768;
+      
+      // Используем разный текст для мобильных и десктопных устройств
+      this.totalElement.innerHTML = `Товаров ${isMobile ? 'на&nbsp;сумму:' : 'в&nbsp;корзине на&nbsp;сумму:'}`;
+      
+      // Обновляем сумму
+      const amountElement = this.menuElement.querySelector('.shop-bottom-menu__amount');
+      if (amountElement) {
+        amountElement.innerHTML = `<strong>${this.formatAmount(amount)}</strong>`;
+      }
+      
+      // Обновляем текст кнопки в зависимости от устройства
+      const button = this.menuElement.querySelector('.shop-bottom-menu__button');
+      if (button) {
+        button.innerHTML = isMobile ? 'в&nbsp;корзину' : 'перейти в&nbsp;корзину';
+      }
     }
   }
   

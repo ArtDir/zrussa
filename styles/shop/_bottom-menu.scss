@@ -26,15 +26,39 @@
 	&--visible {
 		transform: translateY(0);
 	}
+	
+	&__info {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		
+		@include tablet-above {
+			flex-direction: row;
+			align-items: center;
+			gap: 5px;
+		}
+	}
 
 	&__total {
 		font-weight: 300;
 		margin: 0;
+		font-size: 14px;
 		
-		strong {
-			font-weight: 700;
-			color: var(--primary-link);
-			transition: color 0.2s ease;
+		@include tablet-above {
+			font-size: 16px;
+		}
+	}
+	
+	&__amount {
+		margin: 0;
+		font-weight: 700;
+		color: var(--primary-link);
+		transition: color 0.2s ease;
+		font-size: 16px;
+		
+		@include tablet-above {
+			font-size: 16px;
+			margin-left: 5px;
 		}
 	}
 
@@ -43,15 +67,22 @@
 		color: var(--primary-white);
 		border: none;
 		border-radius: var(--border-radius-button);
-		padding: 6px 40px;
+		padding: 6px 15px;
 		cursor: pointer;
 		transition: background-color 0.3s ease;
 		border: 2px solid var(--primary-link);
+		font-size: 14px;
+		white-space: nowrap;
 
 		&:hover {
 			background-color: var(--primary-color);
 			color: var(--primary-link);
 			border: 2px solid var(--primary-link);
+		}
+		
+		@include tablet-above {
+			padding: 6px 40px;
+			font-size: 16px;
 		}
 	}
 
