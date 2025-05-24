@@ -1,4 +1,8 @@
 // Основной файл JS для страницы магазина
+
+// Добавляем библиотеку MD5 глобально для всех модулей
+import '../utils/md5.min.js';
+
 import ThemeSwitch from '../components/theme-switch.js';
 import '../modules/mobile-menu.js';
 import MobileMenu from '../modules/mobile-menu.js';
