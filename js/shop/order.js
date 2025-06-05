@@ -260,23 +260,23 @@ class OrderForm {
 				}
 			);
 
-			// Формируем описание заказа с email и датой для простого магазина
+			// Формируем описание заказа с email и датой
 			const currentDate = new Date().toLocaleDateString('ru-RU');
 			const emailForDescription = formData.email || 'не указан';
 			const detailedDescription = `Заказ_${currentDate}_${emailForDescription}`;
 
-			// Создаем URL для перехода на страницу оплаты Робокассы (простой магазин)
+			// Создаем URL для оплаты
 			const robokassaUrl = this.robokassaPayment.createPaymentUrl(
 				totalSum.toString(),
 				detailedDescription
 			);
 
-			// Сохраняем данные заказа в localStorage для возможности восстановления
+			// Сохраняем данные заказа в localStorage
 			const orderKey = `order_${new Date().getTime()}`;
 			localStorage.setItem(
 				orderKey,
 				JSON.stringify({
-					formData, // formData уже является объектом
+					formData,
 					totalSum,
 					date: new Date().toISOString(),
 					cartItems,
@@ -284,7 +284,7 @@ class OrderForm {
 				})
 			);
 
-			// Сохраняем сумму заказа для отображения на странице успеха
+			// Сохраняем сумму заказа для страницы успеха
 			localStorage.setItem('currentOrderSum', totalSum.toString());
 
 			// Возвращаем кнопку в исходное состояние (на случай ошибки)

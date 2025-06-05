@@ -63,16 +63,11 @@ class RobokassaPayment {
    * @returns {string} - URL для перехода на страницу оплаты
    */
   createPaymentUrl(outSum, invDesc) {
-    console.log('Создание ссылки для простого магазина:', { outSum, invDesc });
-    
     // Формируем строку для подписи с пустым значением InvId
-    // В документации указано, что параметр InvId присутствует в подсчете SignatureValue, хотя и с пустым значением
     const signatureString = `${this.mrh_login}:${outSum}::${this.mrh_pass1}`;
     
     // Вычисляем подпись
     const signatureValue = this.md5(signatureString);
-    console.log('Строка подписи:', signatureString);
-    console.log('Значение подписи:', signatureValue);
     
     // Формируем URL для перехода на страницу оплаты
     const url = new URL('https://auth.robokassa.ru/Merchant/Index.aspx');
@@ -95,10 +90,8 @@ class RobokassaPayment {
     url.searchParams.append('ResultURL', this.resultURL);
     
     // Сохраняем информацию о заказе в localStorage для последующей обработки результата
-    // В простом магазине нет ID заказа, поэтому сохраняем только сумму
     localStorage.setItem('currentOrderSum', outSum);
     
-    console.log('Создана ссылка для оплаты через Робокассу:', url.toString());
     return url.toString();
   }
 
@@ -142,7 +135,6 @@ class RobokassaPayment {
       description: orderDescription
     }));
     
-    console.log('Инициация платежа:', { total, orderDescription, orderKey });
     
     // Создаем URL для оплаты (без передачи ID заказа)
     return this.createPaymentUrl(
