@@ -61,6 +61,11 @@
 							<div id="orderDetails" class="order__details">
 								<p><strong>Сумма:</strong> <span id="orderSum">Загрузка...</span> руб.</p>
 								<p><strong>Статус:</strong> Оплачен</p>
+								<!-- Добавляем информацию о статусе отправки уведомления -->
+								<div id="webhookStatus" style="margin-top: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+									<p><strong>Статус уведомления:</strong> <span id="webhookStatusText">Проверка...</span></p>
+									<p id="webhookDetails" style="font-size: 0.9em; color: #666;"></p>
+								</div>
 							</div>
 							<br><p>В ближайшее время мы отправим заказ через почту России.</p>
 						</div>
@@ -81,7 +86,7 @@
 				</div>
 			</div>
 		</footer>
-		<!-- Скрипт для обработки параметров от Робокассы -->
+		<!-- Скрипт для обработки параметров от Робокассы и отображения статуса уведомления -->
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				// Функция для получения параметров из URL
@@ -94,6 +99,7 @@
 				
 				// Получаем параметры из URL
 				const outSum = getUrlParameter('OutSum') || localStorage.getItem('currentOrderSum') || 'Не указана';
+				const invId = getUrlParameter('InvId') || ''; // Исправляем ошибку с переменной invId
 				
 				// Отображаем сумму заказа
 				document.getElementById('orderSum').textContent = outSum;
@@ -107,7 +113,46 @@
 					orderSum: outSum,
 					timestamp: new Date().toISOString()
 				});
-				
+
+				// Проверяем статус отправки уведомления через AJAX запрос к PHP скрипту
+				fetch('check_webhook_status.php')
+					.then(response => response.json())
+					.then(data => {
+						const webhookStatusText = document.getElementById('webhookStatusText');
+						const webhookDetails = document.getElementById('webhookDetails');
+						
+						if (data && data.webhook_result) {
+							const result = data.webhook_result;
+							
+							// Определяем статус на основе HTTP кода
+							if (result.http_code >= 200 && result.http_code < 300) {
+								webhookStatusText.textContent = 'Успешно отправлено';
+								webhookStatusText.style.color = 'green';
+							} else if (result.http_code) {
+								webhookStatusText.textContent = `Ошибка (код ${result.http_code})`;
+								webhookStatusText.style.color = 'red';
+							} else if (result.error) {
+								webhookStatusText.textContent = 'Ошибка соединения';
+								webhookStatusText.style.color = 'red';
+							}
+							
+							// Добавляем детали
+							let details = `Время: ${result.time || 'не указано'}<br>`;
+							if (result.error) details += `Ошибка: ${result.error}<br>`;
+							if (result.response) details += `Ответ: ${result.response}`;
+							
+							webhookDetails.innerHTML = details;
+						} else {
+							webhookStatusText.textContent = 'Информация недоступна';
+							webhookDetails.textContent = 'Нет данных о статусе отправки уведомления';
+						}
+					})
+					.catch(error => {
+						document.getElementById('webhookStatusText').textContent = 'Ошибка проверки';
+						document.getElementById('webhookDetails').textContent = 'Не удалось проверить статус отправки уведомления';
+						console.error('Ошибка при проверке статуса webhook:', error);
+					});
+					
 				// Получаем данные заказа из localStorage
 				const orderData = localStorage.getItem(`order_${invId}`);
 				if (orderData) {
