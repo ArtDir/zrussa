@@ -57,12 +57,13 @@ class RobokassaPayment {
   }
 
   /**
-   * Создание ссылки для оплаты через Робокассу (простой магазин)
+   * Создает URL для перехода на страницу оплаты Робокассы
    * @param {string} outSum - Сумма заказа
-   * @param {string} invDesc - Описание заказа (с email и датой)
+   * @param {string} invDesc - Описание заказа
+   * @param {string} [email] - Email покупателя для предзаполнения в форме оплаты
    * @returns {string} - URL для перехода на страницу оплаты
    */
-  createPaymentUrl(outSum, invDesc) {
+  createPaymentUrl(outSum, invDesc, email) {
     // Формируем строку для подписи с пустым значением InvId
     const signatureString = `${this.mrh_login}:${outSum}::${this.mrh_pass1}`;
     
@@ -78,6 +79,11 @@ class RobokassaPayment {
     // Не добавляем InvoiceID для простого магазина
     url.searchParams.append('Description', invDesc);
     url.searchParams.append('SignatureValue', signatureValue);
+    
+    // Добавляем email пользователя для предзаполнения в форме оплаты
+    if (email) {
+      url.searchParams.append('Email', email);
+    }
     
     // Добавляем параметр для тестового режима
     if (this.isTest) {
@@ -118,14 +124,14 @@ class RobokassaPayment {
     // Рассчитываем общую сумму заказа
     const total = this.calculateTotal(cartItems);
     
-    // Сохраняем сумму заказа в localStorage для отображения на странице успеха
+    // Сохраняем сумму заказа в localStorage для страницы успеха
     localStorage.setItem('currentOrderSum', total.toString());
     
     // Формируем описание заказа с email и датой
     const currentDate = new Date().toLocaleDateString('ru-RU');
     const orderDescription = `Заказ от ${currentDate}, Email: ${orderData.email || 'не указан'}`;
     
-    // Сохраняем данные заказа в localStorage для возможности восстановления
+    // Сохраняем данные заказа в localStorage
     const orderKey = `order_${new Date().getTime()}`;
     localStorage.setItem(orderKey, JSON.stringify({
       ...orderData,
@@ -135,11 +141,11 @@ class RobokassaPayment {
       description: orderDescription
     }));
     
-    
-    // Создаем URL для оплаты (без передачи ID заказа)
+    // Создаем URL для оплаты, передаем email для предзаполнения
     return this.createPaymentUrl(
       total.toString(),
-      orderDescription
+      orderDescription,
+      orderData.email // Передаем email для предзаполнения в форме оплаты
     );
   }
 }

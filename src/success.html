@@ -59,9 +59,8 @@
 						<div class="order__description">
 							<p>Ваш заказ успешно оплачен и принят в обработку.</p>
 							<div id="orderDetails" class="order__details">
-								<p><strong>Номер заказа:</strong>Загрузка...</p>
-								<p><strong>Сумма:</strong>Загрузка... руб.</p>
-								<p><strong>Статус:</strong>Оплачен</p>
+								<p><strong>Сумма:</strong> <span id="orderSum">Загрузка...</span> руб.</p>
+								<p><strong>Статус:</strong> Оплачен</p>
 							</div>
 							<br><p>В ближайшее время мы отправим заказ через почту России.</p>
 						</div>
@@ -94,11 +93,9 @@
 				}
 				
 				// Получаем параметры из URL
-				const invId = getUrlParameter('InvId') || localStorage.getItem('currentOrderId') || 'Не указан';
 				const outSum = getUrlParameter('OutSum') || localStorage.getItem('currentOrderSum') || 'Не указана';
 				
-				// Отображаем данные заказа
-				document.getElementById('orderId').textContent = invId;
+				// Отображаем сумму заказа
 				document.getElementById('orderSum').textContent = outSum;
 				
 				// Очищаем корзину после успешной оплаты
