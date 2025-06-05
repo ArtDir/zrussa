@@ -5,11 +5,11 @@ class RobokassaPayment {
   constructor() {
     // Параметры Робокассы
     this.mrh_login = 'zrussa'; // Логин магазина
-    this.mrh_pass1 = 'hy5cCWLUD320rU7DjVOI'; // Пароль 1
-    this.mrh_pass2 = 'MI7Vpfv2m5ITvCdDJ1P0'; // Пароль 2 (для проверки результата)
+    this.mrh_pass1 = 'n3nnjl68FJs1yL6DijxL'; // Пароль 1
+    this.mrh_pass2 = 'B66SZ5ZWBkTN2mYFuPn9'; // Пароль 2 (для проверки результата)
     
-    // Включаем тестовый режим
-    this.isTest = 1; // Для тестового режима
+    // Тестовый режим отключен
+    this.isTest = 0; // 0 - боевой режим
     
     // URL для переадресации (используем относительные пути для локальной разработки)
     this.resultURL = '/success.html'; // Страница для обработки результата
