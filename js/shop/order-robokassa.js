@@ -8,18 +8,25 @@ class RobokassaPayment {
     this.mrh_pass1 = 'hy5cCWLUD320rU7DjVOI'; // Пароль 1
     this.mrh_pass2 = 'MI7Vpfv2m5ITvCdDJ1P0'; // Пароль 2 (для проверки результата)
     
-    // URL для переадресации
-    this.resultURL = 'http://zrussa.ru/result.html';
-    this.successURL = 'http://zrussa.ru/success.html';
-    this.failURL = 'http://zrussa.ru/fail.html';
+    // Включаем тестовый режим
+    this.isTest = 1; // Для тестового режима
+    
+    // URL для переадресации (используем относительные пути для локальной разработки)
+    this.resultURL = '/success.html'; // Страница для обработки результата
+    this.successURL = '/success.html'; // Страница успешной оплаты
+    this.failURL = '/fail.html'; // Страница при ошибке оплаты
   }
 
   /**
-   * Генерация случайного ID заказа из 10 цифр
+   * Генерация случайного ID заказа в допустимом диапазоне для Робокассы
    * @returns {string} - ID заказа
    */
   generateOrderId() {
-    const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000;
+    // Максимальное значение для 32-битного целого числа со знаком: 2147483647 (2^31-1)
+    const maxValue = 2147483647;
+    // Генерируем случайное число от 1 до maxValue
+    const randomNumber = Math.floor(Math.random() * maxValue) + 1;
+    console.log('Сгенерирован ID заказа:', randomNumber);
     return randomNumber.toString();
   }
 
@@ -84,6 +91,11 @@ class RobokassaPayment {
     url.searchParams.append('Description', invDesc);
     url.searchParams.append('SignatureValue', signatureValue);
     
+    // Добавляем параметр для тестового режима
+    if (this.isTest) {
+      url.searchParams.append('IsTest', this.isTest);
+    }
+    
     // Добавляем URL для переадресации
     url.searchParams.append('SuccessURL', this.successURL);
     url.searchParams.append('FailURL', this.failURL);
@@ -93,6 +105,7 @@ class RobokassaPayment {
     localStorage.setItem('currentOrderId', invId);
     localStorage.setItem('currentOrderSum', outSum);
     
+    console.log('Создана ссылка для оплаты через Робокассу:', url.toString());
     return url.toString();
   }
 

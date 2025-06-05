@@ -123,11 +123,15 @@ class OrderForm {
 	}
 
 	/**
-	 * Генерация случайного ID заказа из 10 цифр
+	 * Генерация случайного ID заказа в допустимом диапазоне для Робокассы
 	 * @returns {string} - ID заказа
 	 */
 	generateOrderId() {
-		const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000;
+		// Максимальное значение для 32-битного целого числа со знаком: 2147483647 (2^31-1)
+		const maxValue = 2147483647;
+		// Генерируем случайное число от 1 до maxValue
+		const randomNumber = Math.floor(Math.random() * maxValue) + 1;
+		console.log('Сгенерирован ID заказа:', randomNumber);
 		return randomNumber.toString();
 	}
 
