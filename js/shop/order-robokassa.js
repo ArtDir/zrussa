@@ -82,11 +82,8 @@ class RobokassaPayment {
     
     // Добавляем email пользователя для предзаполнения в форме оплаты
     if (email) {
-      // Пробуем разные варианты параметра Email
+      // Используем только стандартный параметр Email
       url.searchParams.append('Email', email);
-      url.searchParams.append('email', email);
-      // Добавляем также как пользовательский параметр
-      url.searchParams.append('shp_email', email);
     }
     
     // Добавляем параметр для тестового режима
