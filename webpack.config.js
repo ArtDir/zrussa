@@ -88,7 +88,8 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: 'images', to: 'images' },
-				{ from: 'js/shop/products.json', to: 'js/shop/products.json' }
+				{ from: 'js/shop/products.json', to: 'js/shop/products.json' },
+				{ from: 'src/result.php', to: 'result.php' }
 			],
 		}),
 	],
