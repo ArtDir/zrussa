@@ -260,12 +260,32 @@ class OrderForm {
 				}
 			);
 
-			// Создаем URL для перехода на страницу оплаты Робокассы
+			// Формируем описание заказа с email и датой для простого магазина
+			const currentDate = new Date().toLocaleDateString('ru-RU');
+			const emailForDescription = formData.email || 'не указан';
+			const detailedDescription = `Заказ_${currentDate}_${emailForDescription}`;
+
+			// Создаем URL для перехода на страницу оплаты Робокассы (простой магазин)
 			const robokassaUrl = this.robokassaPayment.createPaymentUrl(
 				totalSum.toString(),
-				orderId,
-				orderDescription
+				detailedDescription
 			);
+
+			// Сохраняем данные заказа в localStorage для возможности восстановления
+			const orderKey = `order_${new Date().getTime()}`;
+			localStorage.setItem(
+				orderKey,
+				JSON.stringify({
+					formData, // formData уже является объектом
+					totalSum,
+					date: new Date().toISOString(),
+					cartItems,
+					description: detailedDescription,
+				})
+			);
+
+			// Сохраняем сумму заказа для отображения на странице успеха
+			localStorage.setItem('currentOrderSum', totalSum.toString());
 
 			// Возвращаем кнопку в исходное состояние (на случай ошибки)
 			submitButton.textContent = originalText;
@@ -274,10 +294,10 @@ class OrderForm {
 			if (response.ok) {
 				// Очищаем корзину после успешной отправки заказа
 				localStorage.removeItem('shopCart');
-				
+
 				// Сохраняем флаг, что заказ был размещен
 				localStorage.setItem('orderPlaced', 'true');
-				
+
 				// Перенаправляем пользователя на страницу оплаты Робокассы
 				window.location.href = robokassaUrl;
 			} else {
@@ -320,25 +340,25 @@ class OrderForm {
 	getProductsDetails(cartObject) {
 		// Формируем массив товаров для отправки
 		const cartItems = [];
-		
+
 		// Загружаем данные о товарах из products.json
 		let productsMap = {};
-		
+
 		try {
 			// Загружаем данные синхронно
 			const xhr = new XMLHttpRequest();
 			xhr.open('GET', '/js/shop/products.json', false);
 			xhr.send(null);
-			
+
 			if (xhr.status === 200) {
 				const productsArray = JSON.parse(xhr.responseText);
-				
+
 				// Преобразуем массив в объект для удобного доступа по id
 				productsArray.forEach(product => {
 					productsMap[product.id] = {
 						title: product.name,
 						price: product.price,
-						author: product.author
+						author: product.author,
 					};
 				});
 			} else {
@@ -347,18 +367,18 @@ class OrderForm {
 		} catch (error) {
 			console.error('Ошибка при загрузке данных о товарах:', error);
 		}
-		
+
 		// Преобразуем объект корзины в массив с подробной информацией о товарах
 		for (const [productId, quantity] of Object.entries(cartObject)) {
 			// Очищенный ID продукта (без префикса "product")
 			const cleanId = productId.replace('product', '');
-			
+
 			// Получаем информацию о товаре из нашего справочника
 			const product = productsMap[cleanId] || {
 				title: `Товар ${cleanId}`,
 				price: 999,
 			};
-			
+
 			// Добавляем товар в массив
 			cartItems.push({
 				id: cleanId,
@@ -368,7 +388,7 @@ class OrderForm {
 				quantity: quantity,
 			});
 		}
-		
+
 		return cartItems;
 	}
 

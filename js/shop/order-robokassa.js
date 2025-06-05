@@ -17,18 +17,7 @@ class RobokassaPayment {
     this.failURL = '/fail.html'; // Страница при ошибке оплаты
   }
 
-  /**
-   * Генерация случайного ID заказа в допустимом диапазоне для Робокассы
-   * @returns {string} - ID заказа
-   */
-  generateOrderId() {
-    // Максимальное значение для 32-битного целого числа со знаком: 2147483647 (2^31-1)
-    const maxValue = 2147483647;
-    // Генерируем случайное число от 1 до maxValue
-    const randomNumber = Math.floor(Math.random() * maxValue) + 1;
-    console.log('Сгенерирован ID заказа:', randomNumber);
-    return randomNumber.toString();
-  }
+  // Метод generateOrderId больше не нужен для простого магазина, так как мы не используем InvoiceID
 
   /**
    * Вычисление MD5 хеша для SignatureValue
@@ -68,18 +57,22 @@ class RobokassaPayment {
   }
 
   /**
-   * Создание ссылки для оплаты через Робокассу
+   * Создание ссылки для оплаты через Робокассу (простой магазин)
    * @param {string} outSum - Сумма заказа
-   * @param {string} invId - Номер заказа
-   * @param {string} invDesc - Описание заказа
+   * @param {string} invDesc - Описание заказа (с email и датой)
    * @returns {string} - URL для перехода на страницу оплаты
    */
-  createPaymentUrl(outSum, invId, invDesc) {
-    // Формируем строку для подписи
-    const signatureString = `${this.mrh_login}:${outSum}:${invId}:${this.mrh_pass1}`;
+  createPaymentUrl(outSum, invDesc) {
+    console.log('Создание ссылки для простого магазина:', { outSum, invDesc });
+    
+    // Формируем строку для подписи с пустым значением InvId
+    // В документации указано, что параметр InvId присутствует в подсчете SignatureValue, хотя и с пустым значением
+    const signatureString = `${this.mrh_login}:${outSum}::${this.mrh_pass1}`;
     
     // Вычисляем подпись
     const signatureValue = this.md5(signatureString);
+    console.log('Строка подписи:', signatureString);
+    console.log('Значение подписи:', signatureValue);
     
     // Формируем URL для перехода на страницу оплаты
     const url = new URL('https://auth.robokassa.ru/Merchant/Index.aspx');
@@ -87,7 +80,7 @@ class RobokassaPayment {
     // Добавляем параметры
     url.searchParams.append('MerchantLogin', this.mrh_login);
     url.searchParams.append('OutSum', outSum);
-    url.searchParams.append('InvoiceID', invId);
+    // Не добавляем InvoiceID для простого магазина
     url.searchParams.append('Description', invDesc);
     url.searchParams.append('SignatureValue', signatureValue);
     
@@ -102,7 +95,7 @@ class RobokassaPayment {
     url.searchParams.append('ResultURL', this.resultURL);
     
     // Сохраняем информацию о заказе в localStorage для последующей обработки результата
-    localStorage.setItem('currentOrderId', invId);
+    // В простом магазине нет ID заказа, поэтому сохраняем только сумму
     localStorage.setItem('currentOrderSum', outSum);
     
     console.log('Создана ссылка для оплаты через Робокассу:', url.toString());
@@ -123,36 +116,37 @@ class RobokassaPayment {
   }
 
   /**
-   * Инициация платежа через Робокассу
+   * Инициация платежа через Робокассу (простой магазин)
    * @param {Object} orderData - Данные заказа
    * @param {Array} cartItems - Товары в корзине
    * @returns {string} - URL для перехода на страницу оплаты
    */
   initiatePayment(orderData, cartItems) {
-    // Генерируем уникальный ID заказа
-    const orderId = this.generateOrderId();
+    // Рассчитываем общую сумму заказа
+    const total = this.calculateTotal(cartItems);
     
-    // Вычисляем общую сумму заказа
-    const totalSum = this.calculateTotal(cartItems);
+    // Сохраняем сумму заказа в localStorage для отображения на странице успеха
+    localStorage.setItem('currentOrderSum', total.toString());
     
-    // Формируем описание заказа
-    const orderDescription = `Заказ №${orderId} от ${orderData.fullName}`;
+    // Формируем описание заказа с email и датой
+    const currentDate = new Date().toLocaleDateString('ru-RU');
+    const orderDescription = `Заказ от ${currentDate}, Email: ${orderData.email || 'не указан'}`;
     
-    // Сохраняем данные заказа в localStorage
-    const fullOrderData = {
+    // Сохраняем данные заказа в localStorage для возможности восстановления
+    const orderKey = `order_${new Date().getTime()}`;
+    localStorage.setItem(orderKey, JSON.stringify({
       ...orderData,
-      orderId,
-      totalSum,
-      cartItems,
-      timestamp: new Date().toISOString()
-    };
+      total,
+      date: new Date().toISOString(),
+      items: cartItems,
+      description: orderDescription
+    }));
     
-    localStorage.setItem(`order_${orderId}`, JSON.stringify(fullOrderData));
+    console.log('Инициация платежа:', { total, orderDescription, orderKey });
     
-    // Создаем URL для оплаты
+    // Создаем URL для оплаты (без передачи ID заказа)
     return this.createPaymentUrl(
-      totalSum.toString(),
-      orderId,
+      total.toString(),
       orderDescription
     );
   }
