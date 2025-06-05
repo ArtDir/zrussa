@@ -268,7 +268,8 @@ class OrderForm {
 			// Создаем URL для оплаты
 			const robokassaUrl = this.robokassaPayment.createPaymentUrl(
 				totalSum.toString(),
-				detailedDescription
+				detailedDescription,
+				formData.email // Передаем email для предзаполнения в форме оплаты
 			);
 
 			// Сохраняем данные заказа в localStorage
