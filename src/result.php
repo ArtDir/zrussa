@@ -30,7 +30,16 @@ $description = $_REQUEST["Description"] ?? "Заказ без описания";
 // Формат описания: "Заказ_дата_email"
 preg_match('/Заказ_([^_]+)_([^_]+)/', $description, $matches);
 $orderDate = $matches[1] ?? date('d.m.Y');
-$email = $matches[2] ?? 'не указан';
+
+// Проверяем, есть ли email в параметрах запроса от Робокассы
+// Сначала проверяем параметр EMail, если он есть
+if (isset($_REQUEST['EMail']) && !empty($_REQUEST['EMail'])) {
+    $email = $_REQUEST['EMail'];
+} elseif (isset($matches[2]) && !empty($matches[2])) {
+    $email = $matches[2];
+} else {
+    $email = 'не указан';
+}
 
 // Пытаемся получить имя и телефон из описания, если они есть
 $name = '';
@@ -61,43 +70,26 @@ $webhook_data = [
 // URL вебхука для уведомления об оплаченных заказах
 $webhook_url = 'https://hook.eu2.make.com/mjab95ygp4snnrhm17wx1thexcjfcunm';
 
-// Отправляем данные на вебхук с улучшенными настройками CURL
+// Отправляем данные на вебхук
 $ch = curl_init($webhook_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($webhook_data, JSON_UNESCAPED_UNICODE));
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($webhook_data));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'Accept: application/json'
+    'Content-Type: application/json'
 ]);
-// Добавляем важные настройки для надежности
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // Таймаут соединения 10 секунд
-curl_setopt($ch, CURLOPT_TIMEOUT, 30); // Общий таймаут 30 секунд
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Проверка SSL сертификата
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Следовать за редиректами
-
-// Выполняем запрос и проверяем результат
 $response = curl_exec($ch);
-$curl_error = null;
-
-// Проверяем, были ли ошибки при выполнении запроса
-if ($response === false) {
-    $curl_error = curl_error($ch);
-}
-
-$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-// Записываем результат в сессию для просмотра на странице успеха
-session_start();
-$_SESSION['webhook_result'] = [
-    'time' => date('Y-m-d H:i:s'),
-    'http_code' => $http_code,
-    'response' => $response,
-    'error' => $curl_error,
-    'data_sent' => $webhook_data
-];
-session_write_close();
+// Записываем информацию о платеже в лог-файл
+$log_file = __DIR__ . '/payment_log.txt';
+$log_data = date('Y-m-d H:i:s') . " | Сумма: $out_summ | Email: $email | Описание: $description | Отправленные данные: " . json_encode($webhook_data, JSON_UNESCAPED_UNICODE) . " | Webhook ответ: $response\n";
+file_put_contents($log_file, $log_data, FILE_APPEND);
+
+// Также записываем все полученные параметры для отладки
+$debug_log_file = __DIR__ . '/payment_debug_log.txt';
+$debug_data = date('Y-m-d H:i:s') . " | Полученные параметры: " . json_encode($_REQUEST, JSON_UNESCAPED_UNICODE) . "\n";
+file_put_contents($debug_log_file, $debug_data, FILE_APPEND);
 
 // Возвращаем ответ Робокассе
 echo "OK$inv_id";

@@ -30,7 +30,17 @@ $description = $_REQUEST["Description"] ?? "Заказ без описания";
 // Формат описания: "Заказ_дата_email"
 preg_match('/Заказ_([^_]+)_([^_]+)/', $description, $matches);
 $orderDate = $matches[1] ?? date('d.m.Y');
-$email = $matches[2] ?? 'не указан';
+
+// Получаем email из параметров или из описания
+$email = '';
+// Проверяем наличие пользовательского параметра Shp_email
+if (isset($_REQUEST['Shp_email'])) {
+    $email = $_REQUEST['Shp_email'];
+} elseif (isset($matches[2])) {
+    $email = $matches[2];
+} else {
+    $email = 'не указан';
+}
 
 // Пытаемся получить имя и телефон из описания, если они есть
 $name = '';
@@ -61,7 +71,7 @@ $webhook_data = [
 // URL вебхука для уведомления об оплаченных заказах
 $webhook_url = 'https://hook.eu2.make.com/mjab95ygp4snnrhm17wx1thexcjfcunm';
 
-// Отправляем данные на вебхук
+// Отправляем данные на вебхук - максимально простой вариант
 $ch = curl_init($webhook_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
