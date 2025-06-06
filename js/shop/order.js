@@ -126,14 +126,7 @@ class OrderForm {
 	 * Генерация случайного ID заказа в допустимом диапазоне для Робокассы
 	 * @returns {string} - ID заказа
 	 */
-	generateOrderId() {
-		// Максимальное значение для 32-битного целого числа со знаком: 2147483647 (2^31-1)
-		const maxValue = 2147483647;
-		// Генерируем случайное число от 1 до maxValue
-		const randomNumber = Math.floor(Math.random() * maxValue) + 1;
-		console.log('Сгенерирован ID заказа:', randomNumber);
-		return randomNumber.toString();
-	}
+	// Метод generateOrderId удален, так как мы используем "простой магазин" Робокассы, где InvId не требуется
 
 	/**
 	 * Обработка отправки формы
@@ -191,11 +184,12 @@ class OrderForm {
 			return;
 		}
 
-		// Генерируем уникальный ID заказа
-		const orderId = this.generateOrderId();
+		// Для простого магазина Робокассы не нужен уникальный ID заказа
+		// Используем текущую дату для описания заказа
+		const currentDate = new Date().toLocaleDateString('ru-RU');
 
 		// Описание заказа (будет отображаться на странице оплаты)
-		const orderDescription = `Заказ №${orderId} от ${fullName}`;
+		const orderDescription = `Заказ от ${currentDate}, ${fullName}`;
 
 		// Формируем описание заказа для поля projectDescription
 		let projectDescription = 'Заказ из интернет-магазина:\n';
@@ -222,7 +216,7 @@ class OrderForm {
 
 		// Создаем объект с данными в формате, идентичном основной форме
 		const formData = {
-			orderId,
+			orderDate: currentDate, // Используем текущую дату вместо orderId
 			projectDescription,
 			contactInfo,
 			submissionTime: new Date().toISOString(),
