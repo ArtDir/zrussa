@@ -9,7 +9,14 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-radius: var(--border-radius-card);
+	border-radius: 50%;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	cursor: pointer;
+	touch-action: manipulation;
+
+	// Убираем стандартное выделение при тапе на iOS
+	-webkit-touch-callout: none;
 
 	@include hover {
 		&::after {
@@ -19,14 +26,38 @@
 		}
 	}
 
+	&:active {
+		opacity: 0.8;
+		transform: scale(0.95);
+		transition: transform 0.1s ease, opacity 0.1s ease;
+	}
+
 	&::after {
 		content: '';
 		width: 50%;
 		height: 2px;
 		background-color: var(--primary-dark);
 		border-radius: 2px;
-
 		box-shadow: 0 -8px var(--primary-dark), 0 8px var(--primary-dark);
-		transition-duration: var(--transition-duration);
+		transition: all var(--transition-duration) ease;
+	}
+
+	&.is-active {
+		&::after {
+			height: 2px;
+			transform: rotate(45deg);
+			background-color: var(--primary-dark);
+			box-shadow: none;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			width: 50%;
+			height: 2px;
+			background-color: var(--primary-dark);
+			transform: rotate(-45deg);
+			transition: all var(--transition-duration) ease;
+		}
 	}
 }

@@ -2,6 +2,12 @@
 @use '../mixins' as *;
 @use '../variables' as *;
 
+// Сброс стилей при таче для мобильных устройств
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
 .mobile-menu {
   position: fixed;
   top: 0;
@@ -17,6 +23,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  -webkit-overflow-scrolling: touch;
   
   &.is-open {
     opacity: 1;
@@ -83,7 +90,10 @@
     font-family: var(--font-family-base);
     position: relative;
     display: inline-block;
-    padding: 5px 0;
+    padding: 10px 20px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    cursor: pointer;
     
     &::after {
       content: '';
@@ -102,6 +112,32 @@
       &::after {
         width: 100%;
         background-color: var(--primary-link);
+      }
+    }
+    
+    &--special {
+      display: inline-block;
+      padding: 12px 30px;
+      margin-top: 30px;
+      background-color: var(--primary-color);
+      border: 2px solid var(--primary-dark);
+      border-radius: var(--border-radius-button);
+      transition: all var(--transition-duration) ease;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      cursor: pointer;
+      
+      &::after {
+        display: none;
+      }
+      
+      @include hover {
+        background-color: var(--primary-dark);
+        color: var(--primary-color);
+      }
+      
+      &:active {
+        transform: translateY(1px);
       }
     }
   }

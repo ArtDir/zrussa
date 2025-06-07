@@ -93,12 +93,21 @@
 
 	&__button {
 		@include fluid-text(24, 20);
-
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
 		padding: 10px 30px;
-		border: var(--border);
+		border: 2px solid var(--primary-dark);
 		border-radius: var(--border-radius-button);
 		color: var(--primary-dark);
 		background-color: var(--primary-color);
+		transition: all var(--transition-duration) ease;
+
+		&:hover {
+			background-color: var(--primary-dark);
+			color: var(--primary-color);
+		}
 
 		@include desktop {
 			padding: 5px 15px;

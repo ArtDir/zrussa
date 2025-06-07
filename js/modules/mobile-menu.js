@@ -70,7 +70,8 @@ export default class MobileMenu {
       { href: '#reviews', textIT: 'отзывы', textMusic: 'отзывы' },
       { href: '#team', textIT: 'команда', textMusic: 'команда' },
       { href: '#advantages', textIT: 'преимущества', textMusic: 'преимущества' },
-      { href: '#order', textIT: 'заказать', textMusic: 'заказать' }
+      { href: '#order', textIT: 'заказать', textMusic: 'заказать' },
+      { href: 'shop.html', textIT: 'витрина', textMusic: 'витрина', isSpecial: true }
     ];
     
     menuItems.forEach((item, index) => {
@@ -78,10 +79,12 @@ export default class MobileMenu {
       menuItem.className = 'mobile-menu__item';
       
       const link = document.createElement('a');
-      link.className = 'mobile-menu__link';
+      link.className = `mobile-menu__link ${item.isSpecial ? 'mobile-menu__link--special' : ''}`;
       link.href = item.href;
       link.textContent = this.currentTheme === 'music' ? item.textMusic : item.textIT;
-      link.addEventListener('click', this.handleLinkClick);
+      if (!item.isSpecial) {
+        link.addEventListener('click', this.handleLinkClick);
+      }
       
       menuItem.appendChild(link);
       menuList.appendChild(menuItem);
@@ -166,13 +169,19 @@ export default class MobileMenu {
       { href: '#reviews', textIT: 'отзывы', textMusic: 'отзывы' },
       { href: '#team', textIT: 'команда', textMusic: 'команда' },
       { href: '#advantages', textIT: 'преимущества', textMusic: 'преимущества' },
-      { href: '#order', textIT: 'заказать', textMusic: 'заказать' }
+      { href: '#order', textIT: 'заказать', textMusic: 'заказать' },
+      { href: 'shop.html', textIT: 'витрина', textMusic: 'витрина', isSpecial: true }
     ];
     
     const links = this.mobileMenu.querySelectorAll('.mobile-menu__link');
     links.forEach((link, index) => {
       if (index < menuItems.length) {
         link.textContent = this.currentTheme === 'music' ? menuItems[index].textMusic : menuItems[index].textIT;
+        if (menuItems[index].isSpecial) {
+          link.classList.add('mobile-menu__link--special');
+        } else {
+          link.classList.remove('mobile-menu__link--special');
+        }
       }
     });
   }
