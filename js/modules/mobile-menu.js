@@ -66,12 +66,12 @@ export default class MobileMenu {
     
     // Создаем пункты меню в зависимости от темы
     const menuItems = [
-      { href: '#projects', textIT: 'проекты', textMusic: 'песни' },
-      { href: '#reviews', textIT: 'отзывы', textMusic: 'отзывы' },
-      { href: '#team', textIT: 'команда', textMusic: 'команда' },
-      { href: '#advantages', textIT: 'преимущества', textMusic: 'преимущества' },
-      { href: '#order', textIT: 'заказать', textMusic: 'заказать' },
-      { href: 'shop.html', textIT: 'витрина', textMusic: 'витрина', isSpecial: true }
+      { href: '/#projects', textIT: 'проекты', textMusic: 'песни' },
+      { href: '/#reviews', textIT: 'отзывы', textMusic: 'отзывы' },
+      { href: '/#team', textIT: 'команда', textMusic: 'команда' },
+      { href: '/#advantages', textIT: 'преимущества', textMusic: 'преимущества' },
+      { href: '/#order', textIT: 'заказать', textMusic: 'заказать' },
+      { href: '/shop.html', textIT: 'витрина', textMusic: 'витрина', isSpecial: true }
     ];
     
     menuItems.forEach((item, index) => {
@@ -165,12 +165,12 @@ export default class MobileMenu {
     if (!this.mobileMenu) return;
     
     const menuItems = [
-      { href: '#projects', textIT: 'проекты', textMusic: 'песни' },
-      { href: '#reviews', textIT: 'отзывы', textMusic: 'отзывы' },
-      { href: '#team', textIT: 'команда', textMusic: 'команда' },
-      { href: '#advantages', textIT: 'преимущества', textMusic: 'преимущества' },
-      { href: '#order', textIT: 'заказать', textMusic: 'заказать' },
-      { href: 'shop.html', textIT: 'витрина', textMusic: 'витрина', isSpecial: true }
+      { href: '/#projects', textIT: 'проекты', textMusic: 'песни' },
+      { href: '/#reviews', textIT: 'отзывы', textMusic: 'отзывы' },
+      { href: '/#team', textIT: 'команда', textMusic: 'команда' },
+      { href: '/#advantages', textIT: 'преимущества', textMusic: 'преимущества' },
+      { href: '/#order', textIT: 'заказать', textMusic: 'заказать' },
+      { href: '/shop.html', textIT: 'витрина', textMusic: 'витрина', isSpecial: true }
     ];
     
     const links = this.mobileMenu.querySelectorAll('.mobile-menu__link');
@@ -189,8 +189,22 @@ export default class MobileMenu {
   /**
    * Обработчик клика по ссылке в мобильном меню
    */
-  handleLinkClick() {
+  handleLinkClick(e) {
     // Закрываем меню при клике на ссылку
     this.closeMenu();
+    
+    // Если это якорная ссылка, прокручиваем к нужному разделу
+    const href = e.currentTarget.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }
   }
 }
