@@ -13,6 +13,7 @@ import './shop-cards.js';
 import './bottom-menu.js';
 import './basket.js'; // Импортируем логику корзины
 import './order.js'; // Импортируем логику оформления заказа
+import './product-detail.js'; // Импортируем логику отображения деталей товара
 
 // Инициализация компонентов
 document.addEventListener('DOMContentLoaded', () => {
