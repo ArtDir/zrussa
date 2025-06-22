@@ -47,8 +47,7 @@ class ProductDetail {
             <div class="product-detail__price"></div>
             <div class="product-detail__description"></div>
             <button class="product-detail__button button" type="button">
-              <img src="images/icons/shop_basket.svg" alt="" class="product-detail__button-icon" />
-              добавить
+              добавить в корзину
             </button>
           </div>
         </div>
@@ -299,19 +298,13 @@ class ProductDetail {
 		);
 
 		decreaseButton.addEventListener('click', () => {
-			// Создаем и отправляем событие уменьшения количества товара
-			const decreaseEvent = new CustomEvent('decrease-quantity', {
-				detail: { productId: parseInt(productId, 10) },
-			});
-			document.dispatchEvent(decreaseEvent);
+			// Уменьшаем количество товара в корзине
+			this.decreaseQuantity(productId);
 		});
 
 		increaseButton.addEventListener('click', () => {
-			// Создаем и отправляем событие увеличения количества товара
-			const increaseEvent = new CustomEvent('increase-quantity', {
-				detail: { productId: parseInt(productId, 10) },
-			});
-			document.dispatchEvent(increaseEvent);
+			// Увеличиваем количество товара в корзине
+			this.increaseQuantity(productId);
 		});
 	}
 
@@ -325,8 +318,7 @@ class ProductDetail {
 		if (counter) {
 			const buttonHTML = `
         <button class="product-detail__button button" type="button">
-          <img src="images/icons/shop_basket.svg" alt="" class="product-detail__button-icon" />
-          добавить
+          добавить в корзину
         </button>
       `;
 
@@ -392,6 +384,77 @@ class ProductDetail {
 	 */
 	formatPrice(price) {
 		return new Intl.NumberFormat('ru-RU').format(price) + ' руб.';
+	}
+
+	/**
+	 * Увеличение количества товара в корзине
+	 * @param {number} productId - ID товара
+	 */
+	increaseQuantity(productId) {
+		// Получаем текущую корзину из localStorage
+		const cart = this.getCart();
+
+		// Увеличиваем количество товара в корзине
+		if (cart[productId]) {
+			cart[productId]++;
+		} else {
+			cart[productId] = 1;
+		}
+
+		// Сохраняем корзину в localStorage
+		this.saveCart(cart);
+
+		// Отправляем событие обновления корзины
+		const event = new CustomEvent('cart-updated', {
+			detail: { productId: parseInt(productId, 10), quantity: cart[productId] },
+		});
+		document.dispatchEvent(event);
+	}
+
+	/**
+	 * Уменьшение количества товара в корзине
+	 * @param {number} productId - ID товара
+	 */
+	decreaseQuantity(productId) {
+		// Получаем текущую корзину из localStorage
+		const cart = this.getCart();
+
+		// Уменьшаем количество товара в корзине
+		if (cart[productId]) {
+			cart[productId]--;
+
+			// Если количество стало 0, удаляем товар из корзины
+			if (cart[productId] <= 0) {
+				delete cart[productId];
+			}
+		}
+
+		// Сохраняем корзину в localStorage
+		this.saveCart(cart);
+
+		// Отправляем событие обновления корзины
+		const quantity = cart[productId] || 0;
+		const event = new CustomEvent('cart-updated', {
+			detail: { productId: parseInt(productId, 10), quantity },
+		});
+		document.dispatchEvent(event);
+	}
+
+	/**
+	 * Получение данных корзины из localStorage
+	 * @returns {Object} Объект корзины
+	 */
+	getCart() {
+		const savedCart = localStorage.getItem('shopCart');
+		return savedCart ? JSON.parse(savedCart) : {};
+	}
+
+	/**
+	 * Сохранение корзины в localStorage
+	 * @param {Object} cart - Объект корзины
+	 */
+	saveCart(cart) {
+		localStorage.setItem('shopCart', JSON.stringify(cart));
 	}
 }
 
