@@ -4,216 +4,227 @@
 
 // Стили для попапа с подробной информацией о товаре
 .product-detail-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding: 10px;
-  overflow-y: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+	padding: 10px;
+	overflow-y: auto;
 }
 
 .product-detail {
-  position: relative;
-  width: 95%;
-  max-width: 1400px;
-  max-height: 95vh;
-  background-color: var(--primary-white);
-  border-radius: var(--border-radius-card);
-  border: var(--border);
-  padding: 30px;
-  overflow-y: auto;
+	position: relative;
+	width: 95%;
+	max-width: 1200px;
+	max-height: 95vh;
+	background-color: var(--primary-white);
+	border-radius: var(--border-radius-card);
+	border: var(--border);
+	padding: 60px;
+	overflow-y: auto;
 
-  @include mobile {
-    padding: 20px;
-    width: 95%;
-  }
+	@include mobile {
+		padding: 20px;
+		width: 95%;
+	}
 
-  &__close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
-    
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 2px;
-      height: 20px;
-      background-color: var(--primary-dark);
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
+	&__close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		width: 30px;
+		height: 30px;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		z-index: 10;
 
-    &::after {
-      transform: translate(-50%, -50%) rotate(-45deg);
-    }
-  }
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 2px;
+			height: 20px;
+			background-color: var(--primary-dark);
+			transform: translate(-50%, -50%) rotate(45deg);
+		}
 
-  &__content {
-    display: flex;
-    gap: 30px;
+		&::after {
+			transform: translate(-50%, -50%) rotate(-45deg);
+		}
+	}
 
-    @include tablet {
-      flex-direction: column;
-    }
-  }
+	&__content {
+		display: flex;
+		gap: 30px;
 
-  &__image-container {
-    position: relative;
-    flex: 0 0 40%;
-    max-width: 40%;
-    border-radius: var(--border-radius-card);
-    overflow: hidden;
+		@include tablet {
+			flex-direction: column;
+		}
+	}
 
-    @include tablet {
-      flex: 0 0 100%;
-      max-width: 100%;
-      max-height: 400px;
-    }
-  }
+	&__image-container {
+		position: relative;
+		flex: 0 0 30%;
+		max-width: 30%;
+		border-radius: var(--border-radius-card);
+		overflow: hidden;
 
-  &__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: var(--border-radius-card);
-  }
+		@include tablet {
+			flex: 0 0 100%;
+			max-width: 100%;
+			max-height: 400px;
+		}
+	}
 
-  &__tag {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 12px;
-    padding: 4px 8px;
-  }
+	&__image {
+		padding-top: 10px;
+		width: 100%;
+		object-fit: cover;
+		border-radius: var(--border-radius-card);
+	}
 
-  &__info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+	&__tag-container {
+		position: absolute;
+		top: 15px;
+		left: 130px;
+	}
 
-  &__title {
-    font-family: var(--font-family-title);
-    font-size: 28px;
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: var(--primary-dark);
+	&__tag {
+		width: 100px;
+		text-align: center;
+		font-size: 12px;
+		padding: 4px 8px;
+	}
 
-    @include mobile {
-      font-size: 22px;
-    }
-  }
+	&__info {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
 
-  &__author {
-    font-style: italic;
-    margin-bottom: 20px;
-    color: var(--primary-dark);
-  }
+	&__title {
+		font-family: var(--font-family-title);
+		font-size: 28px;
+		margin-top: 0;
+		margin-bottom: 10px;
+		color: var(--primary-dark);
+		line-height: 1.2em;
 
-  &__price {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: var(--primary-dark);
-  }
+		@include mobile {
+			font-size: 22px;
+		}
+	}
 
-  &__description {
-    margin-bottom: 30px;
-    line-height: 1.5;
-    color: var(--primary-dark);
-    white-space: pre-line;
-    overflow-y: visible;
-    font-size: 14px;
+	&__author {
+		font-style: italic;
+		margin-bottom: 20px;
+		color: var(--primary-dark);
+	}
 
-    @include mobile {
-      font-size: 13px;
-    }
-  }
+	&__price {
+		font-size: 20px;
+		font-weight: bold;
+		margin-bottom: 20px;
+		color: var(--primary-dark);
+	}
 
-  &__button {
-    @include flex-center;
-    gap: 10px;
-    padding: 10px 20px;
-    border-radius: var(--border-radius-button);
-    background-color: var(--primary-dark);
-    color: var(--primary-white);
-    font-weight: 500;
-    font-size: 14px;
-    text-transform: lowercase;
-    cursor: pointer;
-    transition: all var(--transition-duration) ease;
-    align-self: flex-start;
-    border: var(--border);
-    min-width: 140px;
-    height: var(--button-height);
+	&__description {
+		margin-bottom: 30px;
+		line-height: 1.8;
+		color: var(--primary-dark);
+		white-space: pre-line;
+		overflow-y: visible;
+		font-size: 14px;
+		padding-right: 30px;
 
-    &:hover {
-      background-color: var(--primary-color);
-      color: var(--primary-dark);
-    }
+		@include mobile {
+			font-size: 13px;
+		}
+	}
 
-    &-icon {
-      width: 18px;
-      height: 18px;
-    }
-  }
+	&__button {
+		@include flex-center;
+		gap: 10px;
+		padding: 10px 20px;
+		border-radius: var(--border-radius-button);
+		background-color: var(--primary-dark);
+		color: var(--primary-white);
+		font-weight: 500;
+		font-size: 14px;
+		text-transform: lowercase;
+		cursor: pointer;
+		transition: all var(--transition-duration) ease;
+		align-self: flex-start;
+		border: var(--border);
+		min-width: 140px;
+		height: var(--button-height);
 
-  &__counter {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    height: var(--button-height);
+		&:hover {
+			background-color: var(--primary-color);
+			color: var(--primary-dark);
+		}
 
-    &__button {
-      @include flex-center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: var(--primary-white);
-      color: var(--primary-dark);
-      cursor: pointer;
-      transition: all var(--transition-duration) ease;
-      border: var(--border);
-      padding: 0;
+		&-icon {
+			width: 25px;
+			height: 25px;
+		}
+	}
 
-      &:hover {
-        background-color: var(--primary-dark);
-        color: var(--primary-white);
-      }
+	&__counter {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+		height: var(--button-height);
 
-      img {
-        filter: none;
-      }
+		&__button {
+			@include flex-center;
 
-      &:hover img {
-        filter: invert(1);
-      }
-    }
+			max-width: 3em;
+			min-width: 3em;
+			padding: 0px !important;
+			height: 100%;
 
-    &__count {
-      @include flex-center;
-      gap: 5px;
-      font-weight: bold;
-      color: var(--primary-dark);
-    }
-  }
+			border-radius: 30%;
+			background-color: var(--primary-color);
+			color: var(--primary-dark);
+			cursor: pointer;
+			transition: all var(--transition-duration) ease;
+			border: var(--border);
+			padding: 0;
+
+			&:hover {
+				background-color: var(--primary-link);
+				color: var(--primary-white);
+			}
+
+			img {
+				filter: none;
+			}
+
+			&:hover img {
+				filter: invert(1);
+			}
+		}
+
+		&__count {
+			@include flex-center;
+			gap: 5px;
+			font-weight: bold;
+			color: var(--primary-dark);
+		}
+	}
 }
 
 // Класс для блокировки прокрутки страницы
 .no-scroll {
-  overflow: hidden;
+	overflow: hidden;
 }
