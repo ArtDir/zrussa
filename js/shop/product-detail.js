@@ -88,8 +88,22 @@ class ProductDetail {
 	 * Добавление обработчиков событий
 	 */
 	addEventListeners() {
-		// Делегирование событий для карточек товаров
-		document.addEventListener('click', event => {
+		// Слушаем событие обновления корзины
+		document.addEventListener('cartUpdated', () => {
+			// Проверяем, открыт ли попап
+			const overlay = document.getElementById('product-detail-overlay');
+			if (overlay && !overlay.classList.contains('visually-hidden')) {
+				// Получаем ID текущего товара в попапе
+				const productId = overlay.dataset.productId;
+				if (productId) {
+					// Обновляем статус корзины для этого товара
+					this.checkCartStatus(productId);
+				}
+			}
+		});
+
+		// Обработчик клика по карточке товара
+		document.addEventListener('click', async (event) => {
 			// Проверяем, был ли клик по карточке товара или ее дочернему элементу
 			const productCard = event.target.closest('.shop-products__item');
 
@@ -405,7 +419,7 @@ class ProductDetail {
 		this.saveCart(cart);
 
 		// Отправляем событие обновления корзины
-		const event = new CustomEvent('cart-updated', {
+		const event = new CustomEvent('cartUpdated', {
 			detail: { productId: parseInt(productId, 10), quantity: cart[productId] },
 		});
 		document.dispatchEvent(event);
@@ -434,7 +448,7 @@ class ProductDetail {
 
 		// Отправляем событие обновления корзины
 		const quantity = cart[productId] || 0;
-		const event = new CustomEvent('cart-updated', {
+		const event = new CustomEvent('cartUpdated', {
 			detail: { productId: parseInt(productId, 10), quantity },
 		});
 		document.dispatchEvent(event);

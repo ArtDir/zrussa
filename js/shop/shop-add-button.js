@@ -29,6 +29,20 @@ class ShopAddButton {
    * Привязка обработчиков событий
    */
   bindEvents() {
+    // Слушаем событие обновления корзины
+    document.addEventListener('cartUpdated', (event) => {
+      // Обновляем корзину из localStorage
+      const savedCart = localStorage.getItem('shopCart');
+      if (savedCart) {
+        try {
+          this.cart = JSON.parse(savedCart);
+          this.updateAllCounters();
+        } catch (e) {
+          console.error('Ошибка при обновлении корзины:', e);
+        }
+      }
+    });
+    
     // Делегируем события клика на документ
     document.addEventListener('click', (event) => {
       // Кнопка "добавить"
