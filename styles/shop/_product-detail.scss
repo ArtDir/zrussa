@@ -156,6 +156,13 @@
 			font-size: 13px;
 		}
 	}
+	
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+		margin-bottom: 20px;
+	}
 
 	&__button {
 		@include flex-center;
@@ -234,4 +241,57 @@
 // Класс для блокировки прокрутки страницы
 .no-scroll {
 	overflow: hidden;
+}
+
+// Стили для кнопки "поделиться"
+.product-detail {
+	&__share-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: var(--border);
+		background: none;
+		cursor: pointer;
+		transition: all var(--transition-duration) ease;
+		
+		&:hover {
+			background-color: var(--primary-light);
+		}
+		
+		&.copied {
+			background-color: var(--primary-link);
+			
+			img {
+				filter: brightness(0) invert(1);
+			}
+		}
+	}
+	
+	&__share-icon {
+		width: 20px;
+		height: 20px;
+	}
+	
+	&__share-tooltip {
+		position: absolute;
+		bottom: 50px;
+		right: 20px;
+		background-color: var(--primary-dark);
+		color: var(--primary-white);
+		padding: 5px 10px;
+		border-radius: var(--border-radius-button);
+		font-size: 12px;
+		opacity: 0;
+		transform: translateY(10px);
+		transition: all var(--transition-duration) ease;
+		pointer-events: none;
+		
+		&.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 }

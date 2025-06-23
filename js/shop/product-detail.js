@@ -73,9 +73,14 @@ class ProductDetail {
             <p class="product-detail__author"></p>
             <div class="product-detail__price"></div>
             <div class="product-detail__description"></div>
-            <button class="product-detail__button button" type="button">
-              добавить в корзину
-            </button>
+            <div class="product-detail__actions">
+              <button class="product-detail__button button" type="button">
+                добавить в корзину
+              </button>
+              <button class="product-detail__share-button" type="button" title="Поделиться ссылкой">
+                <img src="images/icons/share.svg" alt="Поделиться" class="product-detail__share-icon" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -165,6 +170,49 @@ class ProductDetail {
 	}
 
 	/**
+	 * Копирование ссылки на товар в буфер обмена
+	 * @param {number} productId - ID товара
+	 */
+	copyShareLink(productId) {
+		// Создаем полную ссылку на товар
+		const host = window.location.origin;
+		const path = window.location.pathname;
+		const shareUrl = `${host}${path}?id=${productId}`;
+		
+		// Копируем ссылку в буфер обмена
+		navigator.clipboard.writeText(shareUrl)
+			.then(() => {
+				// Показываем визуальную обратную связь
+				const shareButton = document.querySelector('.product-detail__share-button');
+				shareButton.classList.add('copied');
+				
+				// Создаем или обновляем всплывающую подсказку
+				let tooltip = document.querySelector('.product-detail__share-tooltip');
+				if (!tooltip) {
+					tooltip = document.createElement('div');
+					tooltip.className = 'product-detail__share-tooltip';
+					tooltip.textContent = 'Ссылка скопирована!';
+					document.querySelector('.product-detail__actions').appendChild(tooltip);
+				}
+				
+				// Показываем подсказку
+				setTimeout(() => {
+					tooltip.classList.add('visible');
+				}, 50);
+				
+				// Скрываем подсказку и убираем выделение кнопки через 2 секунды
+				setTimeout(() => {
+					tooltip.classList.remove('visible');
+					shareButton.classList.remove('copied');
+				}, 2000);
+			})
+			.catch(err => {
+				console.error('Ошибка при копировании ссылки:', err);
+				alert('Не удалось скопировать ссылку. Попробуйте скопировать вручную: ' + shareUrl);
+			});
+	}
+
+	/**
 	 * Отображение попапа с информацией о товаре
 	 * @param {number} productId - ID товара
 	 */
@@ -218,6 +266,19 @@ class ProductDetail {
 
 			// Дополнительно проверяем статус корзины
 			this.checkCartStatus(product.id);
+			
+			// Добавляем обработчик события для кнопки "поделиться"
+			const shareButton = overlay.querySelector('.product-detail__share-button');
+			if (shareButton) {
+				const self = this;
+				// Удаляем старые обработчики, чтобы избежать дублирования
+				shareButton.replaceWith(shareButton.cloneNode(true));
+				// Получаем новую кнопку после клонирования
+				const newShareButton = overlay.querySelector('.product-detail__share-button');
+				newShareButton.addEventListener('click', function() {
+					self.copyShareLink(product.id);
+				});
+			}
 		} catch (error) {
 			console.error('Ошибка при отображении информации о товаре:', error);
 		}
