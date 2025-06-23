@@ -14,12 +14,16 @@ import './bottom-menu.js';
 import './basket.js'; // Импортируем логику корзины
 import './order.js'; // Импортируем логику оформления заказа
 import './product-detail.js'; // Импортируем логику отображения деталей товара
+import UrlParams from '../utils/url-params.js'; // Импортируем модуль обработки URL-параметров
 
 // Инициализация компонентов
 document.addEventListener('DOMContentLoaded', () => {
 	// Инициализируем общие компоненты
 	new ThemeSwitch();
 	new MobileMenu();
+
+	// Инициализируем обработчик URL-параметров
+	new UrlParams();
 
 	// Инициализация специфичных компонентов магазина
 	console.log('Страница магазина инициализирована');

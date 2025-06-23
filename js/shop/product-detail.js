@@ -3,18 +3,45 @@
  */
 class ProductDetail {
 	constructor() {
-		this.init();
-	}
-
-	/**
-	 * Инициализация модуля
-	 */
-	init() {
 		// Создаем элементы попапа, если их еще нет
 		this.createPopupElements();
 
 		// Добавляем обработчики событий для карточек товаров
 		this.addEventListeners();
+		
+		// Проверяем URL-параметры при загрузке страницы
+		document.addEventListener('DOMContentLoaded', () => {
+			this.checkUrlParams();
+		});
+	}
+
+	/**
+	 * Проверка URL-параметров и открытие попапа при необходимости
+	 */
+	checkUrlParams() {
+		console.log('Проверка URL-параметров...');
+		
+		// Получаем параметры из URL
+		const urlParams = new URLSearchParams(window.location.search);
+		const productId = urlParams.get('id');
+		
+		if (productId) {
+			console.log(`Найден параметр id=${productId}, открываем попап...`);
+			
+			// Небольшая задержка для уверенности, что все компоненты загружены
+			setTimeout(() => {
+				try {
+					// Открываем попап с товаром по ID
+					this.showProductDetail(parseInt(productId, 10));
+					
+					// Обновляем URL без параметра, чтобы при обновлении страницы попап не открывался снова
+					const newUrl = window.location.pathname;
+					window.history.pushState({ productId }, '', newUrl);
+				} catch (error) {
+					console.error('Ошибка при открытии попапа:', error);
+				}
+			}, 1000);
+		}
 	}
 
 	/**
@@ -567,4 +594,11 @@ class ProductDetail {
 }
 
 // Экспортируем класс и создаем экземпляр
-export default new ProductDetail();
+// Создаем экземпляр класса
+const productDetailInstance = new ProductDetail();
+
+// Делаем экземпляр доступным глобально для использования в других модулях
+window.productDetailInstance = productDetailInstance;
+
+// Экспортируем экземпляр по умолчанию
+export default productDetailInstance;
