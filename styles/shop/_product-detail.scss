@@ -160,7 +160,7 @@
 	&__actions {
 		display: flex;
 		align-items: center;
-		gap: 15px;
+		justify-content: space-between;
 		margin-bottom: 20px;
 	}
 
@@ -258,7 +258,7 @@
 		transition: all var(--transition-duration) ease;
 		
 		&:hover {
-			background-color: var(--primary-light);
+			background-color: #f8ecd1;
 		}
 		
 		&.copied {
