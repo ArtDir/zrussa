@@ -69,17 +69,15 @@ class ProductDetail {
 
 		// Добавляем обработчик для кнопки "добавить в корзину"
 		const addButton = overlay.querySelector('.product-detail__button');
-		addButton.addEventListener('click', event => {
+		const self = this; // Сохраняем контекст this
+		addButton.addEventListener('click', function() {
 			const productId = overlay.dataset.productId;
 			if (productId) {
-				// Создаем и отправляем событие добавления товара в корзину
-				const addToCartEvent = new CustomEvent('add-to-cart', {
-					detail: { productId: parseInt(productId, 10) },
-				});
-				document.dispatchEvent(addToCartEvent);
-
-				// Меняем кнопку на счетчик
-				this.updateAddButton(addButton, productId, 1);
+				// Используем метод increaseQuantity для добавления товара в корзину
+				self.increaseQuantity(parseInt(productId, 10));
+				
+				// Обновляем кнопку на счетчик
+				self.updateAddButton(addButton, parseInt(productId, 10), 1);
 			}
 		});
 	}
@@ -140,36 +138,58 @@ class ProductDetail {
 	}
 
 	/**
-	 * Отображение подробной информации о товаре
-	 * @param {string} productId - ID товара
+	 * Отображение попапа с информацией о товаре
+	 * @param {number} productId - ID товара
 	 */
 	async showProductDetail(productId) {
 		try {
+			// Сбрасываем состояние попапа перед открытием
+			const overlay = document.getElementById('product-detail-overlay');
+			const counter = overlay.querySelector('.product-detail__counter');
+			if (counter) {
+				this.resetAddButton();
+			}
+
 			// Загружаем данные о товарах
 			const products = await this.loadProductsData();
-
-			// Находим товар по ID
-			const product = products.find(
-				p => p.id.toString() === productId.toString()
-			);
+			const product = products.find((p) => p.id === parseInt(productId, 10));
 
 			if (!product) {
-				console.error('Товар не найден:', productId);
-				return;
+				throw new Error(`Товар с ID ${productId} не найден`);
 			}
 
 			// Заполняем попап данными о товаре
 			this.fillProductDetail(product);
 
 			// Отображаем попап
-			const overlay = document.getElementById('product-detail-overlay');
 			overlay.classList.remove('visually-hidden');
 			document.body.classList.add('no-scroll');
 
 			// Сохраняем ID текущего товара
 			overlay.dataset.productId = product.id;
 
-			// Проверяем, есть ли товар в корзине
+			// Получаем актуальное состояние корзины из localStorage
+			const savedCart = localStorage.getItem('shopCart');
+			let currentQuantity = 0;
+
+			if (savedCart) {
+				try {
+					const cart = JSON.parse(savedCart);
+					currentQuantity = cart[product.id] || 0;
+				} catch (e) {
+					console.error('Ошибка при чтении корзины:', e);
+				}
+			}
+
+			// Обновляем состояние кнопки в зависимости от количества товара в корзине
+			if (currentQuantity > 0) {
+				const addButton = overlay.querySelector('.product-detail__button');
+				if (addButton) {
+					this.updateAddButton(addButton, product.id, currentQuantity);
+				}
+			}
+
+			// Дополнительно проверяем статус корзины
 			this.checkCartStatus(product.id);
 		} catch (error) {
 			console.error('Ошибка при отображении информации о товаре:', error);
@@ -247,13 +267,41 @@ class ProductDetail {
 				const cart = JSON.parse(savedCart);
 				const quantity = cart[productId];
 
+				// Проверяем, есть ли уже счетчик в попапе
+				const overlay = document.getElementById('product-detail-overlay');
+				const counter = overlay.querySelector('.product-detail__counter');
+				const addButton = overlay.querySelector('.product-detail__button');
+
 				if (quantity && quantity > 0) {
-					// Товар есть в корзине, обновляем кнопку
-					const addButton = document.querySelector('.product-detail__button');
-					this.updateAddButton(addButton, productId, quantity);
+					// Товар есть в корзине
+					if (counter) {
+						// Если счетчик уже есть, просто обновляем значение
+						const countElement = counter.querySelector('.product-detail__counter__count');
+						if (countElement) {
+							countElement.innerHTML = `
+          <img src="images/icons/shop_basket.svg" alt="" class="product-detail__button-icon" />
+          ${quantity}
+        `;
+						}
+					} else if (addButton) {
+						// Если есть кнопка "добавить", заменяем её на счетчик
+						this.updateAddButton(addButton, productId, quantity);
+					}
+				} else {
+					// Товара нет в корзине, но есть счетчик - возвращаем кнопку
+					if (counter) {
+						this.resetAddButton();
+					}
 				}
 			} catch (e) {
 				console.error('Ошибка при проверке статуса корзины:', e);
+			}
+		} else {
+			// Корзина пуста, но есть счетчик - возвращаем кнопку
+			const overlay = document.getElementById('product-detail-overlay');
+			const counter = overlay.querySelector('.product-detail__counter');
+			if (counter) {
+				this.resetAddButton();
 			}
 		}
 	}
@@ -296,6 +344,12 @@ class ProductDetail {
         </button>
       </div>
     `;
+
+		// Проверяем, что кнопка находится в DOM
+		if (!button.parentNode) {
+			console.error('Ошибка: кнопка не находится в DOM');
+			return;
+		}
 
 		// Заменяем кнопку на счетчик
 		const tempDiv = document.createElement('div');
@@ -342,13 +396,15 @@ class ProductDetail {
 			counter.parentNode.replaceChild(buttonElement, counter);
 
 			// Добавляем обработчик для новой кнопки
-			buttonElement.addEventListener('click', () => {
+			const self = this; // Сохраняем контекст this
+			buttonElement.addEventListener('click', function() {
 				const productId = overlay.dataset.productId;
 				if (productId) {
-					const addToCartEvent = new CustomEvent('add-to-cart', {
-						detail: { productId: parseInt(productId, 10) },
-					});
-					document.dispatchEvent(addToCartEvent);
+					// Используем метод increaseQuantity для добавления товара в корзину
+					self.increaseQuantity(parseInt(productId, 10));
+					
+					// Обновляем кнопку на счетчик
+					self.updateAddButton(buttonElement, parseInt(productId, 10), 1);
 				}
 			});
 		}
@@ -418,6 +474,21 @@ class ProductDetail {
 		// Сохраняем корзину в localStorage
 		this.saveCart(cart);
 
+		// Немедленно обновляем счетчик в попапе
+		const overlay = document.getElementById('product-detail-overlay');
+		if (overlay && !overlay.classList.contains('visually-hidden')) {
+			const counter = overlay.querySelector('.product-detail__counter');
+			if (counter) {
+				const countElement = counter.querySelector('.product-detail__counter__count');
+				if (countElement) {
+					countElement.innerHTML = `
+          <img src="images/icons/shop_basket.svg" alt="" class="product-detail__button-icon" />
+          ${cart[productId]}
+        `;
+				}
+			}
+		}
+
 		// Отправляем событие обновления корзины
 		const event = new CustomEvent('cartUpdated', {
 			detail: { productId: parseInt(productId, 10), quantity: cart[productId] },
@@ -432,6 +503,7 @@ class ProductDetail {
 	decreaseQuantity(productId) {
 		// Получаем текущую корзину из localStorage
 		const cart = this.getCart();
+		let needReset = false;
 
 		// Уменьшаем количество товара в корзине
 		if (cart[productId]) {
@@ -440,11 +512,33 @@ class ProductDetail {
 			// Если количество стало 0, удаляем товар из корзины
 			if (cart[productId] <= 0) {
 				delete cart[productId];
+				needReset = true;
 			}
 		}
 
 		// Сохраняем корзину в localStorage
 		this.saveCart(cart);
+
+		// Немедленно обновляем счетчик в попапе
+		const overlay = document.getElementById('product-detail-overlay');
+		if (overlay && !overlay.classList.contains('visually-hidden')) {
+			if (needReset) {
+				// Если товар удален из корзины, возвращаем кнопку "добавить"
+				this.resetAddButton();
+			} else {
+				// Иначе обновляем счетчик
+				const counter = overlay.querySelector('.product-detail__counter');
+				if (counter) {
+					const countElement = counter.querySelector('.product-detail__counter__count');
+					if (countElement) {
+						countElement.innerHTML = `
+          <img src="images/icons/shop_basket.svg" alt="" class="product-detail__button-icon" />
+          ${cart[productId]}
+        `;
+					}
+				}
+			}
+		}
 
 		// Отправляем событие обновления корзины
 		const quantity = cart[productId] || 0;

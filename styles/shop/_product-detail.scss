@@ -8,7 +8,9 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: calc(100% - 70px); /* Уменьшаем высоту, чтобы оставить место для нижнего меню */
+	height: calc(
+		100% - 70px
+	); /* Уменьшаем высоту, чтобы оставить место для нижнего меню */
 	background-color: rgba(0, 0, 0, 0.8);
 	display: flex;
 	justify-content: center;
@@ -26,7 +28,7 @@
 	position: relative;
 	width: 95%;
 	max-width: 1200px;
-	max-height: 95vh;
+	max-height: 80vh;
 	background-color: var(--primary-white);
 	border-radius: var(--border-radius-card);
 	border: var(--border);
@@ -143,7 +145,7 @@
 
 	&__description {
 		margin-bottom: 30px;
-		line-height: 1.8;
+		line-height: 20px©;
 		color: var(--primary-dark);
 		white-space: pre-line;
 		overflow-y: visible;
